@@ -1,0 +1,15 @@
+.*
+!.gitignore
+*~
+*.tmp
+*.orig
+*.o
+*.a
+*.pro
+*.tar.*
+gmon.out
+tags
+taggit
+core
+core.*
+taggit.1
