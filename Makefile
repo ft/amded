@@ -1,9 +1,10 @@
 PROJECT = taggit
 HEADERS = taggit.h bsdgetopt.c
-SOURCES = taggit.c list_human.c list_machine.c tag.c
-OBJS = taggit.o list_human.o list_machine.o tag.o
+SOURCES = taggit.c list.c list_human.c list_machine.c tag.c
+OBJS = taggit.o list.o list_human.o list_machine.o tag.o
 CFLAGS = -Wall -Wextra
 LDFLAGS = -ltag_c
+CC = gcc
 
 all: $(PROJECT)
 

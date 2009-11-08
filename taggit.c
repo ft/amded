@@ -9,6 +9,8 @@
 #include "taggit.h"
 #include "bsdgetopt.c"
 
+#define ASCII_EOT (char)0x04
+
 enum t_mode {
     TAGGIT_MODE_INVALID = 0,
     TAGGIT_LIST_HUMAN,
@@ -77,7 +79,7 @@ quit:
 int
 main(int argc, const char *argv[])
 {
-    int i;
+    int i, first;
 
     if (argc < 2) {
         printf(TAGGIT_USAGE);
@@ -91,12 +93,21 @@ main(int argc, const char *argv[])
         return EXIT_FAILURE;
     }
 
+    first = 1;
     for (i = optind; i < argc; ++i) {
         switch (taggit_mode) {
         case TAGGIT_LIST_HUMAN:
+            if (!first)
+                printf("\n");
+            else
+                first = 0;
             taggit_list_human(argv[i]);
             break;
         case TAGGIT_LIST_MACHINE:
+            if (!first)
+                printf("%c", ASCII_EOT);
+            else
+                first = 0;
             taggit_list_machine(argv[i]);
             break;
         case TAGGIT_TAG:

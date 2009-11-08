@@ -3,6 +3,8 @@
  * Terms for redistribution and use can be found in LICENCE.
  */
 
+#include <taglib/tag_c.h>
+
 #define PROJECT "taggit"
 #define VERSION "0.0"
 
@@ -42,6 +44,25 @@
 " IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE\n" \
 " POSSIBILITY OF SUCH DAMAGE.\n"
 
+struct taggit_list {
+    char *artist;
+    char *album;
+    int tracknumber;
+    char *tracktitle;
+    int year;
+    char *genre;
+    int bitrate;
+    int kbitrate;
+    int samplerate;
+    double ksamplerate;
+    int channels;
+    int length;
+    int seconds;
+    int minutes;
+};
+
 void taggit_list_human(const char *);
 void taggit_list_machine(const char *);
 void taggit_tag(const char *);
+
+struct taggit_list *list(TagLib_File *);
