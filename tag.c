@@ -143,5 +143,48 @@ add_tag(struct t_tag *tag)
 void
 taggit_tag(const char *file)
 {
-    printf("TAGGIT_TAG\n");
+    TagLib_File *tl;
+    TagLib_Tag *tag;
+    struct taglist *ptr;
+
+    tl = taglib_file_new(file);
+    if (tl == NULL) {
+        fprintf(stderr, "Cannot handle file: \"%s\" - skipping.\n", file);
+        return;
+    }
+    tag = taglib_file_tag(tl);
+
+    ptr = tags_head;
+    while (ptr != NULL) {
+        switch (ptr->id) {
+        case T_ARTIST:
+            taglib_tag_set_artist(tag, ptr->string);
+            break;
+        case T_ALBUM:
+            taglib_tag_set_album(tag, ptr->string);
+            break;
+        case T_TRACKNUMBER:
+            taglib_tag_set_track(tag, ptr->integer);
+            break;
+        case T_TRACKTITLE:
+            taglib_tag_set_title(tag, ptr->string);
+            break;
+        case T_GENRE:
+            taglib_tag_set_genre(tag, ptr->string);
+            break;
+        case T_YEAR:
+            taglib_tag_set_year(tag, ptr->integer);
+            break;
+        default:
+            fprintf(stderr, "Whoops, unknown tag-id (name: \"%s\").\n",
+                    ptr->name);
+            break;
+        }
+
+        ptr = ptr->next;
+    }
+
+    taglib_file_save(tl);
+    taglib_tag_free_strings();
+    taglib_file_free(tl);
 }

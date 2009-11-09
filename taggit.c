@@ -13,7 +13,7 @@
 
 struct taglist *tags_head = NULL;
 
-#if 1
+#if 0
 #define TAGGIT_DEBUG
 #endif
 
