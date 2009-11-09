@@ -3,6 +3,9 @@
  * Terms for redistribution and use can be found in LICENCE.
  */
 
+#include <stdlib.h>
+#include <string.h>
+
 #include <taglib/tag_c.h>
 
 #define PROJECT "taggit"
@@ -62,8 +65,66 @@ struct taggit_list {
     int minutes;
 };
 
+enum tag_id {
+    T_UNKNOWN = 0,
+    T_ARTIST,
+    T_ALBUM,
+    T_GENRE,
+    T_TRACKTITLE,
+    T_TRACKNUMBER,
+    T_YEAR
+};
+
+enum tag_type {
+    TAG_INVALID = 0,
+    TAG_STRING,
+    TAG_INT,
+    TAG_NUKE
+};
+
+struct t_tag {
+    char *name;
+    char *value;
+    enum tag_type type;
+};
+
+struct taglist {
+    char *name;
+    enum tag_id id;
+    enum tag_type type;
+    union {
+        char *string;
+        int integer;
+    };
+
+    struct taglist *next;
+};
+
+static inline int
+streq(char *s, char *t)
+{
+    return !strcmp(s, t) ? 1 : 0;
+}
+
+static inline void *
+xmalloc_or_die(size_t size)
+{
+    void *buf;
+
+    if ((buf = malloc(size)) == NULL) {
+        fprintf(stderr, "malloc() failed. Abort.");
+        exit(EXIT_FAILURE);
+    }
+    return buf;
+}
+
+#define MALLOC_OR_DIE(number,type)  \
+    (type *)xmalloc_or_die(number * sizeof(type))
+
 void taggit_list_human(const char *);
 void taggit_list_machine(const char *);
 void taggit_tag(const char *);
 
 struct taggit_list *list(TagLib_File *);
+struct t_tag next_tag(const char *);
+void add_tag(struct t_tag *);

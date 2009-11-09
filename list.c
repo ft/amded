@@ -17,13 +17,7 @@ list(TagLib_File *file)
     const TagLib_AudioProperties *properties;
     struct taggit_list *lst;
 
-    lst = malloc(sizeof(struct taggit_list));
-    if (lst == NULL) {
-        fprintf(stderr, "malloc() failed. Out of memory?\n");
-        fprintf(stderr, "Cannot continue.\n");
-        exit(EXIT_FAILURE);
-    }
-
+    lst = MALLOC_OR_DIE(1, struct taggit_list);
     tag = taglib_file_tag(file);
     if (tag == NULL)
         return NULL;
