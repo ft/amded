@@ -14,12 +14,12 @@ taggit - Basic command line tagging engine for audio files
 
 
 = DESCRIPTION =
-//Taggit// is based on KDE's taglib
-It is a very basic program, that lists and modifies meta information
-found in audio files.
+//Taggit// is based on KDE's taglib. It is a very basic program, that
+lists and modifies meta information found in audio files.
 
 //Taggit// is **not** an automatic tagging utility. But it can be used
 as a tagging backend in higher-level applications.
+
 
 = OPTIONS =
 : **-h**
@@ -42,8 +42,97 @@ Sets a **<tag>** to a **<value>**. This option can be used multiple times
 for different tags.
 
 
+= SUPPORTED TAGS =
+The following is a list of tags supported by //taggit//.
+
+: **album**
+: **artist**
+: **genre**
+: **tracknumber**
+: **tracktitle**
+: **year**
+
+
+All of these correspond to the meta information of the same meaning. The
+actual tag within the different file formats may be named considerably
+different (like the **TCON** frame in id3v2 tags for the //GENRE// meta
+information).
+
+
+= LISTING ACTIONS =
+//Taggit// supports two ways of listing meta information from audio
+files: **human** readable and **machine** readable.
+
+Note that the listing output will include more information than the ones
+//taggit// will let you modify. For example it will include information
+like the **samplerate** in use in the file or the **length** in seconds.
+
+
+== Human Readable Format ==
+This format is supposed to make it easy for the human eye to read
+through the listing of meta information gathered from the file in
+question.
+
+The format will look like this:
+
+  <filename>
+  tagname0    | tagvalue0
+  tagname1    | tagvalue1
+  [...]
+  tagnameN    | tagvalueN
+
+So an example listing may look like this:
+
+  <Bit Shifter - Hexadecimal Genome.mp3>
+  artist      | "Bit Shifter"
+  album       | "Information Chase"
+  tracknumber | "3"
+  tracktitle  | "Hexadecimal Genome"
+  year        | "2006"
+  genre       | "Electronic"
+  bitrate     | 192000
+  kbitrate    | 192
+  samplerate  | 44100
+  ksamplerate | 44.1
+  channels    | 2
+  length      | 199
+  mm:ss       | 3:19
+
+This form of output is requested by the **-l** command line option.
+
+
+== Machine Readable Format ==
+As opposed to the earlier described human readable format, this output
+style is supposed to make it easy for machines to read and split up into
+**<tag>**=**<value>** pairs, associated to filenames.
+
+To achieve that, this output format uses three ASCII control characters.
+Namely:
+: **EOT**
+//End-of-Transmission//, used to seperate data for different files from
+one another. This byte's hex value is **0x04**.
+
+: **ETX**
+//End-of-Text//, used to seperate different **<tag>**=**<value>** pairs
+from each other. The hex value of the byte is **0x03**.
+
+: **STX**
+//Start-of-Text//. **<tag>** and **<value>** pairs are not actually
+seperated from each other by the use of an equal sign, but really by the
+//STX// byte. That prevents the equal sign from having a special meaning
+in this output format. The hex value of the byte is **0x02**.
+
+
+An example output could look like this:
+  filename**<STX>**One.mp3**<ETX>**artist**<STX>**Someone**<EOT>**filename**<STX>**Two.mp3**<ETX>**artist**<STX>**SomeoneElse
+
+This form of output is requested by the **-m** command line option. And
+example parsers for this output method are included in the //taggit//
+distribution (the process-m.* files, to be precise).
+
+
 = SEE ALSO =
-Taglib: http://developer.kde.org/~wheeler/taglib.html
+Taglib: <http://developer.kde.org/~wheeler/taglib.html>
 
 
 = COPYRIGHT =
