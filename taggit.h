@@ -9,7 +9,7 @@
 #define VERSION "0.0"
 
 #define TAGGIT_USAGE \
-"taggit OPTION(s) FILE(s)\n" \
+"usage: taggit OPTION(s) FILE(s)\n\n" \
 "  informational options:\n" \
 "    -h                display this help text\n" \
 "    -L                show taggit's licence information\n" \
@@ -17,7 +17,8 @@
 "  action options:\n" \
 "    -l                list tags in human readable form\n" \
 "    -m                list tags in machine readable form\n" \
-"    -t <tag>=<value>  set a tag to a value\n"
+"    -t <tag>=<value>  set a tag to a value\n" \
+"\n"
 
 #define TAGGIT_LICENCE \
 " Copyright 2009 taggit workers, All rights reserved.\n" \
