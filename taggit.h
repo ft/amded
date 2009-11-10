@@ -9,7 +9,7 @@
 #include <taglib/tag_c.h>
 
 #define PROJECT "taggit"
-#define VERSION "0.1+git"
+#define VERSION "0.2"
 
 #define TAGGIT_USAGE \
 "usage: taggit OPTION(s) FILE(s)\n\n" \

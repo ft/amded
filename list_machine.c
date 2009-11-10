@@ -44,7 +44,7 @@ taggit_list_machine(const char *file)
     struct taggit_list *lst;
 
     tl = taglib_file_new(file);
-    if (file == NULL) {
+    if (tl == NULL) {
         fprintf(stderr, "Cannot handle file: \"%s\" - skipping.\n", file);
         return;
     }
