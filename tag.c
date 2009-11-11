@@ -37,6 +37,14 @@ struct {
     { (char *)NULL, TAG_INVALID },
 };
 
+void
+list_tags(void)
+{
+    int i;
+    for (i = 0; tag_type_map[i].name != NULL; ++i)
+        printf("%s\n", tag_type_map[i].name);
+}
+
 static enum tag_type
 tag_to_type(char *tag)
 {

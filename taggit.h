@@ -128,3 +128,4 @@ void taggit_tag(const char *);
 struct taggit_list *list(TagLib_File *);
 struct t_tag next_tag(const char *);
 void add_tag(struct t_tag *);
+void list_tags(void);
