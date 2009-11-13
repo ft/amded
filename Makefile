@@ -5,18 +5,25 @@ INSTALLDIR = install -d
 INSTALLBIN = install -m 755
 INSTALLMAN = install -m 644
 
+LDFLAGS = -ltag_c
+
 PROJECT = taggit
 HEADERS = taggit.h bsdgetopt.c
 SOURCES = taggit.c list.c list_human.c list_machine.c tag.c
 OBJS = taggit.o list.o list_human.o list_machine.o tag.o
 CFLAGS = -Wall -Wextra
-LDFLAGS = -ltag_c
 CC = cc
+
+SRCXX = taglib_ext.cpp
+OBJXX = taglib_ext.o
+HDRXX = taglib_ext.h
+CXXFLAGS = $(CFLAGS)
+CXX = c++
 
 all: $(PROJECT)
 
-depend: $(SOURCES)
-	mkdep $(CFLAGS) $(SOURCES)
+depend: $(SOURCES) $(SRCXX)
+	mkdep $(CFLAGS) $(SOURCES) $(SRCXX)
 
 install:
 	$(INSTALLDIR) $(DESTDIR)$(PREFIX)/bin
@@ -28,11 +35,14 @@ uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/taggit
 	rm -f $(DESTDIR)$(PREFIX)/$(MANDIR)1/taggit.1
 
+taglib_ext.o: taglib_ext.cpp taglib_ext.h
+	$(CXX) $(CXXFLAGS) -o taglib_ext.o -c taglib_ext.cpp
+
 .c.o:
 	$(CC) $(CFLAGS) -o $@ -c $<
 
-$(PROJECT): $(OBJS) $(HEADERS)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS)
+$(PROJECT): $(OBJS) $(OBJXX) $(HEADERS) $(HDRXX)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJXX) $(OBJS)
 
 clean:
 	rm -f *.o taggit *.1 .depend
