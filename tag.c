@@ -13,28 +13,16 @@ extern struct taglist *tags_head;
 
 struct {
     char *name;
+    enum tag_id id;
     enum tag_type type;
 } tag_type_map[] = {
-    { "artist", TAG_STRING },
-    { "album", TAG_STRING },
-    { "tracktitle", TAG_STRING },
-    { "genre", TAG_STRING },
-    { "year", TAG_INT },
-    { "tracknumber", TAG_INT },
-    { (char *)NULL, TAG_INVALID },
-};
-
-struct {
-    char *name;
-    enum tag_id id;
-} tag_map[] = {
-    { "artist", T_ARTIST },
-    { "album", T_ALBUM },
-    { "tracktitle", T_TRACKTITLE },
-    { "genre", T_GENRE },
-    { "year", T_YEAR },
-    { "tracknumber", T_TRACKNUMBER },
-    { (char *)NULL, TAG_INVALID },
+    { "artist",         T_ARTIST,           TAG_STRING },
+    { "album",          T_ALBUM,            TAG_STRING },
+    { "tracktitle",     T_TRACKTITLE,       TAG_STRING },
+    { "genre",          T_GENRE,            TAG_STRING },
+    { "year",           T_YEAR,             TAG_INT },
+    { "tracknumber",    T_TRACKNUMBER,      TAG_INT },
+    { (char *)NULL,     T_UNKNOWN,          TAG_INVALID },
 };
 
 void
@@ -63,8 +51,8 @@ tag_to_id(char *tag)
     int i;
 
     for (i = 0; tag_type_map[i].name != NULL; ++i)
-        if (streq(tag_map[i].name, tag))
-            return tag_map[i].id;
+        if (streq(tag_type_map[i].name, tag))
+            return tag_type_map[i].id;
 
     return T_UNKNOWN;
 }
