@@ -22,7 +22,7 @@ struct {
     { "genre",          T_GENRE,            TAG_STRING },
     { "year",           T_YEAR,             TAG_INT },
     { "tracknumber",    T_TRACKNUMBER,      TAG_INT },
-    { (char *)NULL,     T_UNKNOWN,          TAG_INVALID },
+    { (char *)NULL,     T_UNKNOWN,          TAG_INVALID }
 };
 
 void
