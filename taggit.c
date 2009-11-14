@@ -45,16 +45,14 @@ check_mode_tag(enum t_mode mode)
 void
 parse_options(int argc, const char *argv[])
 {
-    int err, opt;
+    int opt;
     struct t_tag tag;
 
-    err = 1;
     while ((opt = bsd_getopt(argc, argv, "hLlmst:v")) != -1) {
         switch (opt) {
         case 'L':
             printf(TAGGIT_LICENCE);
-            err = 0;
-            goto quit;
+            exit(EXIT_SUCCESS);
         case 'l':
             check_mode(taggit_mode);
             taggit_mode = TAGGIT_LIST_HUMAN;
@@ -66,8 +64,7 @@ parse_options(int argc, const char *argv[])
         case 's':
             printf("Supported tags:\n");
             list_tags();
-            err = 0;
-            goto quit;
+            exit(EXIT_SUCCESS);
         case 't':
             check_mode_tag(taggit_mode);
             taggit_mode = TAGGIT_TAG;
@@ -84,24 +81,17 @@ parse_options(int argc, const char *argv[])
 
         case 'v':
             printf("%s v%s\n", PROJECT, VERSION);
-            err = 0;
-            goto quit;
+            exit(EXIT_SUCCESS);
         case 'h':
-            err = 0;
-            /*@FALLTHROUGH@*/
+            printf(TAGGIT_USAGE);
+            exit(EXIT_SUCCESS);
         default:
             printf(TAGGIT_USAGE);
-            goto quit;
+            exit(EXIT_FAILURE);
         }
     }
 
     return;
-
-quit:
-    if (!err)
-        exit(EXIT_SUCCESS);
-    else
-        exit(EXIT_FAILURE);
 }
 
 int
