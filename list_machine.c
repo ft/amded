@@ -60,7 +60,7 @@ taggit_list_machine(const char *file)
      * output format:
      *  <key><STX><value><ETX><key><STX><value><ETX><key>...<value>
      */
-    key_val_str("filname", (char*)file);
+    key_val_str("filename", (char*)file);
     etx();
     key_val_str("filetype", lst->filetype);
     etx();
