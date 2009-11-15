@@ -87,6 +87,7 @@ The format will look like this:
 So an example listing may look like this:
 
   <Bit Shifter - Hexadecimal Genome.mp3>
+  filetype    | mp3
   artist      | "Bit Shifter"
   album       | "Information Chase"
   tracknumber | "3"
