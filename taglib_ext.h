@@ -10,6 +10,8 @@
 extern "C" {
 #endif
 
+#include "taggit.h"
+
 typedef struct { int dummy; } TagLib_MPEG_File;
 
 enum TagLib_MP3Tag_Type {
@@ -22,6 +24,9 @@ enum TagLib_MP3Tag_Type {
 
 int mp3_type2taglib(int);
 int mp3_strip(TagLib_MPEG_File *, int);
+
+struct taggit_file taggit_file_open(const char *);
+void taggit_file_destroy(struct taggit_file *);
 
 #ifdef __cplusplus
 }

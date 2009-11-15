@@ -9,6 +9,7 @@
 #include <taglib/tag_c.h>
 
 #include "taggit.h"
+#include "taglib_ext.h"
 
 #define ASCII_STX (char)0x02
 #define ASCII_ETX (char)0x03
@@ -40,16 +41,16 @@ etx(void)
 void
 taggit_list_machine(const char *file)
 {
-    TagLib_File *tl;
+    struct taggit_file f;
     struct taggit_list *lst;
 
-    tl = taglib_file_new(file);
-    if (tl == NULL) {
+    f = taggit_file_open(file);
+    if (f.data == NULL) {
         fprintf(stderr, "Cannot handle file: \"%s\" - skipping.\n", file);
         return;
     }
 
-    lst = list(tl);
+    lst = list(f.data);
     if (lst == NULL) {
         fprintf(stderr, "File does not contain valid data: \"%s\"\n", file);
         return;
@@ -89,6 +90,6 @@ taggit_list_machine(const char *file)
     printf(":%d", lst->seconds);
 
     taglib_tag_free_strings();
-    taglib_file_free(tl);
+    taggit_file_destroy(&f);
     free(lst);
 }

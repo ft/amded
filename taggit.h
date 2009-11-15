@@ -3,6 +3,13 @@
  * Terms for redistribution and use can be found in LICENCE.
  */
 
+#ifndef INC_TAGGIT_H
+#define INC_TAGGIT_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdlib.h>
 #include <string.h>
 
@@ -82,6 +89,20 @@ enum tag_type {
     TAG_NUKE
 };
 
+enum file_type {
+    FT_INVALID = 0,
+    FT_MPEG,
+    FT_OGGVORBIS,
+    FT_OGGFLAC,
+    FT_FLAC,
+    FT_UNKNOWN = 255
+};
+
+struct taggit_file {
+    TagLib_File *data;
+    enum file_type type;
+};
+
 struct t_tag {
     char *name;
     char *value;
@@ -104,6 +125,12 @@ static inline int
 streq(char *s, char *t)
 {
     return !strcmp(s, t) ? 1 : 0;
+}
+
+static inline int
+strcaseeq(char *s, char *t)
+{
+    return !strcasecmp(s, t) ? 1 : 0;
 }
 
 static inline void *
@@ -129,3 +156,9 @@ struct taggit_list *list(TagLib_File *);
 struct t_tag next_tag(const char *);
 void add_tag(struct t_tag *);
 void list_tags(void);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* INC_TAGGIT_H */

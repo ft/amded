@@ -8,6 +8,7 @@
 #include <stdio.h>
 
 #include "taggit.h"
+#include "taglib_ext.h"
 
 extern struct taglist *tags_head;
 
@@ -139,16 +140,16 @@ add_tag(struct t_tag *tag)
 void
 taggit_tag(const char *file)
 {
-    TagLib_File *tl;
     TagLib_Tag *tag;
+    struct taggit_file f;
     struct taglist *ptr;
 
-    tl = taglib_file_new(file);
-    if (tl == NULL) {
+    f = taggit_file_open(file);
+    if (f.data == NULL) {
         fprintf(stderr, "Cannot handle file: \"%s\" - skipping.\n", file);
         return;
     }
-    tag = taglib_file_tag(tl);
+    tag = taglib_file_tag(f.data);
 
     ptr = tags_head;
     while (ptr != NULL) {
@@ -180,7 +181,7 @@ taggit_tag(const char *file)
         ptr = ptr->next;
     }
 
-    taglib_file_save(tl);
+    taglib_file_save(f.data);
     taglib_tag_free_strings();
-    taglib_file_free(tl);
+    taggit_file_destroy(&f);
 }
