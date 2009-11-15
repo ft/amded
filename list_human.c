@@ -23,13 +23,14 @@ taggit_list_human(const char *file)
         return;
     }
 
-    lst = list(f.data);
+    lst = list(&f);
     if (lst == NULL) {
         fprintf(stderr, "File does not contain valid data: \"%s\"\n", file);
         return;
     }
 
     printf("<%s>\n", file);
+    printf("filetype    | %s\n", lst->filetype);
     printf("artist      | \"%s\"\n", lst->artist);
     printf("album       | \"%s\"\n", lst->album);
     printf("tracknumber | \"%d\"\n", lst->tracknumber);

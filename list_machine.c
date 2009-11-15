@@ -50,7 +50,7 @@ taggit_list_machine(const char *file)
         return;
     }
 
-    lst = list(f.data);
+    lst = list(&f);
     if (lst == NULL) {
         fprintf(stderr, "File does not contain valid data: \"%s\"\n", file);
         return;
@@ -61,6 +61,8 @@ taggit_list_machine(const char *file)
      *  <key><STX><value><ETX><key><STX><value><ETX><key>...<value>
      */
     key_val_str("filname", (char*)file);
+    etx();
+    key_val_str("filetype", lst->filetype);
     etx();
     key_val_str("artist", lst->artist);
     etx();

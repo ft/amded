@@ -56,6 +56,7 @@ extern "C" {
 " POSSIBILITY OF SUCH DAMAGE.\n"
 
 struct taggit_list {
+    char *filetype;
     char *artist;
     char *album;
     int tracknumber;
@@ -152,7 +153,7 @@ void taggit_list_human(const char *);
 void taggit_list_machine(const char *);
 void taggit_tag(const char *);
 
-struct taggit_list *list(TagLib_File *);
+struct taggit_list *list(struct taggit_file *);
 struct t_tag next_tag(const char *);
 void add_tag(struct t_tag *);
 void list_tags(void);

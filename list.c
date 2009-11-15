@@ -10,21 +10,47 @@
 
 #include "taggit.h"
 
+struct {
+    enum file_type type;
+    char *name;
+} file_type_map[] = {
+    { FT_MPEG,      "mp3" },
+    { FT_OGGFLAC,   "oggflac" },
+    { FT_OGGVORBIS, "oggvorbis" },
+    { FT_FLAC,      "flac" },
+    { FT_UNKNOWN,   "unknown" },
+    { FT_INVALID,   "invalid" },
+    { FT_INVALID,   NULL }
+};
+
+static char *
+get_filetype(enum file_type type)
+{
+    int i;
+
+    for (i = 0; file_type_map[i].name != NULL; ++i)
+        if (type == file_type_map[i].type)
+            return file_type_map[i].name;
+
+    return (char *)NULL;
+}
+
 struct taggit_list *
-list(TagLib_File *file)
+list(struct taggit_file *file)
 {
     TagLib_Tag *tag;
     const TagLib_AudioProperties *properties;
     struct taggit_list *lst;
 
     lst = MALLOC_OR_DIE(1, struct taggit_list);
-    tag = taglib_file_tag(file);
+    tag = taglib_file_tag(file->data);
     if (tag == NULL)
         return NULL;
-    properties = taglib_file_audioproperties(file);
+    properties = taglib_file_audioproperties(file->data);
     if (properties == NULL)
         return NULL;
 
+    lst->filetype = get_filetype(file->type);
     lst->artist = taglib_tag_artist(tag);
     lst->album = taglib_tag_album(tag);
     lst->tracktitle = taglib_tag_title(tag);
