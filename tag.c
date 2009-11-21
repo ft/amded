@@ -145,12 +145,10 @@ taggit_tag(const char *file)
     struct taglist *ptr;
 
     f = taggit_file_open(file);
-    if (f.data == NULL) {
-        fprintf(stderr, "Cannot handle file: \"%s\" - skipping.\n", file);
+    if (f.type == FT_INVALID)
         return;
-    }
-    tag = taglib_file_tag(f.data);
 
+    tag = taglib_file_tag(f.data);
     ptr = tags_head;
     while (ptr != NULL) {
         switch (ptr->id) {

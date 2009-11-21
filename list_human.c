@@ -18,10 +18,8 @@ taggit_list_human(const char *file)
     struct taggit_list *lst;
 
     f = taggit_file_open(file);
-    if (f.data == NULL) {
-        fprintf(stderr, "Cannot handle file: \"%s\" - skipping.\n", file);
+    if (f.type == FT_INVALID)
         return;
-    }
 
     lst = list(&f);
     if (lst == NULL) {

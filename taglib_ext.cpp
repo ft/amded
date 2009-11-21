@@ -57,11 +57,9 @@ taggit_file_open(const char *file)
     struct taggit_file rc;
     char *ext;
 
-    rc.type = FT_INVALID;
-    rc.data = NULL;
     ext = strrchr(file, (int)'.');
     if (ext == NULL || *(ext + 1) == '\0')
-        return rc;
+        goto err;
 
     ext++;
     if (strcaseeq(ext, (char *)"mp3")) {
@@ -95,14 +93,19 @@ taggit_file_open(const char *file)
         f = taglib_file_new(file);
         if (!taglib_file_is_valid(f)) {
             taglib_file_free(f);
-            rc.data = NULL;
-            rc.type = FT_INVALID;
+            goto err;
         } else {
             rc.data = f;
             rc.type = FT_UNKNOWN;
         }
     }
 
+    return rc;
+
+err:
+    fprintf(stderr, "Cannot handle file: \"%s\" - skipping.\n", file);
+    rc.data = NULL;
+    rc.type = FT_INVALID;
     return rc;
 }
 
