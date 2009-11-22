@@ -149,6 +149,9 @@ taggit_tag(const char *file)
         return;
 
     tag = taglib_file_tag(f.data);
+    if (f.type == FT_MPEG)
+        mp3_dotheape(f.data);
+
     ptr = tags_head;
     while (ptr != NULL) {
         switch (ptr->id) {
@@ -179,7 +182,7 @@ taggit_tag(const char *file)
         ptr = ptr->next;
     }
 
-    taglib_file_save(f.data);
+    taggit_file_save(&f);
     taglib_tag_free_strings();
     taggit_file_destroy(&f);
 }

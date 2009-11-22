@@ -22,11 +22,13 @@ enum TagLib_MP3Tag_Type {
     MP3_ALLTAGS = 7
 };
 
-int mp3_type2taglib(int);
+void mp3_dotheape(TagLib_File *);
 int mp3_strip(TagLib_MPEG_File *, int);
+int mp3_type2taglib(int);
 
 struct taggit_file taggit_file_open(const char *);
 void taggit_file_destroy(struct taggit_file *);
+int taggit_file_save(struct taggit_file *);
 
 #ifdef __cplusplus
 }

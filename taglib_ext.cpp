@@ -115,3 +115,40 @@ taggit_file_destroy(struct taggit_file *file)
     taglib_file_free(file->data);
     file->type = FT_INVALID;
 }
+
+void
+mp3_dotheape(TagLib_File *file)
+{
+    TagLib::MPEG::File *f;
+
+    f = reinterpret_cast<TagLib::MPEG::File *>(file);
+    f->APETag(true);
+}
+
+int
+taggit_file_save(struct taggit_file *file)
+{
+    bool rc;
+    int mask;
+
+    mask = TagLib::MPEG::File::ID3v2
+         | TagLib::MPEG::File::APE;
+
+    switch (file->type) {
+    case FT_MPEG:
+        TagLib::MPEG::File *f;
+
+        f = reinterpret_cast<TagLib::MPEG::File *>(file->data);
+        /*
+         * Save id3v2 and apetag for now.
+         * Throw away id3v1, which is utterly useless anyway.
+         * @TODO This should probably be configurable...
+         */
+        rc = f->save(mask, 1);
+        break;
+    default:
+        rc = taglib_file_save(file->data);
+    }
+
+    return rc ? 1 : 0;
+}
