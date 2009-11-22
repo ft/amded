@@ -48,10 +48,8 @@ get_filetype(enum file_type type)
 void
 taglist_destroy(enum file_type type, struct taggit_list *list)
 {
-    if (type == FT_MPEG) {
-        if (list->tagtype != NULL)
-            free(list->tagtype);
-    }
+    if (type == FT_MPEG)
+        free(list->tagtype);
 }
 
 struct taggit_list *
