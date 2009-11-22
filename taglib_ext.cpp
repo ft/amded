@@ -46,6 +46,30 @@
 #include "taglib_ext.h"
 
 /**
+ * When make sure an apetag is there, so that saving a mp3 file back
+ * can include apetags too.
+ *
+ * This is needed, since taglib will only create apetags in mp3 files
+ * if that is explicitly requested.
+ *
+ * Only use this for FT_MPEG files. Other types may not have the required
+ * method, which will cause fatal problems.
+ *
+ * @param   file    TagLib_File pointer to the mp3 in question.
+ *
+ * @return      void
+ * @sideeffects none
+ */
+void
+mp3_dotheape(TagLib_File *file)
+{
+    TagLib::MPEG::File *f;
+
+    f = reinterpret_cast<TagLib::MPEG::File *>(file);
+    f->APETag(true);
+}
+
+/**
  * Translate taggit's type description C enum to TagLib's type
  * description enum.
  *
@@ -133,6 +157,7 @@ mp3_tagtypes(TagLib_File *f)
  *
  * The mask needs to be the one, taglib understands, the ones from
  * our enum need to be translated using mp3_type2taglib():
+ *
  * <code>
  *  mp3_strip(file, mp3_type2taglib(MP3_ID3V1 | MP3_APE));
  * </code>
@@ -236,30 +261,6 @@ taggit_file_destroy(struct taggit_file *file)
 {
     taglib_file_free(file->data);
     file->type = FT_INVALID;
-}
-
-/**
- * When make sure an apetag is there, so that saving a mp3 file back
- * can include apetags too.
- *
- * This is needed, since taglib will only create apetags in mp3 files
- * if that is explicitly requested.
- *
- * Only use this for FT_MPEG files. Other types may not have the required
- * method, which will cause fatal problems.
- *
- * @param   file    TagLib_File pointer to the mp3 in question.
- *
- * @return      void
- * @sideeffects none
- */
-void
-mp3_dotheape(TagLib_File *file)
-{
-    TagLib::MPEG::File *f;
-
-    f = reinterpret_cast<TagLib::MPEG::File *>(file);
-    f->APETag(true);
 }
 
 /**
