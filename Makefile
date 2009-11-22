@@ -19,6 +19,7 @@ SRCXX = taglib_ext.cpp
 OBJXX = taglib_ext.o
 HDRXX = taglib_ext.h
 CXXFLAGS = $(CFLAGS)
+CXXFLAGS += -pedantic
 CXX = c++
 
 all: $(PROJECT)
