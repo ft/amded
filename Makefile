@@ -52,9 +52,12 @@ doc: $(PROJECT).1
 tags:
 	ctags -R .
 
+devdoc:
+	doxygen doxygen.taggit
+
 $(PROJECT).1: $(PROJECT).t2t
 	txt2tags --target man -o- $(PROJECT).t2t | sed -e '/^$$/d' -e 's/^\\e$$//' > $(PROJECT).1
 
 -include .depend
 
-.PHONY: all depend doc clean install uninstall tags
+.PHONY: all depend doc clean install uninstall tags devdoc
