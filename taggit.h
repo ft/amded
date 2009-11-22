@@ -205,6 +205,8 @@ struct t_tag next_tag(const char *);
 void add_tag(struct t_tag *);
 void list_tags(void);
 
+int str2uint(char *, unsigned int *);
+
 #ifdef __cplusplus
 }
 #endif

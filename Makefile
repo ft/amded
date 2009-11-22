@@ -11,7 +11,8 @@ PROJECT = taggit
 HEADERS = taggit.h bsdgetopt.c
 SOURCES = taggit.c list.c list_human.c list_machine.c tag.c
 OBJS = taggit.o list.o list_human.o list_machine.o tag.o
-CFLAGS = -Wall -Wextra
+CFLAGS += -Wall -Wextra -Wmissing-declarations
+REALLYJUSTCFLAGS += -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes
 CC = cc
 
 SRCXX = taglib_ext.cpp
@@ -39,10 +40,10 @@ taglib_ext.o: taglib_ext.cpp taglib_ext.h
 	$(CXX) $(CXXFLAGS) -o taglib_ext.o -c taglib_ext.cpp
 
 .c.o:
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) $(CFLAGS) $(REALLYJUSTCFLAGS) -o $@ -c $<
 
 $(PROJECT): $(OBJS) $(OBJXX) $(HEADERS) $(HDRXX)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJXX) $(OBJS)
+	$(CC) $(CFLAGS) $(REALLYJUSTCFLAGS) $(LDFLAGS) -o $@ $(OBJXX) $(OBJS)
 
 clean:
 	rm -f *.o taggit *.1 .depend tags

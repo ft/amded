@@ -85,6 +85,7 @@ next_tag(const char *arg)
     ptr = strchr(arg, (int)'=');
     if (ptr == NULL) {
         t.type = TAG_INVALID;
+        t.name = t.value = (char *)NULL;
         return t;
     }
 
