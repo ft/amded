@@ -9,6 +9,7 @@
 #include <taglib/tag_c.h>
 
 #include "taggit.h"
+#include "taglib_ext.h"
 
 struct {
     enum file_type type;
@@ -49,6 +50,11 @@ list(struct taggit_file *file)
     properties = taglib_file_audioproperties(file->data);
     if (properties == NULL)
         return NULL;
+
+    if (file->type == FT_MPEG)
+        lst->tagtype = mp3_tagtypes(file->data);
+    else
+        lst->tagtype = NULL;
 
     lst->filetype = get_filetype(file->type);
     lst->artist = taglib_tag_artist(tag);

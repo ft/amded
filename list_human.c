@@ -29,6 +29,8 @@ taggit_list_human(const char *file)
 
     printf("<%s>\n", file);
     printf("filetype    | %s\n", lst->filetype);
+    if (f.type == FT_MPEG)
+        printf("tagtypes    | %s\n", lst->tagtype);
     printf("artist      | \"%s\"\n", lst->artist);
     printf("album       | \"%s\"\n", lst->album);
     printf("tracknumber | \"%d\"\n", lst->tracknumber);

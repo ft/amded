@@ -12,8 +12,6 @@ extern "C" {
 
 #include "taggit.h"
 
-typedef struct { int dummy; } TagLib_MPEG_File;
-
 enum TagLib_MP3Tag_Type {
     MP3_NO_TAGS = 0,
     MP3_ID3V1 = 1,
@@ -23,7 +21,8 @@ enum TagLib_MP3Tag_Type {
 };
 
 void mp3_dotheape(TagLib_File *);
-int mp3_strip(TagLib_MPEG_File *, int);
+int mp3_strip(TagLib_File *, int);
+char *mp3_tagtypes(TagLib_File *);
 int mp3_type2taglib(int);
 
 struct taggit_file taggit_file_open(const char *);

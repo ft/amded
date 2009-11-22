@@ -3,9 +3,16 @@
  * Terms for redistribution and use can be found in LICENCE.
  */
 
+#include <errno.h>
+#include <string.h>
+
 #include <taglib/tag_c.h>
 #include <taglib/tag.h>
 #include <taglib/audioproperties.h>
+
+#include <taglib/apetag.h>
+#include <taglib/id3v1tag.h>
+#include <taglib/id3v2tag.h>
 
 #include <taglib/flacfile.h>
 #include <taglib/mpegfile.h>
@@ -36,8 +43,48 @@ mp3_type2taglib(int mask)
     return rc;
 }
 
+char *
+mp3_tagtypes(TagLib_File *f)
+{
+    TagLib::MPEG::File::File *file;
+    TagLib::ID3v1::Tag *v1;
+    TagLib::ID3v2::Tag *v2;
+    TagLib::APE::Tag *ape;
+    std::string tmp;
+    char *rc;
+
+    file = reinterpret_cast<TagLib::MPEG::File::File *>(f);
+    tmp = "";
+    v1 = file->ID3v1Tag();
+    if (v1 != NULL && !v1->isEmpty())
+        tmp = "id3v1";
+
+    v2 = file->ID3v2Tag();
+    if (v2 != NULL && !v2->isEmpty()) {
+        if (tmp != "")
+            tmp += ",";
+        tmp += "id3v2";
+    }
+    ape = file->APETag();
+    if (ape != NULL && !ape->isEmpty()) {
+        if (tmp != "")
+            tmp += ",";
+        tmp += "apetag";
+    }
+
+    if (tmp == "")
+        tmp = "(no tags)";
+
+    rc = strdup(tmp.c_str());
+    if (errno == ENOMEM) {
+        fprintf(stderr, "Out of memory. Aborting.\n");
+        exit(EXIT_FAILURE);
+    }
+    return rc;
+}
+
 int
-mp3_strip(TagLib_MPEG_File *f, int mask)
+mp3_strip(TagLib_File *f, int mask)
 {
     TagLib::MPEG::File::File *file;
 

@@ -57,6 +57,7 @@ extern "C" {
 
 struct taggit_list {
     char *filetype;
+    char *tagtype;
     char *artist;
     char *album;
     int tracknumber;

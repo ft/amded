@@ -62,6 +62,10 @@ taggit_list_machine(const char *file)
     etx();
     key_val_str("filetype", lst->filetype);
     etx();
+    if (f.type == FT_MPEG) {
+        key_val_str("tagtypes", lst->tagtype);
+        etx();
+    }
     key_val_str("artist", lst->artist);
     etx();
     key_val_str("album", lst->album);
