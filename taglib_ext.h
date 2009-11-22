@@ -3,6 +3,11 @@
  * Terms for redistribution and use can be found in LICENCE.
  */
 
+/**
+ * @file  taglib_ext.h
+ * @brief API for extensions to taglib's generic C bindings
+ */
+
 #ifndef INC_TAGLIB_EXT_H
 #define INC_TAGLIB_EXT_H
 
@@ -12,6 +17,12 @@ extern "C" {
 
 #include "taggit.h"
 
+/**
+ * MP3 tag type description enum accessible from C
+ *
+ * These values can be translated the TagLib's values via
+ * mp3_type2taglib() from taglib_ext.cpp.
+ */
 enum TagLib_MP3Tag_Type {
     MP3_NO_TAGS = 0,
     MP3_ID3V1 = 1,

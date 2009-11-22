@@ -3,6 +3,11 @@
  * Terms for redistribution and use can be found in LICENCE.
  */
 
+/**
+ * @file  taggit.h
+ * @brief main API for taggits source
+ */
+
 #ifndef INC_TAGGIT_H
 #define INC_TAGGIT_H
 
@@ -15,9 +20,19 @@ extern "C" {
 
 #include <taglib/tag_c.h>
 
+/** the project's (and executable's) name */
 #define PROJECT "taggit"
+/**
+ * Version information
+ *
+ * +git should be added in untagged commits, to show that a non-release
+ * executable is used. If this project is to be distributed with an OS,
+ * those distributors may want to add a string here, too (like
+ * "0.2 (debian 0.2-3)" for a debian package).
+ */
 #define VERSION "0.2+git"
 
+/** usage string */
 #define TAGGIT_USAGE \
 "usage: taggit OPTION(s) FILE(s)\n\n" \
 "  informational options:\n" \
@@ -30,6 +45,7 @@ extern "C" {
 "    -t <tag>=<value>  set a tag to a value\n" \
 "\n"
 
+/** licence string */
 #define TAGGIT_LICENCE \
 " Copyright 2009 taggit workers, All rights reserved.\n" \
 "\n" \
@@ -55,6 +71,7 @@ extern "C" {
 " IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE\n" \
 " POSSIBILITY OF SUCH DAMAGE.\n"
 
+/** information returned by the list() function */
 struct taggit_list {
     char *filetype;
     char *tagtype;
@@ -74,6 +91,7 @@ struct taggit_list {
     int minutes;
 };
 
+/** identification numbers for tags supported by taggit */
 enum tag_id {
     T_UNKNOWN = 0,
     T_ARTIST,
@@ -84,6 +102,7 @@ enum tag_id {
     T_YEAR
 };
 
+/** identification numbers for types of tag values */
 enum tag_type {
     TAG_INVALID = 0,
     TAG_STRING,
@@ -91,6 +110,7 @@ enum tag_type {
     TAG_NUKE
 };
 
+/** identification numbers for file types */
 enum file_type {
     FT_INVALID = 0,
     FT_MPEG,
@@ -100,17 +120,38 @@ enum file_type {
     FT_UNKNOWN = 255
 };
 
+/**
+ * TabLib makes it rather hard for C to check of which file type
+ * the opened file is.
+ *
+ * This structure adds a type identifier to simplify that.
+ */
 struct taggit_file {
     TagLib_File *data;
     enum file_type type;
 };
 
+/**
+ * structure keeping tagnames, tagvalues and the tagname's type.
+ *
+ * When reading command line options, -t accepts name=value pairs.
+ * This is a structure that makes accessing names and values simple.
+ * Also, this sticks a type identifier that describes what the tag's
+ * value's type should be.
+ */
 struct t_tag {
     char *name;
     char *value;
     enum tag_type type;
 };
 
+/**
+ * Linking tag names to values, including tag_ids and tag_types
+ *
+ * This is the second stage of interpreting options into data structures.
+ * add_tag() uses this to create its linked list of tags to write into
+ * files.
+ */
 struct taglist {
     char *name;
     enum tag_id id;
@@ -123,18 +164,21 @@ struct taglist {
     struct taglist *next;
 };
 
+/** Checking two strings for equality */
 static inline int
 streq(char *s, char *t)
 {
     return !strcmp(s, t) ? 1 : 0;
 }
 
+/** Case insensitively checking two strings for equality */
 static inline int
 strcaseeq(char *s, char *t)
 {
     return !strcasecmp(s, t) ? 1 : 0;
 }
 
+/** malloc() wrapper that checks for errors */
 static inline void *
 xmalloc_or_die(size_t size)
 {
@@ -147,6 +191,7 @@ xmalloc_or_die(size_t size)
     return buf;
 }
 
+/** malloc()ing multiple spaces */
 #define MALLOC_OR_DIE(number,type)  \
     (type *)xmalloc_or_die(number * sizeof(type))
 
