@@ -61,9 +61,9 @@ tag_to_id(char *tag)
 int
 str2uint(char *str, unsigned int *retval)
 {
-    errno = 0;
     unsigned long int rc;
 
+    errno = 0;
     rc = strtoul((const char *)str, (char **) NULL, 10);
     if ((errno == ERANGE && (rc == ULONG_MAX)))
         return 0;
