@@ -93,6 +93,7 @@ taggit_list_machine(const char *file)
     key_val_int("mm:ss", lst->minutes);
     printf(":%d", lst->seconds);
 
+    taglist_destroy(f.type, lst);
     taglib_tag_free_strings();
     taggit_file_destroy(&f);
     free(lst);

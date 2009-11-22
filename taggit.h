@@ -150,6 +150,7 @@ xmalloc_or_die(size_t size)
 #define MALLOC_OR_DIE(number,type)  \
     (type *)xmalloc_or_die(number * sizeof(type))
 
+void taglist_destroy(enum file_type, struct taggit_list *);
 void taggit_list_human(const char *);
 void taggit_list_machine(const char *);
 void taggit_tag(const char *);

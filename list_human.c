@@ -45,6 +45,7 @@ taggit_list_human(const char *file)
     printf("length      | %d\n", lst->length);
     printf("mm:ss       | %d:%02d\n", lst->minutes, lst->seconds);
 
+    taglist_destroy(f.type, lst);
     taglib_tag_free_strings();
     taggit_file_destroy(&f);
     free(lst);

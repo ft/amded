@@ -36,6 +36,24 @@ get_filetype(enum file_type type)
     return (char *)NULL;
 }
 
+/**
+ * Handle destruction of file type specific information in list modes
+ *
+ * @param   type    the type of the currently processed file
+ * @param   list    pointer the the taggit_list structure
+ *
+ * @return      void
+ * @sideeffects none
+ */
+void
+taglist_destroy(enum file_type type, struct taggit_list *list)
+{
+    if (type == FT_MPEG) {
+        if (list->tagtype != NULL)
+            free(list->tagtype);
+    }
+}
+
 struct taggit_list *
 list(struct taggit_file *file)
 {
