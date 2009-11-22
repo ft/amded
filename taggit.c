@@ -3,29 +3,56 @@
  * Terms for redistribution and use can be found in LICENCE.
  */
 
+/**
+ * @file  taggit.c
+ * @brief main() and high level option handling
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "taggit.h"
 #include "bsdgetopt.c"
 
+/**
+ * ASCII End-Of-Transmission character code. Used to seperate output for
+ * different files in machine readable mode.
+ */
 #define ASCII_EOT (char)0x04
 
+/**
+ * Head of the linked list that holds the information gathered
+ * from all (one or more) -t tag=value options.
+ */
 struct taglist *tags_head = NULL;
 
 #if 0
 #define TAGGIT_DEBUG
 #endif
 
+/** possible operation modes */
 enum t_mode {
+    /** no mode defined, yet; or broken operation mode */
     TAGGIT_MODE_INVALID = 0,
+    /** list file's tags in human readable form */
     TAGGIT_LIST_HUMAN,
+    /** list file's tags in machine readable form */
     TAGGIT_LIST_MACHINE,
+    /** modify meta information in file(s) */
     TAGGIT_TAG
 };
 
+/** global variable describing taggit's operation mode */
 enum t_mode taggit_mode = TAGGIT_MODE_INVALID;
 
+/**
+ * Check that -m, -l and -t are not used with one another
+ *
+ * @param   mode    the enum t_mode value to check
+ *
+ * @return      void
+ * @sideeffects Exists with EXIT_FAILURE on failure.
+ */
 void
 check_mode(enum t_mode mode)
 {
@@ -35,6 +62,17 @@ check_mode(enum t_mode mode)
     }
 }
 
+/**
+ * Mode sanity check for tagging mode
+ *
+ * -t may be used multiple times, so run check_mode() only if not in
+ * TAGGIT_TAG mode already.
+ *
+ * @param   mode    the enum t_mode value to check
+ *
+ * @return      void
+ * @sideeffects see check_mode()
+ */
 void
 check_mode_tag(enum t_mode mode)
 {
@@ -42,6 +80,22 @@ check_mode_tag(enum t_mode mode)
         check_mode(mode);
 }
 
+/**
+ * Parsing command line options
+ *
+ * Uses NetBSD's getopt() defined in bsdgetopt.c, which is a
+ * traditional getopt implementation that supports short options
+ * and doesn't do any permutations.
+ *
+ * This function should not perform any actions itself, but set
+ * taggit_mode accordingly and let main()'s main loop handle everything.
+ *
+ * @param   argc    number of entries in *argv[]
+ * @param   argv[]  list of arguments at startup.
+ *
+ * @return      void
+ * @sideeffects Exists using EXIT_SUCCESS or EXIT_FAILURE when appropriate.
+ */
 void
 parse_options(int argc, const char *argv[])
 {
@@ -94,6 +148,20 @@ parse_options(int argc, const char *argv[])
     return;
 }
 
+/**
+ * taggit: command line utility for listing and modifying meta
+ *         information in audio files
+ *
+ * Interfacing KDE's taglib:
+ *   <http://developer.kde.org/~wheeler/taglib.html>
+ *
+ * @param   argc    number of entries in *argv[]
+ * @param   argv[]  list of arguments at startup.
+ *
+ * @return      EXIT_SUCCESS on normal execution;
+ *              EXIT_FAILURE upon failure.
+ * @sideeffects none
+ */
 int
 main(int argc, const char *argv[])
 {
