@@ -53,7 +53,7 @@ enum t_mode taggit_mode = TAGGIT_MODE_INVALID;
  * @return      void
  * @sideeffects Exists with EXIT_FAILURE on failure.
  */
-void
+static inline void
 check_mode(enum t_mode mode)
 {
     if (mode != TAGGIT_MODE_INVALID) {
@@ -73,7 +73,7 @@ check_mode(enum t_mode mode)
  * @return      void
  * @sideeffects see check_mode()
  */
-void
+static inline void
 check_mode_tag(enum t_mode mode)
 {
     if (mode != TAGGIT_MODE_INVALID && mode != TAGGIT_TAG)
@@ -96,7 +96,7 @@ check_mode_tag(enum t_mode mode)
  * @return      void
  * @sideeffects Exists using EXIT_SUCCESS or EXIT_FAILURE when appropriate.
  */
-void
+static void
 parse_options(int argc, const char *argv[])
 {
     int opt;

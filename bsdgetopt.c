@@ -83,7 +83,7 @@ char *optarg;
  * @sideeffects sets the global variables opterr, optind, optopt,
  *              optreset and optarg.
  */
-int
+static int
 bsd_getopt(int nargc, const char *nargv[], const char *ostr)
 {
     static const char *place = EMSG;    /* option letter processing */
