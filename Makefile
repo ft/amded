@@ -47,7 +47,11 @@ $(PROJECT): $(OBJS) $(OBJXX) $(HEADERS) $(HDRXX)
 	$(CC) $(CFLAGS) $(REALLYJUSTCFLAGS) $(LDFLAGS) -o $@ $(OBJXX) $(OBJS)
 
 clean:
-	rm -f *.o taggit *.1 .depend tags
+	rm -f *.o taggit *.1 .depend
+
+distclean: clean
+	rm -f tags
+	rm -Rf devdoc
 
 doc: $(PROJECT).1
 
@@ -62,4 +66,4 @@ $(PROJECT).1: $(PROJECT).t2t
 
 -include .depend
 
-.PHONY: all depend doc clean install uninstall tags devdoc
+.PHONY: all depend doc clean install uninstall tags devdoc distclean
