@@ -3,6 +3,29 @@
  * Terms for redistribution and use can be found in LICENCE.
  */
 
+/**
+ * @file  taglib_ext.cpp
+ * @brief extensions for taglib's generic C bindings
+ *
+ * Taglib's C binings only support a limited feature set of what
+ * taglib can actually do. It is very much a "do-what-I-mean" interface,
+ * that support generic tags like: artist, album, tracktitle, -number,
+ * year and genre.
+ *
+ * These are common to all supported file types; so that's reasonable.
+ * It doesn't give the developer much control over file specific features,
+ * like apetags in mp3 files. That is certainly something, that is desired
+ * in taggit, so that needs extentions to taglib's generic interface.
+ *
+ * Also, taggit should transparently support multi-artist information from
+ * audio files. That however is handled quite differently from file type
+ * to file type. MP3 files could store it in TPE2 id3v2 frames or in an
+ * apetag; ogg vorbis files may store it in ALBUMARTIST tags.
+ *
+ * That means, for multi-artist information, we'll need extensions to
+ * taglib's C bindings, too.
+ */
+
 #include <errno.h>
 #include <string.h>
 
@@ -22,6 +45,15 @@
 #include "taggit.h"
 #include "taglib_ext.h"
 
+/**
+ * Translate taggit's type description C enum to TagLib's type
+ * description enum.
+ *
+ * @param   mask    the bitmask to translate
+ *
+ * @return      the translated bitmask
+ * @sideeffects none
+ */
 int
 mp3_type2taglib(int mask)
 {
@@ -43,6 +75,17 @@ mp3_type2taglib(int mask)
     return rc;
 }
 
+/**
+ * Create a string that lists which tag types were found in a mp3 file
+ *
+ * The return value is dynamically allocated and needs to be freed if
+ * it is not in use anymore.
+ *
+ * @param   f       TagLib_File pointer to check
+ *
+ * @return      comma seperated list of found tag types
+ * @sideeffects none
+ */
 char *
 mp3_tagtypes(TagLib_File *f)
 {
@@ -83,6 +126,23 @@ mp3_tagtypes(TagLib_File *f)
     return rc;
 }
 
+/**
+ * Strip one or more sets of tags in a mp3
+ *
+ * This can strip id3v1, v2 or apetags from a file.
+ *
+ * The mask needs to be the one, taglib understands, the ones from
+ * our enum need to be translated using mp3_type2taglib():
+ * <code>
+ *  mp3_strip(file, mp3_type2taglib(MP3_ID3V1 | MP3_APE));
+ * </code>
+ *
+ * @param   f       TagLib_File pointer to check
+ * @param   mask    bitmask describing the tags that should be stripped
+ *
+ * @return      comma seperated list of found tag types
+ * @sideeffects none
+ */
 int
 mp3_strip(TagLib_File *f, int mask)
 {
@@ -92,11 +152,18 @@ mp3_strip(TagLib_File *f, int mask)
     return file->strip(mp3_type2taglib(mask));
 }
 
-/*
- * Open files in their specific types, if we know them.
- * Otherwise, use TagLibs generic interface only. That will stop
- * us from working with multi-artist files for those types, but
- * it's better than nothing.
+/**
+ * Open a file via taglib and add file type information
+ *
+ * Open files, that taglib supports but taggit doesn't have specific support
+ * for using TagLibs generic interface only. That will stop us from working
+ * with multi-artist files for those types, but it's better than nothing.
+ *
+ * @param   file    file name to open
+ *
+ * @return      copy of the generated struct taggit_file; *NOT* a pointer
+ *              to it! Destroy using taggit_file_destroy().
+ * @sideeffects none
  */
 struct taggit_file
 taggit_file_open(const char *file)
@@ -156,6 +223,14 @@ err:
     return rc;
 }
 
+/**
+ * Free the allocated information from a taggit_file structure
+ *
+ * @param   file    pointer to the structure to destroy
+ *
+ * @return      void
+ * @sideeffects none
+ */
 void
 taggit_file_destroy(struct taggit_file *file)
 {
@@ -163,6 +238,21 @@ taggit_file_destroy(struct taggit_file *file)
     file->type = FT_INVALID;
 }
 
+/**
+ * When make sure an apetag is there, so that saving a mp3 file back
+ * can include apetags too.
+ *
+ * This is needed, since taglib will only create apetags in mp3 files
+ * if that is explicitly requested.
+ *
+ * Only use this for FT_MPEG files. Other types may not have the required
+ * method, which will cause fatal problems.
+ *
+ * @param   file    TagLib_File pointer to the mp3 in question.
+ *
+ * @return      void
+ * @sideeffects none
+ */
 void
 mp3_dotheape(TagLib_File *file)
 {
@@ -172,6 +262,18 @@ mp3_dotheape(TagLib_File *file)
     f->APETag(true);
 }
 
+/**
+ * Save a file back to disc
+ *
+ * This is a wrapper around a file type's save() method, which
+ * also handles file type specific actions.
+ *
+ * @param   file    pointer to the taggit_file structure describing
+ *                  the file in question
+ *
+ * @return      1 if the save() method returned true; 0 otherwise
+ * @sideeffects none
+ */
 int
 taggit_file_save(struct taggit_file *file)
 {
