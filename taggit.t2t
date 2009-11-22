@@ -135,6 +135,15 @@ example parsers for this output method are included in the //taggit//
 distribution (the process-m.* files, to be precise).
 
 
+= FILE TYPE SPECIFIC BEHAVIOUR =
+
+== MP3 ==
+
+In listing modes, //taggit// includes a pseudo tag called **tagtypes**,
+of which the value is a comma seperated lists of tags found in the file.
+Valid tag types are: **id3v1**, **id3v2** and **apetag**.
+
+
 = SEE ALSO =
 Taglib: <http://developer.kde.org/~wheeler/taglib.html>
 
