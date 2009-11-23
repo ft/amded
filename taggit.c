@@ -105,7 +105,7 @@ parse_options(int argc, const char *argv[])
     while ((opt = bsd_getopt(argc, argv, "hLlmst:v")) != -1) {
         switch (opt) {
         case 'L':
-            printf(TAGGIT_LICENCE);
+            taggit_licence();
             exit(EXIT_SUCCESS);
         case 'l':
             check_mode(taggit_mode);
@@ -134,13 +134,13 @@ parse_options(int argc, const char *argv[])
             break;
 
         case 'v':
-            printf("%s v%s\n", PROJECT, VERSION);
+            taggit_version();
             exit(EXIT_SUCCESS);
         case 'h':
-            printf(TAGGIT_USAGE);
+            taggit_usage();
             exit(EXIT_SUCCESS);
         default:
-            printf(TAGGIT_USAGE);
+            taggit_usage();
             exit(EXIT_FAILURE);
         }
     }
@@ -168,14 +168,14 @@ main(int argc, const char *argv[])
     int i, first;
 
     if (argc < 2) {
-        printf(TAGGIT_USAGE);
+        taggit_usage();
         return EXIT_FAILURE;
     }
 
     parse_options(argc, argv);
 
     if (optind == argc) {
-        printf(TAGGIT_USAGE);
+        taggit_usage();
         return EXIT_FAILURE;
     }
 
