@@ -6,6 +6,7 @@
 #include <errno.h>
 #include <limits.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "taggit.h"
 #include "taglib_ext.h"
@@ -129,12 +130,12 @@ add_tag(struct t_tag *tag)
     }
 
     ptr->id = id;
-    ptr->name = strdup(tag->name);
+    ptr->name = xstrdup(tag->name);
     ptr->type = tag->type;
     if (ptr->type == TAG_INT)
-        ptr->integer = integer;
+        ptr->val.integer = integer;
     else
-        ptr->string = strdup(tag->value);
+        ptr->val.string = xstrdup(tag->value);
     ptr->next = NULL;
 }
 
@@ -157,22 +158,22 @@ taggit_tag(const char *file)
     while (ptr != NULL) {
         switch (ptr->id) {
         case T_ARTIST:
-            taglib_tag_set_artist(tag, ptr->string);
+            taglib_tag_set_artist(tag, ptr->val.string);
             break;
         case T_ALBUM:
-            taglib_tag_set_album(tag, ptr->string);
+            taglib_tag_set_album(tag, ptr->val.string);
             break;
         case T_TRACKNUMBER:
-            taglib_tag_set_track(tag, ptr->integer);
+            taglib_tag_set_track(tag, ptr->val.integer);
             break;
         case T_TRACKTITLE:
-            taglib_tag_set_title(tag, ptr->string);
+            taglib_tag_set_title(tag, ptr->val.string);
             break;
         case T_GENRE:
-            taglib_tag_set_genre(tag, ptr->string);
+            taglib_tag_set_genre(tag, ptr->val.string);
             break;
         case T_YEAR:
-            taglib_tag_set_year(tag, ptr->integer);
+            taglib_tag_set_year(tag, ptr->val.integer);
             break;
         default:
             fprintf(stderr, "Whoops, unknown tag-id (name: \"%s\").\n",

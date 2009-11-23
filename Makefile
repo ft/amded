@@ -11,15 +11,15 @@ PROJECT = taggit
 HEADERS = taggit.h bsdgetopt.c
 SOURCES = taggit.c info.c list.c list_human.c list_machine.c tag.c
 OBJS = taggit.o info.o list.o list_human.o list_machine.o tag.o
-CFLAGS += -Wall -Wextra -Wmissing-declarations
-REALLYJUSTCFLAGS += -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes
+CFLAGS += -Wall -Wextra -Wmissing-declarations -pedantic
+REALLYJUSTCFLAGS += -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -std=c99
 CC = cc
 
 SRCXX = taglib_ext.cpp
 OBJXX = taglib_ext.o
 HDRXX = taglib_ext.h
 CXXFLAGS = $(CFLAGS)
-CXXFLAGS += -pedantic
+CXXFLAGS += -std=c++98
 CXX = c++
 
 all: $(PROJECT)

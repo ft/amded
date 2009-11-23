@@ -142,7 +142,7 @@ mp3_tagtypes(TagLib_File *f)
     if (tmp == "")
         tmp = "(no tags)";
 
-    rc = strdup(tmp.c_str());
+    rc = xstrdup(tmp.c_str());
     if (errno == ENOMEM) {
         fprintf(stderr, "Out of memory. Aborting.\n");
         exit(EXIT_FAILURE);

@@ -17,6 +17,7 @@ extern "C" {
 
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 
 #include <taglib/tag_c.h>
 
@@ -120,7 +121,7 @@ struct taglist {
     union {
         char *string;
         int integer;
-    };
+    } val;
 
     struct taglist *next;
 };
@@ -155,6 +156,21 @@ xmalloc_or_die(size_t size)
 /** malloc()ing multiple spaces */
 #define MALLOC_OR_DIE(number,type)  \
     (type *)xmalloc_or_die(number * sizeof(type))
+
+/** duplicate a string */
+static inline char *
+xstrdup(const char *s)
+{
+    char *ptr;
+    size_t len;
+
+    len = strlen(s) + 1;
+    ptr = MALLOC_OR_DIE(len + 1, char);
+
+    memcpy((void*)ptr, (const void*)s, len);
+    ptr[len] = '\0';
+    return ptr;
+}
 
 void taggit_version(void);
 void taggit_usage(void);
