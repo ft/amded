@@ -21,6 +21,8 @@ static const char *usage[] = {
 "    -L                show taggit's licence information",
 "    -v                print version information",
 "    -s                list supported tag names",
+"  configuration options:",
+"    -R <readmap>      configure tag reading order",
 "  action options:",
 "    -l                list tags in human readable form",
 "    -m                list tags in machine readable form",

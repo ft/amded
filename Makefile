@@ -9,8 +9,8 @@ LDFLAGS = -ltag_c
 
 PROJECT = taggit
 HEADERS = taggit.h bsdgetopt.c
-SOURCES = taggit.c info.c list.c list_human.c list_machine.c tag.c
-OBJS = taggit.o info.o list.o list_human.o list_machine.o tag.o
+SOURCES = taggit.c info.c list.c list_human.c list_machine.c setup.c tag.c
+OBJS = taggit.o info.o list.o list_human.o list_machine.o setup.o tag.o
 CFLAGS += -Wall -Wextra -Wmissing-declarations -pedantic
 REALLYJUSTCFLAGS += -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -std=c99
 CC = cc

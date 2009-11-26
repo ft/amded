@@ -33,6 +33,17 @@ extern "C" {
  */
 #define VERSION "0.2+git"
 
+/**
+ * Define a maximum set of tags in read and write maps
+ *
+ * We are currently only doing such quirks for mp3, where we
+ * need to configure how to read and write different types of
+ * tags (id3v1, v2 and ape). So for now three is enough.
+ *
+ * This could be done dynamically, but I don't think it's worth it.
+ */
+#define TAGGIT_MAP_MAX 3
+
 /** information returned by the list() function */
 struct taggit_list {
     char *filetype;
@@ -176,6 +187,7 @@ void taggit_version(void);
 void taggit_usage(void);
 void taggit_licence(void);
 
+void setup_readmap(const char *);
 void taglist_destroy(enum file_type, struct taggit_list *);
 void taggit_list_human(const char *);
 void taggit_list_machine(const char *);

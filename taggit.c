@@ -102,7 +102,7 @@ parse_options(int argc, const char *argv[])
     int opt;
     struct t_tag tag;
 
-    while ((opt = bsd_getopt(argc, argv, "hLlmst:v")) != -1) {
+    while ((opt = bsd_getopt(argc, argv, "hLlmsR:t:v")) != -1) {
         switch (opt) {
         case 'L':
             taggit_licence();
@@ -119,6 +119,9 @@ parse_options(int argc, const char *argv[])
             printf("Supported tags:\n");
             list_tags();
             exit(EXIT_SUCCESS);
+        case 'R':
+            setup_readmap(optarg);
+            break;
         case 't':
             check_mode_tag(taggit_mode);
             taggit_mode = TAGGIT_TAG;
