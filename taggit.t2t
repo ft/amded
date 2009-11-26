@@ -40,6 +40,10 @@ List the tags in the given files in a machine readable form.
 : **-s**
 Show a list of supported tags.
 
+: **-R** //<readmap(s)>//
+Configure how tags are read from certain file types. See //Read Maps//
+below.
+
 : **-t** //<tag>=<value>//
 Sets a **<tag>** to a **<value>**. This option can be used multiple times
 for different tags.
@@ -137,11 +141,41 @@ distribution (the process-m.* files, to be precise).
 
 = FILE TYPE SPECIFIC BEHAVIOUR =
 
-== MP3 ==
-
+== mp3 ==
 In listing modes, //taggit// includes a pseudo tag called **tagtypes**,
 of which the value is a comma seperated lists of tag types found in the
 file. Valid tag types are: **id3v1**, **id3v2** and **apetag**.
+
+
+= MAPPING =
+
+For some file types (currently only //mp3//) more than one type of tag
+is allowed at the same time. This fact requires //taggit// to have a way
+of determining which tag types to **write** for a given file type and
+from which type to **read**. Setting this up is what we call //mapping//
+tagtypes to file types.
+
+
+== Read Maps ==
+Read maps configure which tags get which priority when reading.
+
+A read map looks like this:
+
+  <file-type>=<tag-type-A>,<tag-type-B>,...
+
+So, for //mp3// it may look like this:
+
+  mp3=apetag,id3v2
+
+Read maps are set up using the //-R// command line switch. Multiple read
+maps can be configured, by concatenating them one after another, separated
+by a single colon (**:**).
+
+Read maps are a serial concept with a first come first serve paradigm.
+That means, that meta information is read from exactly **one** tag type.
+If, for example, in the example above an **apetag** exists, the information
+is read from the **apetag** and //only// from it. No other tag will be
+considered once a tag type with higher priority was found.
 
 
 = SEE ALSO =
