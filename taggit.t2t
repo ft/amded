@@ -143,7 +143,7 @@ distribution (the process-m.* files, to be precise).
 
 == mp3 ==
 In listing modes, //taggit// includes a pseudo tag called **tagtypes**,
-of which the value is a comma seperated lists of tag types found in the
+of which the value is a comma seperated list of tag types found in the
 file. Valid tag types are: **id3v1**, **id3v2** and **apetag**.
 
 
