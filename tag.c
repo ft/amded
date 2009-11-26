@@ -3,6 +3,11 @@
  * Terms for redistribution and use can be found in LICENCE.
  */
 
+/**
+ * @file  tag.c
+ * @brief writing tags to files
+ */
+
 #include <errno.h>
 #include <limits.h>
 #include <stdio.h>
@@ -11,8 +16,15 @@
 #include "taggit.h"
 #include "taglib_ext.h"
 
+/**
+ * Head of the tag list
+ *
+ * The tags set on the command line are kept in a linked list. This
+ * is the head to it.
+ */
 extern struct taglist *tags_head;
 
+/** mapping tag strings to machine friendly numbers and type identifiers */
 struct {
     char *name;
     enum tag_id id;
@@ -27,6 +39,7 @@ struct {
     { (char *)NULL,     T_UNKNOWN,          TAG_INVALID }
 };
 
+/** Print all supported tags to stdout */
 void
 list_tags(void)
 {
@@ -35,6 +48,7 @@ list_tags(void)
         printf("%s\n", tag_type_map[i].name);
 }
 
+/** Return the machine friendly tag-id to a given tag name */
 static enum tag_type
 tag_to_type(char *tag)
 {
@@ -47,6 +61,7 @@ tag_to_type(char *tag)
     return TAG_INVALID;
 }
 
+/** Return the identifier the a tag's type to a given tag name */
 static enum tag_id
 tag_to_id(char *tag)
 {
@@ -59,6 +74,19 @@ tag_to_id(char *tag)
     return T_UNKNOWN;
 }
 
+/**
+ * Convert a string into an unsigned integer value
+ *
+ * The string must be convertable into an integer value ranging
+ * from 0 to UINT_MAX.
+ *
+ * @param   str     the string to be converted
+ * @param   retval  pointer to the unsigned integer variable, where
+ *                  the converted value should be copied
+ *
+ * @return      1 on success; 0 otherwise
+ * @sideeffects none
+ */
 int
 str2uint(char *str, unsigned int *retval)
 {
@@ -77,6 +105,18 @@ str2uint(char *str, unsigned int *retval)
     return 1;
 }
 
+/**
+ * Split a tag=value string into tag and value strings
+ *
+ * This is a helper for handling taggit's -t command line option.
+ *
+ * @param   arg     the string to split
+ *
+ * @return      a copy of the generated t_tag structure
+ * @sideeffects this changes the input string and the values in
+ *              the t_tag struct are pointers to certain positions in
+ *              the input string instead of making copies.
+ */
 struct t_tag
 next_tag(const char *arg)
 {
@@ -101,6 +141,19 @@ next_tag(const char *arg)
     return t;
 }
 
+/**
+ * Add a tag's key-value pair to the global tag list
+ *
+ * This function dynamically allocates memory. Usually, that should
+ * be freed when it's not needed anymore. However, we currently don't
+ * bother because the program will exit as soon as the tag list is not
+ * needed anymore.
+ *
+ * @param   tag     pointer to the key-value pair which is to be added
+ *
+ * @return      void
+ * @sideeffects none
+ */
 void
 add_tag(struct t_tag *tag)
 {
@@ -139,6 +192,14 @@ add_tag(struct t_tag *tag)
     ptr->next = NULL;
 }
 
+/**
+ * Write the tags stored in the tag linked list to a file
+ *
+ * @param   file    the target file
+ *
+ * @return      void
+ * @sideeffects none
+ */
 void
 taggit_tag(const char *file)
 {

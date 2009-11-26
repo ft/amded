@@ -3,6 +3,11 @@
  * Terms for redistribution and use can be found in LICENCE.
  */
 
+/**
+ * @file  list_human.c
+ * @brief print meta information from audio files in a human readable form
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -11,6 +16,14 @@
 #include "taggit.h"
 #include "taglib_ext.h"
 
+/**
+ * Print meta information of a file in a nicely formated table
+ *
+ * @param   file    file name of the file to process
+ *
+ * @return      void
+ * @sideeffects none
+ */
 void
 taggit_list_human(const char *file)
 {

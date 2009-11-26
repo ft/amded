@@ -29,10 +29,12 @@
  * SUCH DAMAGE.
  */
 
-/*
- * getopt.c from NetBSD
- *     Traditional getopt() implementation.
- *     No permutations.
+/**
+ * @file  bsdgetopt.c
+ * @brief getopt.c from NetBSD
+ *
+ * - Traditional getopt() implementation.
+ * - No permutations.
  *
  * Changes:
  *     - teared the file down to what we need

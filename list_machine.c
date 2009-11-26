@@ -3,6 +3,11 @@
  * Terms for redistribution and use can be found in LICENCE.
  */
 
+/**
+ * @file  list_machine.c
+ * @brief print meta information from audio files in a machine readable form
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -11,33 +16,76 @@
 #include "taggit.h"
 #include "taglib_ext.h"
 
+/** ascii start-of-text character code */
 #define ASCII_STX (char)0x02
+/** ascii end-of-text character code */
 #define ASCII_ETX (char)0x03
 
+/**
+ * Print a key-value pair, with the value being a string
+ *
+ * @param   key     name of the key
+ * @param   val     value string
+ *
+ * @return void
+ * @sideeffects none
+ */
 static inline void
 key_val_str(const char *key, char *val)
 {
     printf("%s%c%s", key, ASCII_STX, val);
 }
 
+/**
+ * Print a key-value pair, with the value being an integer
+ *
+ * @param   key     name of the key
+ * @param   val     the integer value
+ *
+ * @return void
+ * @sideeffects none
+ */
 static inline void
 key_val_int(const char *key, int val)
 {
     printf("%s%c%d", key, ASCII_STX, val);
 }
 
+/**
+ * Print a key-value pair, with the value being floating point data
+ *
+ * @param   key     name of the key
+ * @param   val     the double value
+ *
+ * @return void
+ * @sideeffects none
+ */
 static inline void
 key_val_dbl(const char *key, double val)
 {
     printf("%s%c%g", key, ASCII_STX, val);
 }
 
+/** print a single ETX character */
 static inline void
 etx(void)
 {
     printf("%c", ASCII_ETX);
 }
 
+/**
+ * Print meta information of a file seperated by ASCII control characters
+ *
+ * output format:\n
+ * <code>
+ *  key\<STX\>value\<ETX\>key\<STX\>value\<ETX\>key...value
+ * </code>
+ *
+ * @param   file    file name of the file to process
+ *
+ * @return      void
+ * @sideeffects none
+ */
 void
 taggit_list_machine(const char *file)
 {
@@ -54,10 +102,6 @@ taggit_list_machine(const char *file)
         return;
     }
 
-    /*
-     * output format:
-     *  <key><STX><value><ETX><key><STX><value><ETX><key>...<value>
-     */
     key_val_str("filename", (char*)file);
     etx();
     key_val_str("filetype", lst->filetype);

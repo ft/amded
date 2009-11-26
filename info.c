@@ -59,6 +59,18 @@ static const char *licence[] = {
 (const char*)NULL
 };
 
+/**
+ * Print an array of strings to stdout
+ *
+ * Appends a newline character to each string, rendering the output
+ * line by line. The end of the array *must* be marked by a
+ * (const char *)NULL entry.
+ *
+ * @param   a       pointer to a the array of c-strings
+ *
+ * @return      void
+ * @sideeffects none
+ */
 static void
 print_array(const char *a[])
 {
@@ -68,18 +80,21 @@ print_array(const char *a[])
         printf("%s\n", a[i]);
 }
 
+/** Print version information about taggit */
 void
 taggit_version(void)
 {
     printf("%s v%s\n", PROJECT, VERSION);
 }
 
+/** Print out usage information (contained in the usage array above) */
 void
 taggit_usage(void)
 {
     print_array(usage);
 }
 
+/** Print out licencing information (contained in the licence array above) */
 void
 taggit_licence(void)
 {

@@ -76,6 +76,7 @@ find_readmap(char *name)
  * Find a tag type entry in a given typemap_ (by name)
  *
  * @param   name    the name of the tag type to look for
+ * @param   map     the typemap_ in which to do the lookup
  *
  * @return      the id of the matched entry; 0 if nothing was matched
  * @sideeffects none
@@ -141,9 +142,9 @@ change_readmap(int map, char *s)
  *
  * Takes an argument that looks like this:
  *
- * <filetype>=tagtypeA,tagtypeB:<filetype>tagtypeC,...
+ * filetypeA=tagtypeA,tagtypeB:filetypeBtagtypeC,...
  *
- * This splits up that argument into single <filetype>=... mappings.
+ * This splits up that argument into single filetype=... mappings.
  *
  * @param   s       the optarg from getopt (see above)
  *
