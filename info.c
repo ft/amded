@@ -20,6 +20,7 @@ static const char *usage[] = {
 "    -h                display this help text",
 "    -L                show taggit's licence information",
 "    -v                print version information",
+"    -s                list supported tag names",
 "  action options:",
 "    -l                list tags in human readable form",
 "    -m                list tags in machine readable form",
