@@ -5,6 +5,8 @@ INSTALLDIR = install -d
 INSTALLBIN = install -m 755
 INSTALLMAN = install -m 644
 
+POSIX_SHELL ?= /bin/sh
+
 LDFLAGS = -ltag_c
 
 PROJECT = taggit
@@ -22,9 +24,20 @@ CXXFLAGS = $(CFLAGS)
 CXXFLAGS += -std=c++98
 CXX = c++
 
-all: $(PROJECT)
+all:
+	@$(MAKE) info
+	@$(MAKE) $(PROJECT)
 
-depend: $(SOURCES) $(SRCXX)
+info: version-magic.sh
+	@$(POSIX_SHELL) ./version-magic.sh
+
+depend:
+	@$(MAKE) info
+	@$(MAKE) depend-real
+
+-include version-magic.make
+
+depend-real: $(SOURCES) $(SRCXX)
 	mkdep $(CFLAGS) $(SOURCES) $(SRCXX)
 
 install:
@@ -47,7 +60,7 @@ $(PROJECT): $(OBJS) $(OBJXX) $(HEADERS) $(HDRXX)
 	$(CC) $(CFLAGS) $(REALLYJUSTCFLAGS) $(LDFLAGS) -o $@ $(OBJXX) $(OBJS)
 
 clean:
-	rm -f *.o taggit *.1 .depend
+	rm -f *.o taggit *.1 .depend git-version.h version-magic.make
 
 distclean: clean
 	rm -f tags
@@ -66,4 +79,4 @@ $(PROJECT).1: $(PROJECT).t2t
 
 -include .depend
 
-.PHONY: all depend doc clean install uninstall tags devdoc distclean
+.PHONY: all depend doc clean install uninstall tags devdoc distclean depend-real info

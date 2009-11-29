@@ -12,6 +12,10 @@
 
 #include "taggit.h"
 
+#ifdef GIT_SOURCE
+#include "git-version.h"
+#endif /* GIT_SOURCE */
+
 /** usage information */
 static const char *usage[] = {
 "usage: taggit OPTION(s) FILE(s)",
@@ -84,7 +88,13 @@ print_array(const char *a[])
 void
 taggit_version(void)
 {
-    printf("%s v%s\n", PROJECT, VERSION);
+    printf("%s ", PROJECT);
+#ifdef GIT_SOURCE
+    printf("%s\n", GIT_VERSION);
+    printf("Based on commit: %s\n", GIT_DESCRIPTION);
+#else
+    printf("%s\n", VERSION);
+#endif
 }
 
 /** Print out usage information (contained in the usage array above) */

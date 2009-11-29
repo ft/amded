@@ -17,3 +17,5 @@ taggit.1
 *.ogg
 *.flac
 devdoc/*
+git-version.h
+version-magic.make

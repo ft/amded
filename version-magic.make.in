@@ -1,0 +1,4 @@
+CFLAGS += -D@@MAKE-MACRO@@
+
+info.o: @@MAKE-DEPS@@
+	$(CC) $(CFLAGS) $(REALLYJUSTCFLAGS) -o info.o -c info.c
