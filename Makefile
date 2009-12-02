@@ -26,19 +26,19 @@ CXXFLAGS = $(CFLAGS)
 CXXFLAGS += -std=c++98
 
 all:
-	@$(MAKE) info
+	@$(MAKE) _info
 	@$(MAKE) $(PROJECT)
 
-info: version-magic.sh
+_info: version-magic.sh
 	@$(POSIX_SHELL) ./version-magic.sh
 
 depend:
-	@$(MAKE) info
-	@$(MAKE) depend-real
+	@$(MAKE) _info
+	@$(MAKE) _depend
 
 -include version-magic.make
 
-depend-real: $(SOURCES) $(SRCXX)
+_depend: $(SOURCES) $(SRCXX)
 	mkdep $(CFLAGS) $(SOURCES) $(SRCXX)
 
 install:
@@ -80,4 +80,4 @@ $(PROJECT).1: $(PROJECT).t2t
 
 -include .depend
 
-.PHONY: all depend doc clean install uninstall tags devdoc distclean depend-real info
+.PHONY: all depend doc clean install uninstall tags devdoc distclean _depend _info
