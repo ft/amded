@@ -23,6 +23,7 @@ extern "C" {
 
 /** the project's (and executable's) name */
 #define PROJECT "taggit"
+
 /**
  * Version information
  *
