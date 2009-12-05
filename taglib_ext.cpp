@@ -289,7 +289,7 @@ taggit_file_save(struct taggit_file *file)
         TagLib::MPEG::File *f;
 
         f = reinterpret_cast<TagLib::MPEG::File *>(file->data);
-        /*
+        /**
          * Save id3v2 and apetag for now.
          * Throw away id3v1, which is utterly useless anyway.
          * @TODO This should probably be configurable...
