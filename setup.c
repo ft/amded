@@ -104,10 +104,10 @@ find_tagtype(char *name, struct typemap_ *map)
  * @param   map     the index of the mapping to change in readmap[]
  * @param   s       a string; the comma seperated tag type list
  *
- * @return      1 one success; 0 otherwise
+ * @return      true one success; false otherwise
  * @sideeffects none
  */
-static int
+static boolean
 change_readmap(int map, char *s)
 {
     char *ptr;
@@ -119,7 +119,7 @@ change_readmap(int map, char *s)
         if (i > TAGGIT_MAP_MAX - 1) {
             fprintf(stderr, "Too many tag types, defined (max: %d).\n",
                     TAGGIT_MAP_MAX);
-            return 0;
+            return false;
         }
 
         ptr = strchr(ptr, (int)',');
@@ -128,13 +128,13 @@ change_readmap(int map, char *s)
 
         readmap[map].ids[i] = find_tagtype(s, readmap[map].tags);
         if (readmap[map].ids[i] == 0)
-            return 0;
+            return false;
 
         s = ptr;
         ++i;
     }
 
-    return 1;
+    return true;
 }
 
 /**
@@ -155,7 +155,8 @@ void
 setup_readmap(const char *s)
 {
     char *ptr, *sc;
-    int rc, map;
+    int map;
+    boolean rc;
 
     ptr = (char *)s;
     while (ptr != NULL && *ptr != '\0') {

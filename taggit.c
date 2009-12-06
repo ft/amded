@@ -168,7 +168,8 @@ parse_options(int argc, const char *argv[])
 int
 main(int argc, const char *argv[])
 {
-    int i, first;
+    int i;
+    boolean first;
 
     if (argc < 2) {
         taggit_usage();
@@ -199,21 +200,21 @@ main(int argc, const char *argv[])
         }
     }
 #endif
-    first = 1;
+    first = true;
     for (i = optind; i < argc; ++i) {
         switch (taggit_mode) {
         case TAGGIT_LIST_HUMAN:
             if (!first)
                 printf("\n");
             else
-                first = 0;
+                first = false;
             taggit_list_human(argv[i]);
             break;
         case TAGGIT_LIST_MACHINE:
             if (!first)
                 printf("%c", ASCII_EOT);
             else
-                first = 0;
+                first = false;
             taggit_list_machine(argv[i]);
             break;
         case TAGGIT_TAG:

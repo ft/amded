@@ -24,6 +24,10 @@ extern "C" {
 #include <string.h>
 #include <strings.h>
 
+typedef int boolean;
+#define true ((boolean)1)
+#define false ((boolean)0)
+
 #if defined S_SPLINT_S
 
 /*
@@ -167,18 +171,18 @@ struct taglist {
 
 /** Checking two strings for equality */
 /*@unused@*/
-static inline int
+static inline boolean
 streq(char *s, char *t)
 {
-    return !strcmp(s, t) ? 1 : 0;
+    return strcmp(s, t) == 0 ? true : false;
 }
 
 /** Case insensitively checking two strings for equality */
 /*@unused@*/
-static inline int
+static inline boolean
 strcaseeq(char *s, char *t)
 {
-    return !strcasecmp(s, t) ? 1 : 0;
+    return strcasecmp(s, t) == 0 ? true : false;
 }
 
 /** malloc() wrapper that checks for errors */
