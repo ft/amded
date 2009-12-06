@@ -24,6 +24,28 @@ extern "C" {
 #include <string.h>
 #include <strings.h>
 
+#if defined S_SPLINT_S
+
+/*
+ * Okay, so if we're running "make lint", splint doesn't seem to realize
+ * that strings.h defines strcasecmp(). That in turn will make it spit out
+ * warnings each time this file is included.
+ *
+ * So, for splint - and *only* splint - make strcasecmp() synonymous to
+ * strcmp(). In real code, that would be a rather bad idea, so force throwing
+ * an error, too. (We're using -preproc for running splint, so #error won't
+ * be fatal for the actual splint run.)
+ */
+#ifdef strcasecmp
+#undef strcasecmp
+#endif /* strcasecmp */
+#define strcasecmp(x,y) strcmp(x,y)
+
+#error "S_SPLINT_S macro defined, but not on a splint run!"
+#error "In real code, this point may never ever be reached!"
+
+#endif /* S_SPLINT_S */
+
 #include <taglib/tag_c.h>
 
 /** the project's (and executable's) name */

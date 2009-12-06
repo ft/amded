@@ -76,7 +76,7 @@ devdoc:
 	doxygen doxygen.taggit
 
 lint:
-	@$(POSIX_SHELL) ./run-lint.sh -linelen 128 -weak -warnposix -booltype boolean
+	@$(POSIX_SHELL) ./run-lint.sh -preproc -linelen 128 -weak -warnposix -booltype boolean
 
 $(PROJECT).1: $(PROJECT).t2t
 	txt2tags --target man -o- $(PROJECT).t2t | sed -e '/^$$/d' -e 's/^\\e$$//' > $(PROJECT).1
