@@ -76,7 +76,7 @@ devdoc:
 	doxygen doxygen.taggit
 
 lint:
-	-splint -preproc -linelen 128 -standard -warnposix -booltype boolean +charintliteral $(SOURCES)
+	-splint -preproc -linelen 128 -standard -warnposix -booltype boolean +charintliteral -nullassign $(SOURCES)
 
 $(PROJECT).1: $(PROJECT).t2t
 	txt2tags --target man -o- $(PROJECT).t2t | sed -e '/^$$/d' -e 's/^\\e$$//' > $(PROJECT).1
