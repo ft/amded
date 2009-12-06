@@ -43,7 +43,7 @@ enum t_mode {
 };
 
 /** global variable describing taggit's operation mode */
-enum t_mode taggit_mode = TAGGIT_MODE_INVALID;
+static enum t_mode taggit_mode = TAGGIT_MODE_INVALID;
 
 /**
  * Check that -m, -l and -t are not used with one another
