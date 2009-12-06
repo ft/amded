@@ -187,7 +187,7 @@ strcaseeq(char *s, char *t)
 
 /** malloc() wrapper that checks for errors */
 /*@unused@*/
-static inline void *
+/*@out@*/static inline void *
 xmalloc_or_die(size_t size)
 {
     void *buf;
@@ -205,7 +205,7 @@ xmalloc_or_die(size_t size)
 
 /** duplicate a string */
 /*@unused@*/
-static inline char *
+/*@out@*/static inline char *
 xstrdup(const char *s)
 {
     char *ptr;
