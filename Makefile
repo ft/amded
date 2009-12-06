@@ -75,9 +75,12 @@ tags:
 devdoc:
 	doxygen doxygen.taggit
 
+lint:
+	@$(POSIX_SHELL) ./run-lint.sh -linelen 128 -weak -warnposix -booltype boolean
+
 $(PROJECT).1: $(PROJECT).t2t
 	txt2tags --target man -o- $(PROJECT).t2t | sed -e '/^$$/d' -e 's/^\\e$$//' > $(PROJECT).1
 
 -include .depend
 
-.PHONY: all depend doc clean install uninstall tags devdoc distclean _depend _info
+.PHONY: all depend doc clean install uninstall tags devdoc distclean _depend _info lint

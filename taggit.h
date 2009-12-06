@@ -6,6 +6,11 @@
 /**
  * @file  taggit.h
  * @brief main API for taggits source
+ *
+ * The static functions, defined within this file are prefixed with the
+ * ATunusedAT lint annotation. This is purely to shut up lint in cases a
+ * function is not used within a source file that includes this file
+ * (which is quite common).
  */
 
 #ifndef INC_TAGGIT_H
@@ -139,6 +144,7 @@ struct taglist {
 };
 
 /** Checking two strings for equality */
+/*@unused@*/
 static inline int
 streq(char *s, char *t)
 {
@@ -146,6 +152,7 @@ streq(char *s, char *t)
 }
 
 /** Case insensitively checking two strings for equality */
+/*@unused@*/
 static inline int
 strcaseeq(char *s, char *t)
 {
@@ -153,6 +160,7 @@ strcaseeq(char *s, char *t)
 }
 
 /** malloc() wrapper that checks for errors */
+/*@unused@*/
 static inline void *
 xmalloc_or_die(size_t size)
 {
@@ -170,6 +178,7 @@ xmalloc_or_die(size_t size)
     (type *)xmalloc_or_die(number * sizeof(type))
 
 /** duplicate a string */
+/*@unused@*/
 static inline char *
 xstrdup(const char *s)
 {
