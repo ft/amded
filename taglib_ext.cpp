@@ -131,8 +131,16 @@ mp3_tagtypes(TagLib_File *f, struct taggit_list *lst)
     file = reinterpret_cast<TagLib::MPEG::File::File *>(f);
     types = MP3_NO_TAGS;
     tmp = "";
+    ape = file->APETag();
+    if (ape != NULL && !ape->isEmpty()) {
+        tmp += "apetag";
+        types |= MP3_APE;
+    }
+
     v1 = file->ID3v1Tag();
     if (v1 != NULL && !v1->isEmpty()) {
+        if (tmp != "")
+            tmp += ",";
         tmp = "id3v1";
         types |= MP3_ID3V1;
     }
@@ -143,13 +151,6 @@ mp3_tagtypes(TagLib_File *f, struct taggit_list *lst)
             tmp += ",";
         tmp += "id3v2";
         types |= MP3_ID3V2;
-    }
-    ape = file->APETag();
-    if (ape != NULL && !ape->isEmpty()) {
-        if (tmp != "")
-            tmp += ",";
-        tmp += "apetag";
-        types |= MP3_APE;
     }
 
     if (tmp == "")
