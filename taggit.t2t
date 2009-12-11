@@ -92,6 +92,8 @@ So an example listing may look like this:
 
   <Bit Shifter - Hexadecimal Genome.mp3>
   filetype    | mp3
+  tagtypes    | apetag,id3v2
+  tagtype     | apetag
   artist      | "Bit Shifter"
   album       | "Information Chase"
   tracknumber | "3"
@@ -145,6 +147,10 @@ distribution (the process-m.* files, to be precise).
 In listing modes, //taggit// includes a pseudo tag called **tagtypes**,
 of which the value is a comma seperated list of tag types found in the
 file. Valid tag types are: **id3v1**, **id3v2** and **apetag**.
+
+It will also display a pseudo tag called **tagtype**, which will indicate
+from which tag the presented data was gathered from. Valid values are the
+same as for the **tagtypes** pseudo tag.
 
 
 = MAPPING =

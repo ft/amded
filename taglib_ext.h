@@ -15,6 +15,8 @@
 extern "C" {
 #endif
 
+#include <taglib/tag_c.h>
+
 #include "taggit.h"
 
 /**
@@ -33,9 +35,12 @@ enum TagLib_MP3Tag_Type {
 
 void mp3_dotheape(TagLib_File *);
 int mp3_strip(TagLib_File *, int);
-char *mp3_tagtypes(TagLib_File *);
+void mp3_tagtypes(TagLib_File *, struct taggit_list *);
 int mp3_type2taglib(int);
+int mp3_read_int(enum tag_id, TagLib_Tag *);
+char *mp3_read_str(enum tag_id, TagLib_Tag *);
 
+TagLib_Tag *taggit_file_tag(struct taggit_file *, int);
 struct taggit_file taggit_file_open(const char *);
 void taggit_file_destroy(struct taggit_file *);
 int taggit_file_save(struct taggit_file *);

@@ -79,7 +79,8 @@ typedef int boolean;
 /** information returned by the list() function */
 struct taggit_list {
     char *filetype;
-    char *tagtype;
+    char *tagtypes;
+    int tagtype;
     char *artist;
     char *album;
     int tracknumber;
@@ -223,6 +224,8 @@ void taggit_version(void);
 void taggit_usage(void);
 void taggit_licence(void);
 
+const char *mp3_id_to_string(int);
+int setup_please_read(char *, int);
 void setup_readmap(const char *);
 void taglist_destroy(enum file_type, struct taggit_list *);
 void taggit_list_human(const char *);

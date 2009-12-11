@@ -16,8 +16,8 @@
 
 /** local data type to map names to tag type ids */
 struct typemap_ {
-    char *name;
-    unsigned int id;
+    const char *name;
+    int id;
 };
 
 /** mapping strings to mp3 tag type ids */
@@ -25,7 +25,7 @@ static struct typemap_ mp3_map[] = {
     { "apetag", MP3_APE },
     { "id3v1", MP3_ID3V1 },
     { "id3v2", MP3_ID3V2 },
-    { (char*)NULL, 0 }
+    { (const char*)NULL, 0 }
 };
 
 /**
@@ -51,6 +51,28 @@ static struct {
 };
 
 /**
+ * Look up a human readable string to an mp3 tag type id
+ *
+ * @param   id      the id to look up
+ *
+ * @return      A pointer to the string in the mp3 tag type map, which
+ *              matches the given id; A link to a "(no tag)" string if
+ *              nothing matched.
+ * @sideeffects
+ */
+const char *
+mp3_id_to_string(int id)
+{
+    int i;
+
+    for (i = 0; mp3_map[i].name != NULL; ++i)
+        if (mp3_map[i].id == id)
+            return mp3_map[i].name;
+
+    return "(no tag)";
+}
+
+/**
  * Find a readmap[] entry by name
  *
  * @param   name    the name of the map to look for
@@ -73,6 +95,41 @@ find_readmap(char *name)
 }
 
 /**
+ * Check which of a set of tag types to read
+ *
+ * Since tag type ids are ORable, types is such an ORed integer.
+ * Consider the following:
+ *
+ * <code>
+ *  types = 0;
+ *  types |= MP3_APE;
+ *  types |= MP3_ID3V2;
+ * </code>
+ *
+ * This will check the read map for apetags and id3v2 tags and return the value
+ * of the one that has higher priority.
+ *
+ * @param   mapname     string describing the read map to check
+ *                      (e.g.: "mp3" for mp3 files)
+ * @param   types       (possibly ORed) type tag id(s) to check for
+ *
+ * @return      The tag type id with the highest priority in the read map
+ * @sideeffects none
+ */
+int
+setup_please_read(char *mapname, int types)
+{
+    int i, idx;
+
+    idx = find_readmap(mapname);
+    for (i = 0; i < TAGGIT_MAP_MAX; ++i)
+        if (types & readmap[idx].ids[i])
+            return readmap[idx].ids[i];
+
+    return -1;
+}
+
+/**
  * Find a tag type entry in a given typemap_ (by name)
  *
  * @param   name    the name of the tag type to look for
@@ -87,7 +144,7 @@ find_tagtype(char *name, struct typemap_ *map)
     int i;
 
     for (i = 0; map[i].name != NULL; ++i)
-        if (strcaseeq(name, map[i].name))
+        if (strcaseeq(name, (char *)map[i].name))
             return map[i].id;
 
     fprintf(stderr, "Unknown tag type (%s).\n", name);

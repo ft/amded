@@ -26,8 +26,9 @@
  * taglib's C bindings, too.
  */
 
-#include <errno.h>
-#include <string.h>
+#include <cerrno>
+#include <cstring>
+#include <cstdio>
 
 #include <taglib/tag_c.h>
 #include <taglib/tag.h>
@@ -100,43 +101,55 @@ mp3_type2taglib(int mask)
 }
 
 /**
- * Create a string that lists which tag types were found in a mp3 file
+ * Change tag type informmation in a struct taggit_list
  *
- * The return value is dynamically allocated and needs to be freed if
- * it is not in use anymore.
+ * A string is created for the tagtypes entry. It will be a comma seperated
+ * list of tags found within the given mp3 file. This string is dynamically
+ * allocated and needs to be freed if it is not in use anymore (which will be
+ * taken care of when taglist_destroy() is called).
+ *
+ * Secondly, the readmap is checked for which of the existing tag types should
+ * be read. This information is then stored in the tagtype entry of the struct.
  *
  * @param   f       TagLib_File pointer to check
+ * @param   lst     A pointer to the taggit_list structure to change
  *
- * @return      comma seperated list of found tag types
+ * @return      void (see description)
  * @sideeffects none
  */
-char *
-mp3_tagtypes(TagLib_File *f)
+void
+mp3_tagtypes(TagLib_File *f, struct taggit_list *lst)
 {
     TagLib::MPEG::File::File *file;
     TagLib::ID3v1::Tag *v1;
     TagLib::ID3v2::Tag *v2;
     TagLib::APE::Tag *ape;
     std::string tmp;
+    int types;
     char *rc;
 
     file = reinterpret_cast<TagLib::MPEG::File::File *>(f);
+    types = MP3_NO_TAGS;
     tmp = "";
     v1 = file->ID3v1Tag();
-    if (v1 != NULL && !v1->isEmpty())
+    if (v1 != NULL && !v1->isEmpty()) {
         tmp = "id3v1";
+        types |= MP3_ID3V1;
+    }
 
     v2 = file->ID3v2Tag();
     if (v2 != NULL && !v2->isEmpty()) {
         if (tmp != "")
             tmp += ",";
         tmp += "id3v2";
+        types |= MP3_ID3V2;
     }
     ape = file->APETag();
     if (ape != NULL && !ape->isEmpty()) {
         if (tmp != "")
             tmp += ",";
         tmp += "apetag";
+        types |= MP3_APE;
     }
 
     if (tmp == "")
@@ -147,7 +160,8 @@ mp3_tagtypes(TagLib_File *f)
         fprintf(stderr, "Out of memory. Aborting.\n");
         exit(EXIT_FAILURE);
     }
-    return rc;
+    lst->tagtypes = rc;
+    lst->tagtype = setup_please_read((char*)"mp3", types);
 }
 
 /**
@@ -175,6 +189,51 @@ mp3_strip(TagLib_File *f, int mask)
 
     file = reinterpret_cast<TagLib::MPEG::File::File *>(f);
     return file->strip(mp3_type2taglib(mask));
+}
+
+/**
+ * Get access to the correct tag info within a file
+ *
+ * This is an extension for taglib_file_tag(), which operates similarly.
+ * In addition this can return pointers to specific tag types (like the
+ * apetag in mp3 files).
+ *
+ * Specialized behaviour is currently only followed for mp3 files.
+ *
+ * @param   f       the struct taggit_file pointing to the file's data
+ * @param   tagtype the tag type to access
+ *
+ * @return      a pointer to the retrieved tag data
+ * @sideeffects none
+ */
+TagLib_Tag *
+taggit_file_tag(struct taggit_file *f, int tagtype)
+{
+    if (f->type == FT_MPEG) {
+        TagLib::APE::Tag *ape;
+        TagLib::ID3v2::Tag *v2;
+        TagLib::ID3v1::Tag *v1;
+        TagLib::MPEG::File::File *file =
+            reinterpret_cast<TagLib::MPEG::File::File *>(f->data);
+
+        switch (tagtype) {
+        case MP3_APE:
+            ape = file->APETag();
+            return reinterpret_cast<TagLib_Tag *>(ape);
+        case MP3_ID3V2:
+            v2 = file->ID3v2Tag();
+            return reinterpret_cast<TagLib_Tag *>(v2);
+        case MP3_ID3V1:
+            v1 = file->ID3v1Tag();
+            return reinterpret_cast<TagLib_Tag *>(v1);
+
+        default:
+            return NULL;
+        }
+    }
+
+    const TagLib::File *file = reinterpret_cast<const TagLib::File *>(f->data);
+    return reinterpret_cast<TagLib_Tag *>(file->tag());
 }
 
 /**

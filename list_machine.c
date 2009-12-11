@@ -107,7 +107,9 @@ taggit_list_machine(const char *file)
     key_val_str("filetype", lst->filetype);
     etx();
     if (f.type == FT_MPEG) {
-        key_val_str("tagtypes", lst->tagtype);
+        key_val_str("tagtypes", lst->tagtypes);
+        etx();
+        key_val_str("tagtype", (char*)mp3_id_to_string(lst->tagtype));
         etx();
     }
     key_val_str("artist", lst->artist);

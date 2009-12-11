@@ -68,7 +68,7 @@ void
 taglist_destroy(enum file_type type, struct taggit_list *list)
 {
     if (type == FT_MPEG)
-        free(list->tagtype);
+        free(list->tagtypes);
 }
 
 /**
@@ -93,17 +93,20 @@ list(struct taggit_file *file)
     struct taggit_list *lst;
 
     lst = MALLOC_OR_DIE(1, struct taggit_list);
-    tag = taglib_file_tag(file->data);
+    if (file->type == FT_MPEG)
+        mp3_tagtypes(file->data, lst);
+    else {
+        lst->tagtypes = NULL;
+        lst->tagtype = 0;
+    }
+
+    tag = taggit_file_tag(file, lst->tagtype);
     if (tag == NULL)
-        return NULL;
+        goto err;
+
     properties = taglib_file_audioproperties(file->data);
     if (properties == NULL)
-        return NULL;
-
-    if (file->type == FT_MPEG)
-        lst->tagtype = mp3_tagtypes(file->data);
-    else
-        lst->tagtype = NULL;
+        goto err;
 
     lst->filetype = get_filetype(file->type);
     lst->artist = taglib_tag_artist(tag);
@@ -124,4 +127,10 @@ list(struct taggit_file *file)
     lst->minutes = (lst->length - lst->seconds) / 60;
 
     return lst;
+
+err:
+    if (file->type == FT_MPEG)
+        free(lst->tagtypes);
+
+    return NULL;
 }
