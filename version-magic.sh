@@ -9,7 +9,7 @@ getgit_ () {
 }
 getdesc_ () {
     git show -s --pretty="tformat:%h (%s, %ai" | \
-    sed -e "s/ [012][0-9]:[0-5][0-9]:[0-5][0-9] [-+][0-9][0-9][0-9][0-9]$/)/"
+    sed -e "s~ [012][0-9]:[0-5][0-9]:[0-5][0-9] [-+][0-9][0-9][0-9][0-9]$~)~"
 }
 
 if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1 ; then
@@ -36,23 +36,23 @@ else
         if [ "${gitversion_old}" != "${gitversion_new}" ] ; then
             printf 'version-magic.sh: Updating git version: %s\n' \
                 "${gitversion_new}"
-            sed -e 's/@@GIT-VERSION@@/'"${gitversion_new}"'/g' \
-                -e 's/@@GIT-DESCRIPTION@@/'"${gitdesc}"'/g' \
+            sed -e 's~@@GIT-VERSION@@~'"${gitversion_new}"'~g' \
+                -e 's~@@GIT-DESCRIPTION@@~'"${gitdesc}"'~g' \
                 < ./git-version.h.in > git-version.h
         fi
     else
         gitversion="$(getgit_)"
         printf 'version-magic.sh: Setting up git version: %s\n' \
             "${gitversion}"
-        sed -e 's/@@GIT-VERSION@@/'"${gitversion}"'/g' \
-            -e 's/@@GIT-DESCRIPTION@@/'"${gitdesc}"'/g' \
+        sed -e 's~@@GIT-VERSION@@~'"${gitversion}"'~g' \
+            -e 's~@@GIT-DESCRIPTION@@~'"${gitdesc}"'~g' \
             < ./git-version.h.in > git-version.h
     fi
 fi
 
 if [ ! -e version-magic.make ]; then
-    sed -e 's/@@MAKE-MACRO@@/'"${make_macro}"'/g' \
-        -e 's/@@MAKE-DEPS@@/'"${make_deps}"'/g' \
+    sed -e 's~@@MAKE-MACRO@@~'"${make_macro}"'~g' \
+        -e 's~@@MAKE-DEPS@@~'"${make_deps}"'~g' \
         < ./version-magic.make.in > version-magic.make
 fi
 exit 0
