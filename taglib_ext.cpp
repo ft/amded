@@ -173,9 +173,9 @@ mp3_tagtypes(TagLib_File *f, struct taggit_list *lst)
  * The mask needs to be the one, taglib understands, the ones from
  * our enum need to be translated using mp3_type2taglib():
  *
- * <code>
+ * \code
  *  mp3_strip(file, mp3_type2taglib(MP3_ID3V1 | MP3_APE));
- * </code>
+ * \endcode
  *
  * @param   f       TagLib_File pointer to check
  * @param   mask    bitmask describing the tags that should be stripped

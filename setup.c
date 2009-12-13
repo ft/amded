@@ -169,11 +169,11 @@ find_map(enum map_type type, char *name)
  * Since tag type ids are ORable, types is such an ORed integer.
  * Consider the following:
  *
- * <code>
+ * \code
  *  types = 0;
  *  types |= MP3_APE;
  *  types |= MP3_ID3V2;
- * </code>
+ * \endcode
  *
  * This will check the read map for apetags and id3v2 tags and return the value
  * of the one that has higher priority.

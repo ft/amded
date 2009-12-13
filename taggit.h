@@ -14,15 +14,15 @@
  *
  * To enable debugging output to stderr, call make like this:
  *
- * <code>
+ * \code
  * % make ADDTO_CFLAGS=-DTAGGIT_DEBUG
- * </code>
+ * \endcode
  *
  * To add more than one flag to that variable, do:
  *
- * <code>
+ * \code
  * % make "ADDTO_CFLAGS=-DTAGGIT_DEBUG -DWHATEVER"
- * </code>
+ * \endcode
  */
 
 #ifndef INC_TAGGIT_H
@@ -79,15 +79,15 @@ typedef int boolean;
  * Please do not do that, just call make "appropriately" (brace yourself, the
  * following quoting is rather ugly):
  *
- * <code>
+ * \code
  * % make "ADDTO_CFLAGS=-DVENDOR_VERSION=\"\\\"debian 0.2-3\\\"\""
- * </code>
+ * \endcode
  *
  * That will result in a a version message such as this:
  *
- * <code>
+ * \code
  * taggit v0.2+git (debian 0.2-3)
- * </code>
+ * \endcode
  */
 #define VERSION "0.2+git"
 

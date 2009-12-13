@@ -77,9 +77,9 @@ etx(void)
  * Print meta information of a file seperated by ASCII control characters
  *
  * output format:\n
- * <code>
+ * \code
  *  key\<STX\>value\<ETX\>key\<STX\>value\<ETX\>key...value
- * </code>
+ * \endcode
  *
  * @param   file    file name of the file to process
  *
