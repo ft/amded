@@ -44,6 +44,10 @@ Show a list of supported tags.
 Configure how tags are read from certain file types. See //Read Maps//
 below.
 
+: **-W** //<writemap(s)>//
+Configure how tags are written to certain file types. See //Write Maps//
+below.
+
 : **-t** //<tag>=<value>//
 Sets a **<tag>** to a **<value>**. This option can be used multiple times
 for different tags.
@@ -182,6 +186,15 @@ That means, that meta information is read from exactly **one** tag type.
 If, for example, in the example above an **apetag** exists, the information
 is read from the **apetag** and //only// from it. No other tag will be
 considered once a tag type with higher priority was found.
+
+
+== Write Maps ==
+Write maps configure which tag types are written to files. Syntactically,
+write maps look like read maps (see above). However, there is a conceptual
+difference: Writing tags can be thought of as a parallel process. Unlike
+**reading** tags, when **writing** tags **all** types defined in a write
+map are written and **no** guarantees as to which tag is written first are
+made.
 
 
 = SEE ALSO =

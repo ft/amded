@@ -225,8 +225,11 @@ void taggit_usage(void);
 void taggit_licence(void);
 
 const char *mp3_id_to_string(int);
+int setup_get_write_mask(enum file_type);
 int setup_please_read(char *, int);
+void setup_create_write_masks(void);
 void setup_readmap(const char *);
+void setup_writemap(const char *);
 void taglist_destroy(enum file_type, struct taggit_list *);
 void taggit_list_human(const char *);
 void taggit_list_machine(const char *);
@@ -236,8 +239,15 @@ struct taggit_list *list(struct taggit_file *);
 struct t_tag next_tag(const char *);
 void add_tag(struct t_tag *);
 void list_tags(void);
+enum file_type get_file_type_id(const char *);
 
 int str2uint(char *, unsigned int *);
+
+
+#ifdef TAGGIT_DEBUG
+void dump_readmap(void);
+void dump_writemap(void);
+#endif
 
 #ifdef __cplusplus
 }

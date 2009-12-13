@@ -56,6 +56,26 @@ get_filetype(enum file_type type)
 }
 
 /**
+ * Translate a type string to a matching file type id
+ *
+ * @param   type    the string which describes the type to look up
+ *
+ * @return      the appropriate file type id
+ * @sideeffects none
+ */
+enum file_type
+get_file_type_id(const char *type)
+{
+    int i;
+
+    for (i = 0; file_type_map[i].name != NULL; ++i)
+        if (streq((char *)type, file_type_map[i].name))
+            return file_type_map[i].type;
+
+    return FT_UNKNOWN;
+}
+
+/**
  * Handle destruction of file type specific information in list modes
  *
  * @param   type    the type of the currently processed file

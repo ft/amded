@@ -26,10 +26,6 @@
  */
 struct taglist *tags_head = NULL;
 
-#if 0
-#define TAGGIT_DEBUG
-#endif
-
 /** possible operation modes */
 enum t_mode {
     /** no mode defined, yet; or broken operation mode */
@@ -102,8 +98,11 @@ parse_options(int argc, const char *argv[])
     int opt;
     struct t_tag tag;
 
-    while ((opt = bsd_getopt(argc, argv, "hLlmsR:t:v")) != -1) {
+    while ((opt = bsd_getopt(argc, argv, "hLlmR:st:vW:")) != -1) {
         switch (opt) {
+        case 'h':
+            taggit_usage();
+            exit(EXIT_SUCCESS);
         case 'L':
             taggit_licence();
             exit(EXIT_SUCCESS);
@@ -115,13 +114,16 @@ parse_options(int argc, const char *argv[])
             check_mode(taggit_mode);
             taggit_mode = TAGGIT_LIST_MACHINE;
             break;
+        case 'R':
+            setup_readmap(optarg);
+#ifdef TAGGIT_DEBUG
+            dump_readmap();
+#endif
+            break;
         case 's':
             printf("Supported tags:\n");
             list_tags();
             exit(EXIT_SUCCESS);
-        case 'R':
-            setup_readmap(optarg);
-            break;
         case 't':
             check_mode_tag(taggit_mode);
             taggit_mode = TAGGIT_TAG;
@@ -132,16 +134,19 @@ parse_options(int argc, const char *argv[])
             }
             add_tag(&tag);
 #ifdef TAGGIT_DEBUG
-            printf("[%s] {%s} <%d>\n", tag.name, tag.value, tag.type);
+            fprintf(stderr, "[%s] {%s} <%d>\n", tag.name, tag.value, tag.type);
 #endif
             break;
 
         case 'v':
             taggit_version();
             exit(EXIT_SUCCESS);
-        case 'h':
-            taggit_usage();
-            exit(EXIT_SUCCESS);
+        case 'W':
+            setup_writemap(optarg);
+#ifdef TAGGIT_DEBUG
+            dump_writemap();
+#endif
+            break;
         default:
             taggit_usage();
             exit(EXIT_FAILURE);
@@ -183,6 +188,9 @@ main(int argc, const char *argv[])
         return EXIT_FAILURE;
     }
 
+    if (taggit_mode == TAGGIT_TAG)
+        setup_create_write_masks();
+
 #ifdef TAGGIT_DEBUG
     if (taggit_mode == TAGGIT_TAG) {
         struct taglist *ptr;
@@ -190,11 +198,13 @@ main(int argc, const char *argv[])
         ptr = tags_head;
         while (ptr != NULL) {
             if (ptr->type == TAG_INT) {
-                printf("[%s|%u] [%u]\n", ptr->name, ptr->id, ptr->integer);
+                fprintf(stderr, "[%s|%u] [%u]\n",
+                        ptr->name, ptr->id, ptr->val.integer);
             } else if (ptr->type == TAG_NUKE) {
-                printf("[%s|%u] <-NUKE->\n", ptr->name, ptr->id);
+                fprintf(stderr, "[%s|%u] <-NUKE->\n", ptr->name, ptr->id);
             } else {
-                printf("[%s|%u] [%s]\n", ptr->name, ptr->id, ptr->string);
+                fprintf(stderr, "[%s|%u] [%s]\n",
+                        ptr->name, ptr->id, ptr->val.string);
             }
             ptr = ptr->next;
         }

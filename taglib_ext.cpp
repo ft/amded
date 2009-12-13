@@ -341,19 +341,15 @@ taggit_file_save(struct taggit_file *file)
     bool rc;
     int mask;
 
-    mask = TagLib::MPEG::File::ID3v2
-         | TagLib::MPEG::File::APE;
-
     switch (file->type) {
     case FT_MPEG:
         TagLib::MPEG::File *f;
 
         f = reinterpret_cast<TagLib::MPEG::File *>(file->data);
-        /**
-         * Save id3v2 and apetag for now.
-         * Throw away id3v1, which is utterly useless anyway.
-         * @TODO This should probably be configurable...
-         */
+        mask = setup_get_write_mask(FT_MPEG);
+#ifdef TAGGIT_DEBUG
+        fprintf(stderr, "writemask (mp3): %d\n", mask);
+#endif
         rc = f->save(mask, 1);
         break;
     default:

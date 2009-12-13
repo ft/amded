@@ -27,6 +27,7 @@ static const char *usage[] = {
 "    -s                list supported tag names",
 "  configuration options:",
 "    -R <readmap>      configure tag reading order",
+"    -W <writemap>     configure which tag types should be written",
 "  action options:",
 "    -l                list tags in human readable form",
 "    -m                list tags in machine readable form",
