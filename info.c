@@ -96,6 +96,9 @@ taggit_version(void)
 #else
     printf("%s\n", VERSION);
 #endif
+#ifdef TAGGIT_DEBUG
+    printf("Debugging output to stderr is *enabled* in this binary.\n");
+#endif
 }
 
 /** Print out usage information (contained in the usage array above) */
