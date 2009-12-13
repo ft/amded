@@ -263,6 +263,9 @@ change_map(enum map_type type, int idx, char *s)
         ++i;
     }
 
+    for (; i < TAGGIT_MAP_MAX; ++i)
+        map[idx].ids[i] = 0;
+
     return true;
 }
 
