@@ -69,6 +69,8 @@ distclean: clean
 
 doc: $(PROJECT).1
 
+tag: tags
+
 tags:
 	ctags -R .
 
@@ -83,4 +85,4 @@ $(PROJECT).1: $(PROJECT).t2t
 
 -include .depend
 
-.PHONY: all depend doc clean install uninstall tags devdoc distclean _depend _info lint
+.PHONY: all depend doc clean install uninstall tags tag devdoc distclean _depend _info lint
