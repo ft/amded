@@ -11,6 +11,18 @@
  * ATunusedAT lint annotation. This is purely to shut up lint in cases a
  * function is not used within a source file that includes this file
  * (which is quite common).
+ *
+ * To enable debugging output to stderr, call make like this:
+ *
+ * <code>
+ * % make ADDTO_CFLAGS=-DTAGGIT_DEBUG
+ * </code>
+ *
+ * To add more than one flag to that variable, do:
+ *
+ * <code>
+ * % make "ADDTO_CFLAGS=-DTAGGIT_DEBUG -DWHATEVER"
+ * </code>
  */
 
 #ifndef INC_TAGGIT_H
@@ -59,9 +71,23 @@ typedef int boolean;
  * Version information
  *
  * +git should be added in untagged commits, to show that a non-release
- * executable is used. If this project is to be distributed with an OS,
- * those distributors may want to add a string here, too (like
- * "0.2 (debian 0.2-3)" for a debian package).
+ * executable is used.
+ *
+ * If this project is to be distributed with an OS, those distributors may want
+ * to add a information here, too (like "(debian 0.2-3)" for a debian package).
+ *
+ * Please do not do that, just call make "appropriately" (brace yourself, the
+ * following quoting is rather ugly):
+ *
+ * <code>
+ * % make "ADDTO_CFLAGS=-DVENDOR_VERSION=\"\\\"debian 0.2-3\\\"\""
+ * </code>
+ *
+ * That will result in a a version message such as this:
+ *
+ * <code>
+ * taggit v0.2+git (debian 0.2-3)
+ * </code>
  */
 #define VERSION "0.2+git"
 

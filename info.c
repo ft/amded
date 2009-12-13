@@ -91,14 +91,24 @@ taggit_version(void)
 {
     printf("%s ", PROJECT);
 #ifdef GIT_SOURCE
-    printf("%s\n", GIT_VERSION);
-    printf("Based on commit: %s\n", GIT_DESCRIPTION);
+    printf("%s", GIT_VERSION);
 #else
-    printf("%s\n", VERSION);
-#endif
+    printf("%s", VERSION);
+#endif /* GIT_SOURCE */
+
+#ifdef VENDOR_VERSION
+    printf(" (%s)\n", VENDOR_VERSION);
+#else
+    printf("\n");
+#endif /* VENDOR_VERSION */
+
+#ifdef GIT_SOURCE
+    printf("Based on commit: %s\n", GIT_DESCRIPTION);
+#endif /* GIT_SOURCE */
+
 #ifdef TAGGIT_DEBUG
     printf("Debugging output to stderr is *enabled* in this binary.\n");
-#endif
+#endif /* TAGGIT_DEBUG */
 }
 
 /** Print out usage information (contained in the usage array above) */
