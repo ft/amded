@@ -89,7 +89,7 @@ typedef int boolean;
  * taggit v0.2+git (debian 0.2-3)
  * \endcode
  */
-#define VERSION "0.2+git"
+#define VERSION "0.3"
 
 /**
  * Define a maximum set of tags in read and write maps
