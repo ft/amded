@@ -83,7 +83,7 @@ typedef int boolean;
  * % make "ADDTO_CFLAGS=-DVENDOR_VERSION=\"\\\"debian 0.2-3\\\"\""
  * \endcode
  *
- * That will result in a a version message such as this:
+ * That will result in a version message such as this:
  *
  * \code
  * taggit v0.2+git (debian 0.2-3)
