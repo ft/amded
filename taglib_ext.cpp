@@ -256,7 +256,7 @@ taggit_file_open(const char *file)
     struct taggit_file rc;
     char *ext;
 
-    ext = strrchr(file, (int)'.');
+    ext = (char *)strrchr(file, (int)'.');
     if (ext == NULL || *(ext + 1) == '\0')
         goto err;
 
