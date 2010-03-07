@@ -34,6 +34,7 @@ struct {
     { "album",          T_ALBUM,            TAG_STRING },
     { "tracktitle",     T_TRACKTITLE,       TAG_STRING },
     { "genre",          T_GENRE,            TAG_STRING },
+    { "compilation",    T_COMPILATION,      TAG_STRING },
     { "year",           T_YEAR,             TAG_INT },
     { "tracknumber",    T_TRACKNUMBER,      TAG_INT },
     { (char *)NULL,     T_UNKNOWN,          TAG_INVALID }
@@ -229,6 +230,11 @@ taggit_tag(const char *file)
             break;
         case T_TRACKTITLE:
             taglib_tag_set_title(tag, ptr->val.string);
+            break;
+        case T_COMPILATION:
+            fprintf(
+                stderr, "Setting compilation tags is not implemented, yet.\n");
+            exit(EXIT_FAILURE);
             break;
         case T_GENRE:
             taglib_tag_set_genre(tag, ptr->val.string);

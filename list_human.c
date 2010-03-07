@@ -52,6 +52,11 @@ taggit_list_human(const char *file)
     printf("tracktitle  | \"%s\"\n", lst->tracktitle);
     printf("year        | \"%d\"\n", lst->year);
     printf("genre       | \"%s\"\n", lst->genre);
+    if (lst->is_va) {
+        printf("is_va       | true\n");
+        printf("compilation | \"%s\"\n", lst->va);
+    } else
+        printf("is_va       | false\n");
     printf("bitrate     | %d\n", lst->bitrate);
     printf("kbitrate    | %d\n", lst->kbitrate);
     printf("samplerate  | %d\n", lst->samplerate);

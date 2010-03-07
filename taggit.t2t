@@ -58,6 +58,8 @@ The following is a list of tags supported by //taggit//.
 
 : **album**
 : **artist**
+: **compilation**
+(See //FILE TYPE SPECIFIC BEHAVIOUR// for details.)
 : **genre**
 : **tracknumber**
 : **tracktitle**
@@ -104,6 +106,7 @@ So an example listing may look like this:
   tracktitle  | "Hexadecimal Genome"
   year        | "2006"
   genre       | "Electronic"
+  is_va       | false
   bitrate     | 192000
   kbitrate    | 192
   samplerate  | 44100
@@ -155,6 +158,34 @@ file. Valid tag types are: **id3v1**, **id3v2** and **apetag**.
 It will also display a pseudo tag called **tagtype**, which will indicate
 from which tag the presented data was gathered from. Valid values are the
 same as for the **tagtypes** pseudo tag.
+
+
+== The `compilation' tag ==
+The way this information is being handled is different across file-types
+and is not standardised at all. //Taggit// tries to play along with the
+"well known" best practices in this field. We try to be follow the lead
+of existing widely used applications.
+
+//Taggit// currently lacks support for **writing** compilation
+information.
+
+: **mp3**
+If //id3v2// tags are used, //taggit// tries to look at the `**TPE2**'
+frame. If that is non-empty, the track is considered to be part of a
+compilation.
+\
+If //ape// tags are used, //taggit// will use the `**ALBUMARTIST**' tag
+and use it like the `**TPE2**' frame from //id3v2//.
+\
+In //id3v1// tags, compilation information is **not** supported.
+
+: **ogg vorbis**
+//Taggit// tries to look at the `**ALBUMARTIST**' tag. If that is
+non-empty, the track is considered to be part of a compilation.
+
+: **flac**
+//Taggit// uses the `**ALBUMARTIST**' tag just like it does with
+**ogg vorbis** files.
 
 
 = MAPPING =

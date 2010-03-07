@@ -124,6 +124,16 @@ taggit_list_machine(const char *file)
     etx();
     key_val_str("genre", lst->genre);
     etx();
+    if (lst->is_va) {
+        key_val_str("is_va", "true");
+        etx();
+        key_val_str("compilation", (char*)lst->va);
+    } else {
+        key_val_str("is_va", "false");
+        etx();
+        key_val_str("compilation", "");
+    }
+    etx();
     key_val_int("bitrate", lst->bitrate);
     etx();
     key_val_int("kbitrate", lst->kbitrate);

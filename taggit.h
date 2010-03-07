@@ -121,6 +121,8 @@ struct taggit_list {
     int length;
     int seconds;
     int minutes;
+    int is_va;
+    const char *va;
 };
 
 /** identification numbers for tags supported by taggit */
@@ -128,6 +130,7 @@ enum tag_id {
     T_UNKNOWN = 0,
     T_ARTIST,
     T_ALBUM,
+    T_COMPILATION,
     T_GENRE,
     T_TRACKTITLE,
     T_TRACKNUMBER,

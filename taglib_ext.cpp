@@ -18,12 +18,55 @@
  * in taggit, so that needs extentions to taglib's generic interface.
  *
  * Also, taggit should transparently support multi-artist information from
- * audio files. That however is handled quite differently from file type
- * to file type. MP3 files could store it in TPE2 id3v2 frames or in an
- * apetag; ogg vorbis files may store it in ALBUMARTIST tags.
+ * audio files. That however may be handled quite differently from file
+ * type to file type.
  *
  * That means, for multi-artist information, we'll need extensions to
  * taglib's C bindings, too.
+ *
+ *
+ * Here are some details about taggit's handling of compilation tags:
+ *
+ * Nobody really standardises this. And in some tag formats (yes, you've
+ * guessed right, id3v2) it's a real pain in the ass because many people
+ * worked around the problem in different ways.
+ *
+ * In some formats the situation is not as bad as that. Vorbis comments
+ * and APE tags use the `ALBUMARTIST' tag. If it's set the track is part
+ * of a compilation (an album for more than one artist). It's commonly set
+ * to "Various Artists" for compilations or to "Foo, Bar, Baz" for split
+ * CDs. This solves the problem in a fairly flexible, yet simple way.
+ *
+ * With id3v2 (I won't bother looking into id3v1) the situation is a lot
+ * worse. There isn't something like `ALBUMARTIST' here. Many existing
+ * programs use the `TPE2' frame as an equivalent to the `ALBUMARTIST'
+ * tag. It's actually be supposed to be used for something else, but not
+ * a lot of people do that.
+ *
+ * Now iTunes thought it should do something about that. They just added
+ * a new non-standard `TCMP' frame (oh, in id3v2.2 tags that used to be
+ * called `TCP' and only since id3v2.3 they use `TCMP'...). I don't own
+ * files from iTunes so I'm guessing a little here. It seems they set the
+ * `TCMP' frame to 1 if the track if part of a compilation. I don't know
+ * how they distinguish between compilations and split CDs. My guess is,
+ * that they don't care.
+ *
+ * So, how do we handle this mess?
+ *
+ * For everything other than id3v2 we just look at `ALBUMARTIST'. If it's
+ * there, it track is part of a multi-artist album. And the various-artist
+ * data field should yield the value of that tag.
+ *
+ * For `id3v2', things are messy, but let's see:
+ *
+ *   a) The `TCMP' frame is there and its value is non-zero.\n
+ *   b) The `TPE2' frame exists and its value is non-empty.
+ *
+ * In case `a)' we'll use the `TPE2' frame's value as the VA data field,
+ * if it is there ("Various Artists" otherwise). In case `b)' we'll use
+ * the value of the frame as if it were an `ALBUMARTIST' tag in other
+ * tag formats.
+ *
  */
 
 #include <cerrno>
@@ -132,7 +175,9 @@ mp3_tagtypes(TagLib_File *f, struct taggit_list *lst)
     types = MP3_NO_TAGS;
     tmp = "";
     ape = file->APETag();
-    if (ape != NULL && !ape->isEmpty()) {
+    if (ape != NULL &&
+        !(ape->isEmpty() && ape->itemListMap()["ALBUMARTIST"].isEmpty()))
+    {
         tmp += "apetag";
         types |= MP3_APE;
     }
@@ -235,6 +280,73 @@ taggit_file_tag(struct taggit_file *f, int tagtype)
 
     const TagLib::File *file = reinterpret_cast<const TagLib::File *>(f->data);
     return reinterpret_cast<TagLib_Tag *>(file->tag());
+}
+
+/**
+ * Get the various artist information form a tag.
+ *
+ * @param filetype the type-id for the file that is being processed
+ * @param tagtype  the tag-type to use (if more than one are used per filetype)
+ * @param tag      the tag-data from taglib
+ *
+ * @return      a proper multi-artist data field or a NULL pointer.
+ * @sideeffects none
+ */
+const char *
+taggit_tag_va(enum file_type filetype, int tagtype, TagLib_Tag *tag)
+{
+    /*
+     * At this point, we already figured out the file type *and* decided which
+     * tag to read from the file. `filetype' and `tagtype' give us hints into
+     * the right direction. We *must* follow these hints or things will blow
+     * up.
+     */
+    TagLib::APE::Tag *ape;
+    TagLib::ID3v2::Tag *v2;
+    TagLib::Ogg::XiphComment *ogg;
+    const char *ret;
+
+    ret = (const char *)NULL;
+    switch (filetype) {
+    case FT_MPEG:
+        if (tagtype & MP3_ID3V2) {
+            /**
+             * @TODO Add support for TCMP (and maybe TCP) frames.
+             * It's probably best to only check for those if TPE2 is empty,
+             * because otherwise we already consider the track part of a
+             * compilation.
+             */
+            v2 = reinterpret_cast<TagLib::ID3v2::Tag *>(tag);
+            if (v2->frameListMap()["TPE2"].isEmpty())
+                break;
+            ret = xstrdup(
+                v2->frameListMap()["TPE2"].front()->toString().toCString());
+        } else if (tagtype & MP3_APE) {
+            ape = reinterpret_cast<TagLib::APE::Tag *>(tag);
+            if (ape->itemListMap()["ALBUMARTIST"].isEmpty())
+                break;
+            ret = xstrdup(
+                ape->itemListMap()["ALBUMARTIST"].toString().toCString());
+        }
+        /* Don't care about ID3v1 */
+        break;
+    case FT_OGGVORBIS:
+        /* @FALLTHROUGH@ */
+    case FT_OGGFLAC:
+        /* ogg* files share the same tag format */
+        ogg = reinterpret_cast<TagLib::Ogg::XiphComment *>(tag);
+        if (ogg->fieldListMap()["ALBUMARTIST"].isEmpty())
+            break;
+        ret = xstrdup(
+            ogg->fieldListMap()["ALBUMARTIST"].toString().toCString());
+        break;
+    case FT_FLAC:
+        /* AFAIK, there is no native FLAC tag format */
+        break;
+    default:
+        break;
+    }
+    return ret;
 }
 
 /**

@@ -120,6 +120,8 @@ list(struct taggit_file *file)
         lst->tagtype = 0;
     }
 
+    /* Setting is_va to zero so the free() in `err:' can't segfault */
+    lst->is_va = 0;
     tag = taggit_file_tag(file, lst->tagtype);
     if (tag == NULL)
         goto err;
@@ -135,6 +137,9 @@ list(struct taggit_file *file)
     lst->tracknumber = taglib_tag_track(tag);
     lst->year = taglib_tag_year(tag);
     lst->genre = taglib_tag_genre(tag);
+    lst->va = taggit_tag_va(file->type, lst->tagtype, tag);
+    if (lst->va != NULL)
+        lst->is_va = 1;
 
     lst->samplerate = taglib_audioproperties_samplerate(properties);
     lst->kbitrate = taglib_audioproperties_bitrate(properties);
@@ -151,6 +156,8 @@ list(struct taggit_file *file)
 err:
     if (file->type == FT_MPEG)
         free(lst->tagtypes);
+    if (lst->is_va)
+        free((void*)lst->va);
 
     return NULL;
 }
