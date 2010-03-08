@@ -1,6 +1,6 @@
 TAGGIT
 
-Nov, 2009
+Mar, 2010
 
 %!target: man
 
@@ -234,5 +234,5 @@ Taglib: <http://developer.kde.org/~wheeler/taglib.html>
 
 
 = COPYRIGHT =
-Copyright (c) 2009 taggit workers, All rights reserved.
+Copyright (c) 2009,2010 taggit workers, All rights reserved.
 Terms for redistribution and use can be found in the LICENCE file.
