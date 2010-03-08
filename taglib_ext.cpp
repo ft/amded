@@ -80,6 +80,7 @@
 #include <taglib/apetag.h>
 #include <taglib/id3v1tag.h>
 #include <taglib/id3v2tag.h>
+#include <taglib/textidentificationframe.h>
 
 #include <taglib/flacfile.h>
 #include <taglib/mpegfile.h>
@@ -347,6 +348,65 @@ taggit_tag_va(enum file_type filetype, int tagtype, TagLib_Tag *tag)
         break;
     }
     return ret;
+}
+
+/**
+ * Set the file-type specific `compilation' tag.
+ *
+ * See the discussion on top of this file about which tag is used
+ * for which file-type.
+ *
+ * @param file  taggit's file-data structure for the processed file
+ * @param tag   the tag-data decoded by `taglib_file_tag()'
+ * @param value the string the user wants to set this tag to
+ *
+ * @return      void
+ * @sideeffects none
+ */
+void
+taggit_tag_set_compilation(struct taggit_file *file,
+                           TagLib_Tag *tag, const char *value)
+{
+    TagLib::APE::Tag *ape;
+    TagLib::ID3v2::Tag *v2;
+    TagLib::Ogg::XiphComment *ogg;
+    const char *ret;
+    TagLib::MPEG::File::File *f;
+    int mask;
+
+    ret = (const char *)NULL;
+    switch (file->type) {
+    case FT_MPEG:
+        f = reinterpret_cast<TagLib::MPEG::File::File *>(file->data);
+        mask = setup_get_write_mask(FT_MPEG);
+        if (mask & MP3_ID3V2) {
+            v2 = f->ID3v2Tag();
+            v2->removeFrames("TPE2");
+            /*
+             * @TODO: I don't know how to figure out the proper `encoding'
+             *        value here. Should we look at the `unicodeStrings'
+             *        variable from taglib?
+             */
+            TagLib::ID3v2::TextIdentificationFrame *frame =
+                new TagLib::ID3v2::TextIdentificationFrame(
+                    "TPE2", TagLib::String::Latin1);
+            frame->setText(value);
+            v2->addFrame(frame);
+        }
+        if (mask & MP3_APE) {
+            ape = f->APETag();
+            ape->addValue("ALBUMARTIST", value, true);
+        }
+        break;
+    case FT_OGGVORBIS:
+        /* @FALLTHROUGH@ */
+    case FT_OGGFLAC:
+        ogg = reinterpret_cast<TagLib::Ogg::XiphComment *>(tag);
+        ogg->addField("ALBUMARTIST", value, true);
+        break;
+    default:
+        break;
+    }
 }
 
 /**

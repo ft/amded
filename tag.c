@@ -232,9 +232,7 @@ taggit_tag(const char *file)
             taglib_tag_set_title(tag, ptr->val.string);
             break;
         case T_COMPILATION:
-            fprintf(
-                stderr, "Setting compilation tags is not implemented, yet.\n");
-            exit(EXIT_FAILURE);
+            taggit_tag_set_compilation(&f, tag, ptr->val.string);
             break;
         case T_GENRE:
             taglib_tag_set_genre(tag, ptr->val.string);

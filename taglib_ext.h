@@ -45,6 +45,8 @@ struct taggit_file taggit_file_open(const char *);
 void taggit_file_destroy(struct taggit_file *);
 int taggit_file_save(struct taggit_file *);
 const char *taggit_tag_va(enum file_type, int, TagLib_Tag *);
+void taggit_tag_set_compilation(
+    struct taggit_file *, TagLib_Tag *, const char *);
 
 #ifdef __cplusplus
 }

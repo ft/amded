@@ -163,11 +163,12 @@ same as for the **tagtypes** pseudo tag.
 == The `compilation' tag ==
 The way this information is being handled is different across file-types
 and is not standardised at all. //Taggit// tries to play along with the
-"well known" best practices in this field. We try to be follow the lead
-of existing widely used applications.
+"well known" best practices in this field. We try to follow the lead of
+existing widely used applications.
 
-//Taggit// currently lacks support for **writing** compilation
-information.
+If a file type supported by //taglib// that is otherwise also supported
+by //taggit// is not listed below, there is no support for reading or
+writing compilation tags from or to that file within //taggit// at all.
 
 : **mp3**
 If //id3v2// tags are used, //taggit// tries to look at the `**TPE2**'
