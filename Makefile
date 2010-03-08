@@ -72,7 +72,10 @@ doc: $(PROJECT).1
 tag: tags
 
 tags:
-	ctags -R .
+	# This creates "tags".
+	ctags . *.c *.cpp *.h
+	# And this creates "TAGS" which is in emacs' etags format.
+	ctags -e . *.c *.cpp *.h
 
 devdoc:
 	doxygen doxygen.taggit

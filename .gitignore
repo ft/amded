@@ -9,6 +9,7 @@
 *.tar.*
 gmon.out
 tags
+TAGS
 taggit
 core
 core.*
