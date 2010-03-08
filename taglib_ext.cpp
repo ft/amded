@@ -73,19 +73,19 @@
 #include <cstring>
 #include <cstdio>
 
-#include <taglib/tag_c.h>
-#include <taglib/tag.h>
-#include <taglib/audioproperties.h>
+#include <tag_c.h>
+#include <tag.h>
+#include <audioproperties.h>
 
-#include <taglib/apetag.h>
-#include <taglib/id3v1tag.h>
-#include <taglib/id3v2tag.h>
-#include <taglib/textidentificationframe.h>
+#include <apetag.h>
+#include <id3v1tag.h>
+#include <id3v2tag.h>
+#include <textidentificationframe.h>
 
-#include <taglib/flacfile.h>
-#include <taglib/mpegfile.h>
-#include <taglib/oggflacfile.h>
-#include <taglib/vorbisfile.h>
+#include <flacfile.h>
+#include <mpegfile.h>
+#include <oggflacfile.h>
+#include <vorbisfile.h>
 
 #include "taggit.h"
 #include "taglib_ext.h"

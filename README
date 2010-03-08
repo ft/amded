@@ -15,6 +15,7 @@ Requirements:
         - its source
         - a C compiler
         - taglib installed on the system (including its headers)
+        - pkg-config to figure out where taglib lives on the system
         - txt2tags to generate taggit's manual
 
 

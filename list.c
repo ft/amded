@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <taglib/tag_c.h>
+#include <tag_c.h>
 
 #include "taggit.h"
 #include "taglib_ext.h"

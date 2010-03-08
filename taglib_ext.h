@@ -15,7 +15,7 @@
 extern "C" {
 #endif
 
-#include <taglib/tag_c.h>
+#include <tag_c.h>
 
 #include "taggit.h"
 

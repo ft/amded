@@ -62,7 +62,7 @@ typedef int boolean;
 
 #endif /* S_SPLINT_S */
 
-#include <taglib/tag_c.h>
+#include <tag_c.h>
 
 /** the project's (and executable's) name */
 #define PROJECT "taggit"
