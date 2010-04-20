@@ -24,6 +24,7 @@
  * That means, for multi-artist information, we'll need extensions to
  * taglib's C bindings, too.
  *
+ *****************************************************************************
  *
  * Here are some details about taggit's handling of compilation tags:
  *
@@ -67,6 +68,68 @@
  * the value of the frame as if it were an `ALBUMARTIST' tag in other
  * tag formats.
  *
+ *****************************************************************************
+ *
+ * Another problem is wiping out entire tag structures out of files. Some
+ * file-type implementations in taglib have a .strip() method, which does
+ * all that. Sadly, that is not available for all file-types. If we need
+ * to implement stuff like this ourselves, we need to look at what tag
+ * types we're talking about here: id3v1, id3v2, apetag, xiphcomment (the
+ * stuff for tags in ogg* files), ASF tag (which I've never seen or used)
+ * and MP4 tag.
+ *
+ * So which file types does taglib implement what tag-type for (at the time
+ * of writing, obviously)?
+ *
+ *  - AIFF
+ *      - id3v2
+ *  - ape
+ *      - apetag
+ *  - asf (which appearantly is a microsoft format...)
+ *      - ASF tag
+ *  - flac (and this is just the flac stream + tag
+ *    without being in an ogg container)
+ *      - id3v1
+ *      - id3v2
+ *      - xiphcomment
+ *  - mpc (musepack)
+ *      - id3v1 (I kid you not, v1...)
+ *      - apetag (...which is obviously the one you'd want here)
+ *  - mp3
+ *      - id3v1
+ *      - id3v2
+ *      - apetag
+ *  - mp4
+ *      - MP4 tag
+ *  - ogg/flac
+ *      - xiphcomment
+ *  - ogg/speex
+ *      - xiphcomment
+ *  - ogg/vorbis
+ *      - xiphcomment
+ *  - true-audio (I haven't even heard of this...)
+ *      - id3v1
+ *      - id3v2
+ *  - wave
+ *      - id3v2
+ *  - wavpack
+ *      - id3v1
+ *      - apetag
+ *
+ * Wow, quite a handful. You got the raw formats (wave and AIFF), the
+ * losslessly compressed ones (flac, ogg/flac, ape, true-audio and wavpack)
+ * and the lossy formats (asf, mp3, mp4, mpc, ogg/speex and ogg/vorbis).
+ *
+ * We got strip() support for mpc, mp3, true-audio and wavpack. So even a
+ * multi-tag format lacks strip(): flac - bummer. Bummer, because flac is
+ * a format I absolutely want to support. All single tag file types seem
+ * to lack full-tag-removal - which means ogg/flac and ogg/vorbis for the
+ * formats I absolutely want full support for in taggit.
+ *
+ * So, I will absolutely *not* get around implementing a `strip' function
+ * for `xiphcomment' type tags. Maybe it's also worth it to look into
+ * adding functions that actually *remove* certain tags (as opposed to
+ * just emptying them out).
  */
 
 #include <cerrno>
