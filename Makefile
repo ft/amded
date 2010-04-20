@@ -9,6 +9,9 @@ POSIX_SHELL ?= /bin/sh
 
 LDFLAGS = `pkg-config --libs taglib_c`
 
+OPTIM ?= -Os
+DEBUG ?= -ggdb
+
 CC = cc
 CXX = c++
 
@@ -17,6 +20,7 @@ HEADERS = taggit.h bsdgetopt.c
 SOURCES = taggit.c info.c list.c list_human.c list_machine.c setup.c tag.c
 OBJS = taggit.o info.o list.o list_human.o list_machine.o setup.o tag.o
 CFLAGS += $(ADDTO_CFLAGS) `pkg-config --cflags taglib` -W -Wall -Wextra -Wmissing-declarations -ansi
+CFLAGS += $(OPTIM) $(DEBUG)
 REALLYJUSTCFLAGS += -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -std=c99
 
 SRCXX = taglib_ext.cpp
