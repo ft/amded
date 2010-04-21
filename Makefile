@@ -68,7 +68,7 @@ clean:
 	rm -f *.o taggit *.1 .depend git-version.h version-magic.make
 
 distclean: clean
-	rm -f tags
+	rm -f tags TAGS
 	rm -Rf devdoc
 
 doc: $(PROJECT).1
