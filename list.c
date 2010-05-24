@@ -130,6 +130,7 @@ list(struct taggit_file *file)
             lst->filetype = get_filetype(file->type);
             lst->artist = "";
             lst->album = "";
+            lst->comment = "";
             lst->tracktitle = "";
             lst->genre = "";
             lst->va = "";
@@ -142,6 +143,7 @@ list(struct taggit_file *file)
         lst->filetype = get_filetype(file->type);
         lst->artist = taglib_tag_artist(tag);
         lst->album = taglib_tag_album(tag);
+        lst->comment = taglib_tag_comment(tag);
         lst->tracktitle = taglib_tag_title(tag);
         lst->tracknumber = taglib_tag_track(tag);
         lst->year = taglib_tag_year(tag);

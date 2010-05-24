@@ -57,6 +57,7 @@ taggit_list_human(const char *file)
         printf("compilation | \"%s\"\n", lst->va);
     } else
         printf("is_va       | false\n");
+    printf("comment     | \"%s\"\n", lst->comment);
     printf("bitrate     | %d\n", lst->bitrate);
     printf("kbitrate    | %d\n", lst->kbitrate);
     printf("samplerate  | %d\n", lst->samplerate);

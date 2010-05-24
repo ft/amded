@@ -34,6 +34,7 @@ struct {
     { "album",          T_ALBUM,            TAG_STRING },
     { "tracktitle",     T_TRACKTITLE,       TAG_STRING },
     { "genre",          T_GENRE,            TAG_STRING },
+    { "comment",        T_COMMENT,          TAG_STRING },
     { "compilation",    T_COMPILATION,      TAG_STRING },
     { "year",           T_YEAR,             TAG_INT },
     { "tracknumber",    T_TRACKNUMBER,      TAG_INT },
@@ -236,6 +237,9 @@ taggit_tag(const char *file)
             break;
         case T_GENRE:
             taglib_tag_set_genre(tag, ptr->val.string);
+            break;
+        case T_COMMENT:
+            taglib_tag_set_comment(tag, ptr->val.string);
             break;
         case T_YEAR:
             taglib_tag_set_year(tag, ptr->val.integer);

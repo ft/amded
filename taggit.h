@@ -181,6 +181,7 @@ struct taggit_list {
     char *tracktitle;
     int year;
     char *genre;
+    char *comment;
     int bitrate;
     int kbitrate;
     int samplerate;
@@ -200,6 +201,7 @@ enum tag_id {
     T_ALBUM,
     T_COMPILATION,
     T_GENRE,
+    T_COMMENT,
     T_TRACKTITLE,
     T_TRACKNUMBER,
     T_YEAR
