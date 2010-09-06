@@ -157,6 +157,19 @@ extern uint32_t taggit_options;
  */
 #define TOGGLE_OPT(OPT) (taggit_options ^= (OPT))
 
+/*
+ * Bit value macros for `#taggit_options'.
+ */
+
+/**
+ * Print an empty value list when a file does not contain meta information.
+ *
+ * Normally, taggit would error our in such situations. But some frontends
+ * may want to get an empty list to reduce the number of codepaths in their
+ * code.
+ */
+#define TAGGIT_LIST_ALLOW_EMPTY_TAGS    (1 << 0)
+
 /** information returned by the list() function */
 struct taggit_list {
     char *filetype;

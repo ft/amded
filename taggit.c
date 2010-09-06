@@ -102,8 +102,11 @@ parse_options(int argc, const char *argv[])
     int opt;
     struct t_tag tag;
 
-    while ((opt = bsd_getopt(argc, argv, "hLlmR:st:vW:")) != -1) {
+    while ((opt = bsd_getopt(argc, argv, "EhLlmR:st:vW:")) != -1) {
         switch (opt) {
+        case 'E':
+            SET_OPT(TAGGIT_LIST_ALLOW_EMPTY_TAGS);
+            break;
         case 'h':
             taggit_usage();
             exit(EXIT_SUCCESS);

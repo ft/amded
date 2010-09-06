@@ -111,7 +111,9 @@ list(struct taggit_file *file)
     TagLib_Tag *tag;
     const TagLib_AudioProperties *properties;
     struct taggit_list *lst;
+    unsigned int err;
 
+    err = 0;
     lst = MALLOC_OR_DIE(1, struct taggit_list);
     if (file->type == FT_MPEG)
         mp3_tagtypes(file->data, lst);
@@ -123,41 +125,69 @@ list(struct taggit_file *file)
     /* Setting is_va to zero so the free() in `err:' can't segfault */
     lst->is_va = 0;
     tag = taggit_file_tag(file, lst->tagtype);
-    if (tag == NULL)
-        goto err;
+    if (tag == NULL) {
+        if (IS_SET(TAGGIT_LIST_ALLOW_EMPTY_TAGS)) {
+            lst->filetype = get_filetype(file->type);
+            lst->artist = "";
+            lst->album = "";
+            lst->tracktitle = "";
+            lst->genre = "";
+            lst->va = "";
+            lst->tracknumber = 0;
+            lst->year = 0;
+            lst->is_va = 0;
+        } else
+            err = 1;
+    } else {
+        lst->filetype = get_filetype(file->type);
+        lst->artist = taglib_tag_artist(tag);
+        lst->album = taglib_tag_album(tag);
+        lst->tracktitle = taglib_tag_title(tag);
+        lst->tracknumber = taglib_tag_track(tag);
+        lst->year = taglib_tag_year(tag);
+        lst->genre = taglib_tag_genre(tag);
+        lst->va = taggit_tag_va(file->type, lst->tagtype, tag);
+        if (lst->va != NULL)
+            lst->is_va = 1;
+    }
 
     properties = taglib_file_audioproperties(file->data);
-    if (properties == NULL)
-        goto err;
+    if (properties == NULL) {
+        if (IS_SET(TAGGIT_LIST_ALLOW_EMPTY_TAGS)) {
+            lst->samplerate = 0;
+            lst->kbitrate = 0;
+            lst->length = 0;
+            lst->channels = 0;
+            lst->bitrate = 0;
+            lst->ksamplerate = 0.;
+            lst->seconds = 0;
+            lst->minutes = 0;
+        } else
+            err += 2;
+    } else {
+        lst->samplerate = taglib_audioproperties_samplerate(properties);
+        lst->kbitrate = taglib_audioproperties_bitrate(properties);
+        lst->length = taglib_audioproperties_length(properties);
+        lst->channels = taglib_audioproperties_channels(properties);
 
-    lst->filetype = get_filetype(file->type);
-    lst->artist = taglib_tag_artist(tag);
-    lst->album = taglib_tag_album(tag);
-    lst->tracktitle = taglib_tag_title(tag);
-    lst->tracknumber = taglib_tag_track(tag);
-    lst->year = taglib_tag_year(tag);
-    lst->genre = taglib_tag_genre(tag);
-    lst->va = taggit_tag_va(file->type, lst->tagtype, tag);
-    if (lst->va != NULL)
-        lst->is_va = 1;
+        lst->bitrate = lst->kbitrate * 1000;
+        lst->ksamplerate = (double)lst->samplerate / (double)1000;
+        lst->seconds = lst->length % 60;
+        lst->minutes = (lst->length - lst->seconds) / 60;
+    }
 
-    lst->samplerate = taglib_audioproperties_samplerate(properties);
-    lst->kbitrate = taglib_audioproperties_bitrate(properties);
-    lst->length = taglib_audioproperties_length(properties);
-    lst->channels = taglib_audioproperties_channels(properties);
-
-    lst->bitrate = lst->kbitrate * 1000;
-    lst->ksamplerate = (double)lst->samplerate / (double)1000;
-    lst->seconds = lst->length % 60;
-    lst->minutes = (lst->length - lst->seconds) / 60;
+    if (err & 1) {
+        /*
+         * If the 1 bit in `err' is set, fetching the tag failed and the user
+         * didn't request empty lists (TAGGIT_LIST_ALLOW_EMPTY_TAGS) either.
+         * So clean up now and return NULL.
+         */
+        if (file->type == FT_MPEG)
+            free(lst->tagtypes);
+        if (lst->is_va)
+            free((void*)lst->va);
+        return NULL;
+    }
 
     return lst;
-
-err:
-    if (file->type == FT_MPEG)
-        free(lst->tagtypes);
-    if (lst->is_va)
-        free((void*)lst->va);
-
-    return NULL;
 }
