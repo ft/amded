@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 #include "taggit.h"
 #include "bsdgetopt.c"
@@ -40,6 +41,9 @@ enum t_mode {
 
 /** global variable describing taggit's operation mode */
 static enum t_mode taggit_mode = TAGGIT_MODE_INVALID;
+
+/** option bit mask to alter taggit execution behaviour */
+uint32_t taggit_options = 0;
 
 /**
  * Check that -m, -l and -t are not used with one another
