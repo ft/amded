@@ -40,6 +40,12 @@ List the tags in the given files in a machine readable form.
 : **-s**
 Show a list of supported tags.
 
+: **-E**
+Show meta-information for files without tags, too (think: ***E***mpty
+meta-information). The tag information will be filled with empty fields.
+This let's you see audio properties (like bitrate etc.) for tagless
+files, too.
+
 : **-R** //<readmap(s)>//
 Configure how tags are read from certain file types. See //Read Maps//
 below.
