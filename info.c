@@ -32,6 +32,8 @@ static const char *usage[] = {
 "    -l                list tags in human readable form",
 "    -m                list tags in machine readable form",
 "    -t <tag>=<value>  set a tag to a value",
+"  execution options:",
+"    -E                print a tag list even if the file is tag-less",
 "",
 (const char*)NULL
 };
