@@ -1,0 +1,4 @@
+CFLAGS += -D@@MAKE-MACRO@@
+
+info.o: @@MAKE-DEPS@@
+	$(CXX) $(CXXFLAGS) -o info.o -c info.cpp

@@ -1,0 +1,19 @@
+/*
+ * Copyright (c) 2009 taggit workers, All rights reserved.
+ * Terms for redistribution and use can be found in LICENCE.
+ */
+
+/**
+ * @file  git-version.h
+ * @brief version information based on git commit information
+ *
+ * Generated from git-version.h.in
+ */
+
+#ifndef INC_GIT_VERSION_H
+#define INC_GIT_VERSION_H
+
+#define GIT_VERSION     "@@GIT-VERSION@@"
+#define GIT_DESCRIPTION "@@GIT-DESCRIPTION@@"
+
+#endif /* INC_GIT_VERSION_H */
