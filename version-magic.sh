@@ -2,6 +2,7 @@
 
 getgit_ () {
     base_="$(git describe --abbrev=12)"
+    [ -z "$base_" ] && base_="noversion-$(git show -s --pretty='%h')"
     dirty_=""
     git update-index -q --refresh
     [ -z "$(git diff-index --name-only HEAD --)" ] || dirty_="-dirty"
