@@ -14,6 +14,7 @@
 #include <iostream>
 
 #include "info.h"
+#include "tag.h"
 #include "taggit.h"
 
 #include "bsdgetopt.c"
@@ -127,7 +128,7 @@ parse_options(int argc, char *argv[])
             break;
         case 's':
             std::cout << "Supported tags:" << std::endl;
-            //list_tags();
+            list_tags();
             exit(EXIT_SUCCESS);
         case 't':
             check_mode_tag(taggit_mode);

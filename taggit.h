@@ -107,4 +107,22 @@ extern uint32_t taggit_options;
  */
 #define TAGGIT_LIST_ALLOW_EMPTY_TAGS    (1 << 0)
 
+enum tag_type {
+    TAG_INVALID = -1,
+    TAG_STRING,
+    TAG_INTEGER
+};
+
+enum tag_id {
+    T_UNKNOWN = -1,
+    T_ARTIST,
+    T_ALBUM,
+    T_COMPILATION,
+    T_GENRE,
+    T_COMMENT,
+    T_TRACKTITLE,
+    T_TRACKNUMBER,
+    T_YEAR
+};
+
 #endif /* INC_TAGGIT_H */
