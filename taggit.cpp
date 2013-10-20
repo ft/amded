@@ -6,54 +6,224 @@
 
 /**
  * @file taggit.cpp
- * @brief taggit's main()
+ * @brief taggit's main() and command line option handling.
  */
 
 #include <cstdlib>
+#include <cstdint>
 #include <iostream>
-#include <boost/program_options.hpp>
 
 #include "info.h"
+#include "taggit.h"
 
-namespace po = boost::program_options;
+#include "bsdgetopt.c"
 
+/**
+ * ASCII End-Of-Transmission character code. Used to seperate output for
+ * different files in machine readable mode.
+ */
+#define ASCII_EOT ((char)0x04)
+
+/** possible operation modes */
+enum t_mode {
+    /** no mode defined, yet; or broken operation mode */
+    TAGGIT_MODE_INVALID = 0,
+    /** list file's tags in human readable form */
+    TAGGIT_LIST_HUMAN,
+    /** list file's tags in machine readable form */
+    TAGGIT_LIST_MACHINE,
+    /** modify meta information in file(s) */
+    TAGGIT_TAG
+};
+
+/** global variable describing taggit's operation mode */
+static enum t_mode taggit_mode = TAGGIT_MODE_INVALID;
+
+/** option bit mask to alter taggit execution behaviour */
+uint32_t taggit_options = 0;
+
+/**
+ * Check that -m, -l and -t are not used with one another
+ *
+ * @param   mode    the enum t_mode value to check
+ *
+ * @return      void
+ * @sideeffects Exists with EXIT_FAILURE on failure.
+ */
+static inline void
+check_mode(enum t_mode mode)
+{
+    if (mode != TAGGIT_MODE_INVALID) {
+        std::cout << "-m, -l and -t may *not* be used at the same time."
+                  << std::endl;
+        exit(EXIT_FAILURE);
+    }
+}
+
+/**
+ * Mode sanity check for tagging mode
+ *
+ * -t may be used multiple times, so run check_mode() only if not in
+ * TAGGIT_TAG mode already.
+ *
+ * @param   mode    the enum t_mode value to check
+ *
+ * @return      void
+ * @sideeffects see check_mode()
+ */
+static inline void
+check_mode_tag(enum t_mode mode)
+{
+    if (mode != TAGGIT_MODE_INVALID && mode != TAGGIT_TAG)
+        check_mode(mode);
+}
+
+/**
+ * Parsing command line options
+ *
+ * Uses NetBSD's getopt() defined in bsdgetopt.c, which is a
+ * traditional getopt implementation that supports short options
+ * and doesn't do any permutations.
+ *
+ * This function should not perform any actions itself, but set
+ * taggit_mode accordingly and let main()'s main loop handle everything.
+ *
+ * @param   argc    number of entries in *argv[]
+ * @param   argv[]  list of arguments at startup.
+ *
+ * @return      void
+ * @sideeffects Exists using EXIT_SUCCESS or EXIT_FAILURE when appropriate.
+ */
+static void
+parse_options(int argc, char *argv[])
+{
+    int opt;
+    //struct t_tag tag;
+
+    while ((opt = bsd_getopt(argc, argv, "EhLlmR:st:vW:")) != -1) {
+        switch (opt) {
+        case 'E':
+            SET_OPT(TAGGIT_LIST_ALLOW_EMPTY_TAGS);
+            break;
+        case 'h':
+            taggit_usage();
+            exit(EXIT_SUCCESS);
+        case 'L':
+            taggit_licence();
+            exit(EXIT_SUCCESS);
+        case 'l':
+            check_mode(taggit_mode);
+            taggit_mode = TAGGIT_LIST_HUMAN;
+            break;
+        case 'm':
+            check_mode(taggit_mode);
+            taggit_mode = TAGGIT_LIST_MACHINE;
+            break;
+        case 'R':
+            //setup_readmap(optarg);
+#ifdef TAGGIT_DEBUG
+            //dump_readmap();
+#endif
+            break;
+        case 's':
+            std::cout << "Supported tags:" << std::endl;
+            //list_tags();
+            exit(EXIT_SUCCESS);
+        case 't':
+            check_mode_tag(taggit_mode);
+            taggit_mode = TAGGIT_TAG;
+#if 0
+            tag = next_tag(optarg);
+            if (tag.type == TAG_INVALID) {
+                std::cerr << "Invalid tag name: "
+                          << '"' << tag.name << '"'
+                          << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            add_tag(&tag);
+#endif
+#ifdef TAGGIT_DEBUG
+            std::cerr << '[' << tag.name << ']'
+                      << ' '
+                      << '{' << tag.value << '}'
+                      << ' '
+                      << '<' << tag.type << '>'
+                      << std::endl;
+#endif
+            break;
+
+        case 'v':
+            taggit_version();
+            exit(EXIT_SUCCESS);
+        case 'W':
+            //setup_writemap(optarg);
+#ifdef TAGGIT_DEBUG
+            //dump_writemap();
+#endif
+            break;
+        default:
+            taggit_usage();
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    return;
+}
+
+/**
+ * taggit: command line utility for listing and modifying meta
+ *         information in audio files
+ *
+ * Interfacing KDE's taglib:
+ *   <http://developer.kde.org/~wheeler/taglib.html>
+ *
+ * @param   argc    number of entries in *argv[]
+ * @param   argv[]  list of arguments at startup.
+ *
+ * @return      EXIT_SUCCESS on normal execution;
+ *              EXIT_FAILURE upon failure.
+ * @sideeffects none
+ */
 int
 main(int argc, char *argv[])
 {
-    try {
-        po::options_description desc("Options");
-        desc.add_options()
-            ("help,h", "Print help message.")
-            ("licence,L", "Print licencing information")
-            ("version,v", "Print version information")
-            ;
-
-        po::variables_map vm;
-        po::store(po::parse_command_line(argc, argv, desc), vm);
-        po::notify(vm);
-
-        if (vm.count("help")) {
-            taggit_usage();
-            return EXIT_SUCCESS;
-        }
-        if (vm.count("version")) {
-            taggit_version();
-            return EXIT_SUCCESS;
-        }
-        if (vm.count("licence")) {
-            taggit_licence();
-            return EXIT_SUCCESS;
-        }
-    }
-
-    catch(std::exception& e) {
-        std::cerr << "fatal: " << e.what() << "\n";
+    if (argc < 2) {
+        taggit_usage();
         return EXIT_FAILURE;
     }
 
-    catch(...) {
-        std::cerr << "Unknown exception! (Crap.)\n";
+    parse_options(argc, argv);
+
+    if (optind == argc) {
+        taggit_usage();
         return EXIT_FAILURE;
+    }
+
+    bool first = true;
+    for (int i = optind; i < argc; ++i) {
+        switch (taggit_mode) {
+        case TAGGIT_LIST_HUMAN:
+            if (!first)
+                std::cout << std::endl;
+            else
+                first = false;
+            // taggit_list_human(argv[i]);
+            break;
+        case TAGGIT_LIST_MACHINE:
+            if (!first)
+                std::cout << ASCII_EOT;
+            else
+                first = false;
+            // taggit_list_machine(argv[i]);
+            break;
+        case TAGGIT_TAG:
+            // taggit_tag(argv[i]);
+            break;
+        default:
+            std::cout << "Please use one action option (-m, -l or -t)."
+                      << std::endl;
+            return EXIT_FAILURE;
+        }
     }
 
     return EXIT_SUCCESS;

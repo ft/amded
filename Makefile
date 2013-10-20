@@ -7,7 +7,7 @@ INSTALLMAN = install -m 644
 
 POSIX_SHELL ?= /bin/sh
 
-LDFLAGS = `pkg-config --libs taglib_c` -lboost_program_options
+LDFLAGS = `pkg-config --libs taglib_c`
 
 OPTIM ?= -Os
 DEBUG ?= -ggdb
@@ -15,7 +15,7 @@ DEBUG ?= -ggdb
 CXX = clang++
 
 PROJECT = taggit
-#HEADERS = taggit.h bsdgetopt.c
+HEADERS = taggit.h bsdgetopt.c
 SOURCES = taggit.cpp # info.cpp # list.c list_human.c list_machine.c setup.c tag.c
 OBJS = taggit.o info.o # list.o list_human.o list_machine.o setup.o tag.o
 CXXFLAGS += `pkg-config --cflags taglib`
