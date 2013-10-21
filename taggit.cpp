@@ -99,7 +99,9 @@ static void
 parse_options(int argc, char *argv[])
 {
     int opt;
-    //struct t_tag tag;
+    std::pair<std::string, std::string> tag;
+    enum tag_type type;
+    Value tagval;
 
     while ((opt = bsd_getopt(argc, argv, "EhLlmR:st:vW:")) != -1) {
         switch (opt) {
@@ -133,22 +135,48 @@ parse_options(int argc, char *argv[])
         case 't':
             check_mode_tag(taggit_mode);
             taggit_mode = TAGGIT_TAG;
-#if 0
-            tag = next_tag(optarg);
-            if (tag.type == TAG_INVALID) {
-                std::cerr << "Invalid tag name: "
-                          << '"' << tag.name << '"'
+
+            /* First check if the definition looks like "foo=bar" */
+            try {
+                tag = tag_arg_to_pair(optarg);
+            }
+            catch (taggit_broken_tag_def) {
+                std::cerr << "Broken tag definition: "
+                          << '"' << optarg << '"'
                           << std::endl;
                 exit(EXIT_FAILURE);
             }
-            add_tag(&tag);
+
+            /* Make sure ‘foo’ in "foo=bar" is a supported tag name */
+            type = tag_to_type(tag.first);
+            if (type == TAG_INVALID) {
+                std::cerr << "Invalid tag name: "
+                          << '"' << tag.first << '"'
+                          << std::endl;
+                exit(EXIT_FAILURE);
+            }
+
+            /* Make sure ‘bar’ in "foo=bar" makes sense as a value for ‘foo’ */
+            tagval = tag_value_from_value(type, tag.second);
+            if (tagval.get_type() == TAG_INVALID) {
+                std::cerr << "Invalid tag value ["
+                          << tag.second
+                          << "] for tag " << '"'
+                          << tag.first
+                          << '"' << '!'
+                          << std::endl;
+                exit(EXIT_FAILURE);
+            }
+#if 0
+            /* Looks good. Add the tag. */
+            add_tag(type, tagval);
 #endif
 #ifdef TAGGIT_DEBUG
-            std::cerr << '[' << tag.name << ']'
+            std::cerr << '[' << tag.first << ']'
                       << ' '
-                      << '{' << tag.value << '}'
+                      << '{' << tag.second << '}'
                       << ' '
-                      << '<' << tag.type << '>'
+                      << '<' << type << '>'
                       << std::endl;
 #endif
             break;

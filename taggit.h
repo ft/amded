@@ -125,4 +125,6 @@ enum tag_id {
     T_YEAR
 };
 
+struct taggit_broken_tag_def {};
+
 #endif /* INC_TAGGIT_H */
