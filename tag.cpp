@@ -22,6 +22,14 @@ tag_map = {
     { "year",           { T_YEAR,           TAG_INTEGER } }
 };
 
+static std::map< enum tag_id, Value > newtags;
+
+void
+add_tag(enum tag_id id, Value v)
+{
+    newtags[id] = v;
+}
+
 /** Print a list of supported tags to ‘stdout‘. */
 void
 list_tags(void)
@@ -68,20 +76,25 @@ tag_to_type(std::string name)
     return p->second.second;
 }
 
+enum tag_id
+tag_to_id(std::string name)
+{
+    auto p = tag_map.find(name);
+    if (p == tag_map.end())
+        return T_UNKNOWN;
+    return p->second.first;
+}
+
 Value
 tag_value_from_value(enum tag_type type, std::string value)
 {
-    int v;
     Value retval;
 
-    if (type == TAG_STRING) {
-        retval.set_str(value);
-        return retval;
-    }
-
-    if (type == TAG_INTEGER) {
+    if (type == TAG_STRING)
+        retval = value;
+    else if (type == TAG_INTEGER) {
         try {
-            v = std::stoi(value);
+            retval = std::stoi(value);
         }
         catch (std::invalid_argument) {
             std::cerr << "Invalid integer value: "
@@ -95,11 +108,12 @@ tag_value_from_value(enum tag_type type, std::string value)
                       << std::endl;
             goto error;
         }
-        retval.set_int(v);
-        return retval;
+    } else {
+        std::cerr << "Unknown tag type: " << type << std::endl;
+        goto error;
     }
 
-    std::cerr << "Unknown tag type: " << type << std::endl;
+    return retval;
 error:
     retval.set_invalid();
     return retval;
@@ -118,7 +132,7 @@ Value::get_type(void) const
 int
 Value::get_int(void) const
 {
-    if (type != TAG_INVALID)
+    if (type != TAG_INTEGER)
         throw bad_accessor {};
 
     return i;
@@ -136,11 +150,10 @@ Value::get_str(void) const
 void
 Value::set_int(int new_i)
 {
-    if (type == TAG_STRING) {
+    if (type == TAG_STRING)
         s.~stdstring();
-        type = TAG_INTEGER;
-    }
 
+    type = TAG_INTEGER;
     i = new_i;
 }
 
@@ -166,6 +179,51 @@ Value::set_str(const std::string &new_s)
 Value::Value()
 {
     type = TAG_INVALID;
+}
+
+Value::Value(int new_i)
+{
+    type = TAG_INTEGER;
+    i = new_i;
+}
+
+Value::Value(std::string new_s)
+{
+    type = TAG_STRING;
+    new(&s) std::string{new_s};
+}
+
+Value::Value(const Value &orig)
+{
+    switch (orig.type) {
+    case TAG_INTEGER:
+        i = orig.i;
+        type = TAG_INTEGER;
+        break;
+    case TAG_STRING:
+        new(&s) std::string{orig.s};
+        type = TAG_STRING;
+        break;
+    default:
+        type = TAG_INVALID;
+    }
+}
+
+Value::Value(Value &&orig)
+{
+    switch (orig.type) {
+    case TAG_INTEGER:
+        i = orig.i;
+        type = TAG_INTEGER;
+        break;
+    case TAG_STRING:
+        new(&s) std::string{std::move(orig.s)};
+        type = TAG_STRING;
+        break;
+    default:
+        type = TAG_INVALID;
+    }
+    orig.type = TAG_INVALID;
 }
 
 Value::~Value()
@@ -194,5 +252,42 @@ Value::operator=(const Value &new_value)
     }
 
     type = new_value.type;
+    return *this;
+}
+
+Value &
+Value::operator=(Value &&new_value)
+{
+    if (type == TAG_STRING && new_value.type == TAG_STRING) {
+        s = std::move(new_value.s);
+        return *this;
+    }
+
+    if (type == TAG_STRING)
+        s.~stdstring();
+
+    switch (new_value.type) {
+    case TAG_STRING:
+        new(&s) std::string{std::move(new_value.s)};
+        break;
+    default:
+        i = new_value.i;
+    }
+
+    type = new_value.type;
+    return *this;
+}
+
+Value &
+Value::operator=(const int &new_value)
+{
+    this->set_int(new_value);
+    return *this;
+}
+
+Value &
+Value::operator=(const std::string &new_value)
+{
+    this->set_str(new_value);
     return *this;
 }

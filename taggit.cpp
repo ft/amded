@@ -141,7 +141,7 @@ parse_options(int argc, char *argv[])
                 tag = tag_arg_to_pair(optarg);
             }
             catch (taggit_broken_tag_def) {
-                std::cerr << "Broken tag definition: "
+                std::cerr << PROJECT << ": Broken tag definition: "
                           << '"' << optarg << '"'
                           << std::endl;
                 exit(EXIT_FAILURE);
@@ -150,7 +150,7 @@ parse_options(int argc, char *argv[])
             /* Make sure ‘foo’ in "foo=bar" is a supported tag name */
             type = tag_to_type(tag.first);
             if (type == TAG_INVALID) {
-                std::cerr << "Invalid tag name: "
+                std::cerr << PROJECT << ": Invalid tag name: "
                           << '"' << tag.first << '"'
                           << std::endl;
                 exit(EXIT_FAILURE);
@@ -159,7 +159,7 @@ parse_options(int argc, char *argv[])
             /* Make sure ‘bar’ in "foo=bar" makes sense as a value for ‘foo’ */
             tagval = tag_value_from_value(type, tag.second);
             if (tagval.get_type() == TAG_INVALID) {
-                std::cerr << "Invalid tag value ["
+                std::cerr << PROJECT << ": Invalid tag value ["
                           << tag.second
                           << "] for tag " << '"'
                           << tag.first
@@ -167,10 +167,10 @@ parse_options(int argc, char *argv[])
                           << std::endl;
                 exit(EXIT_FAILURE);
             }
-#if 0
+
             /* Looks good. Add the tag. */
-            add_tag(type, tagval);
-#endif
+            add_tag(tag_to_id(tag.first), tagval);
+
 #ifdef TAGGIT_DEBUG
             std::cerr << '[' << tag.first << ']'
                       << ' '
