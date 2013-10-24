@@ -125,7 +125,7 @@ bsd_getopt(int nargc, char *nargv[], const char *ostr)
         if (opterr && *ostr != ':')
             std::cerr << PROJECT
                       << ": unknown option -- "
-                      << optopt
+                      << (char)optopt
                       << std::endl;
         return (BADCH);
     }
