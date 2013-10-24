@@ -34,8 +34,8 @@ add_tag(enum tag_id id, Value v)
 void
 list_tags(void)
 {
-    for (auto iter = tag_map.begin(); iter != tag_map.end(); ++iter)
-        std::cout << iter->first << std::endl;
+    for (auto &iter : tag_map)
+        std::cout << iter.first << std::endl;
 }
 
 /**
