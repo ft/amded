@@ -16,8 +16,8 @@ CXX = clang++
 
 PROJECT = taggit
 HEADERS = taggit.h bsdgetopt.c
-SOURCES = taggit.cpp info.cpp tag.cpp value.cpp
-OBJS = taggit.o info.o tag.o value.o
+SOURCES = taggit.cpp info.cpp setup.cpp tag.cpp value.cpp
+OBJS = taggit.o info.o setup.o tag.o value.o
 CXXFLAGS += `pkg-config --cflags taglib`
 CXXFLAGS += -W -Wall -Wextra
 CXXFLAGS += -Wmissing-declarations -std=c++11

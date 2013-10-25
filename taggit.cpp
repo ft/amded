@@ -14,6 +14,7 @@
 #include <iostream>
 
 #include "info.h"
+#include "setup.h"
 #include "tag.h"
 #include "taggit.h"
 

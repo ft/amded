@@ -1,6 +1,8 @@
 #ifndef INC_VALUE_H
 #define INC_VALUE_H
 
+#include <string>
+
 #include "taggit.h"
 
 class Value {

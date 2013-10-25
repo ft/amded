@@ -20,14 +20,6 @@ tag_map = {
     { "year",           { T_YEAR,           TAG_INTEGER } }
 };
 
-static std::map< enum tag_id, Value > newtags;
-
-void
-add_tag(enum tag_id id, Value v)
-{
-    newtags[id] = v;
-}
-
 /** Print a list of supported tags to ‘stdout‘. */
 void
 list_tags(void)
