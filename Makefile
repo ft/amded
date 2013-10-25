@@ -49,7 +49,7 @@ uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/$(MANDIR)1/taggit.1
 
 .cpp.o:
-	$(CXX) $(CXXFLAGS) $(REALLYJUSTCFLAGS) -o $@ -c $<
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 $(PROJECT): $(OBJS) $(HEADERS)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $(OBJS)
@@ -66,9 +66,7 @@ doc: $(PROJECT).1
 tag: tags
 
 tags:
-	# This creates "tags".
 	ctags . *.c *.cpp *.h
-	# And this creates "TAGS" which is in emacs' etags format.
 	ctags -e . *.c *.cpp *.h
 
 devdoc:
