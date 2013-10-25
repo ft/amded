@@ -25,7 +25,7 @@ as a tagging backend in higher-level applications.
 : **-h**
 Display a short usage message.
 
-: **-v**
+: **-V**
 Display version information.
 
 : **-L**
