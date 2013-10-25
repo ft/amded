@@ -35,8 +35,8 @@ depend:
 
 -include version-magic.make
 
-_depend: $(SOURCES) $(SRCXX)
-	mkdep $(CFLAGS) $(SOURCES) $(SRCXX)
+_depend: $(SOURCES)
+	mkdep $(CXXFLAGS) $(SOURCES)
 
 install:
 	$(INSTALLDIR) $(DESTDIR)$(PREFIX)/bin
