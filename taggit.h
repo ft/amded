@@ -69,6 +69,16 @@ enum tag_id {
     T_YEAR
 };
 
+enum file_type {
+    FILE_T_MP3
+};
+
+enum tag_impl {
+    TAG_T_APETAG,
+    TAG_T_ID3V1,
+    TAG_T_ID3V2
+};
+
 struct taggit_broken_tag_def {};
 
 #endif /* INC_TAGGIT_H */
