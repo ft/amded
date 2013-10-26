@@ -85,11 +85,16 @@
  *     large integer word.
  */
 
+#include <cstdint>
 #include <map>
 
 #include "setup.h"
 #include "taggit.h"
 #include "value.h"
+
+/*
+ * Tag value settings:
+ */
 
 static std::map< enum tag_id, Value > newtags;
 
@@ -97,4 +102,72 @@ void
 add_tag(enum tag_id id, Value v)
 {
     newtags[id] = v;
+}
+
+/*
+ * Boolean option implementation:
+ */
+
+/**
+ * Check whether an option is set.
+ *
+ * @code
+ *    if (IS_SET(FOO)) {
+ *        // FOO is set
+ *    } else if (IS_SET(FOO | BAR)) {
+ *        // FOO *and* BAR are set
+ *    } else if (IS_SET(FOO) || IS_SET(BAR)) {
+ *        // FOO *or* bar are set
+ *    }
+ * @endcode
+ *
+ * @param  OPT    A bitmask to compare against STORE.
+ * @param  STORE  The data store to match OPT against.
+ *
+ * @return (macro)
+ */
+#define IS_SET(OPT, STORE) ((STORE & (OPT)) == OPT)
+
+/**
+ * Set an option bit in `STORE'.
+ *
+ * @param  OPT    A bitmask to set in `STORE'.
+ * @param  STORE  The data store to set OPT in.
+ *
+ * @return (macro)
+ */
+#define SET_OPT(OPT, STORE) (STORE |= OPT)
+
+/**
+ * Unset an option bit in `STORE'.
+ *
+ * @param  OPT    A bitmask to unset in STORE.
+ * @param  STORE  The data store to unset OPT in.
+ *
+ * @return (macro)
+ */
+#define UNSET_OPT(OPT, STORE) (STORE &= ~(OPT))
+
+/**
+ * Toggle an option bit in `STORE'.
+ *
+ * @param  OPT    A bitmask to toggle in STORE.
+ * @param  STORE  The data store to toggle OPT in.
+ *
+ * @return (macro)
+ */
+#define TOGGLE_OPT(OPT, STORE) (STORE ^= (OPT))
+
+static uint32_t taggit_options;
+
+void
+set_opt(uint32_t optmask)
+{
+    SET_OPT(optmask, taggit_options);
+}
+
+bool
+get_opt(uint32_t optmask)
+{
+    return (bool)IS_SET(optmask, taggit_options);
 }

@@ -40,63 +40,7 @@
  */
 #define VERSION "0.4+git"
 
-extern uint32_t taggit_options;
-
-/**
- * Check whether an option is set.
- *
- * This macro works on `#taggit_options'.
- *
- * @code
- *    if (IS_SET(FOO)) {
- *        // FOO is set
- *    } else if (IS_SET(FOO | BAR)) {
- *        // FOO *and* BAR are set
- *    } else if (IS_SET(FOO) || IS_SET(BAR)) {
- *        // FOO *or* bar are set
- *    }
- * @endcode
- *
- * @param  OPT  A bitmask (32-bit max) to compare against `#taggit_options'.
- *
- * @return (macro)
- * @sideeffects none
- */
-#define IS_SET(OPT) ((taggit_options & (OPT)) == OPT)
-
-/**
- * Set an option bit in `#taggit_options'.
- *
- * @param  OPT  A bitmask to set in `#taggit_options'.
- *
- * @return (macro)
- * @sideeffects none
- */
-#define SET_OPT(OPT) (taggit_options |= OPT)
-
-/**
- * Unset an option bit in `#taggit_options'.
- *
- * @param  OPT  A bitmask to unset in `#taggit_options'.
- *
- * @return (macro)
- * @sideeffects none
- */
-#define UNSET_OPT(OPT) (taggit_options &= ~(OPT))
-
-/**
- * Toggle an option bit in `#taggit_options'.
- *
- * @param  OPT  A bitmask to toggle in `#taggit_options'.
- *
- * @return (macro)
- * @sideeffects none
- */
-#define TOGGLE_OPT(OPT) (taggit_options ^= (OPT))
-
-/*
- * Bit value macros for `#taggit_options'.
- */
+/* Boolean option bits: */
 
 /**
  * Print an empty value list when a file does not contain meta information.

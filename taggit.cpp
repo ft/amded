@@ -10,7 +10,6 @@
  */
 
 #include <cstdlib>
-#include <cstdint>
 #include <iostream>
 
 #include "info.h"
@@ -40,9 +39,6 @@ enum t_mode {
 
 /** global variable describing taggit's operation mode */
 static enum t_mode taggit_mode = TAGGIT_MODE_INVALID;
-
-/** option bit mask to alter taggit execution behaviour */
-uint32_t taggit_options = 0;
 
 /**
  * Check that -m, -l and -t are not used with one another
@@ -107,7 +103,7 @@ parse_options(int argc, char *argv[])
     while ((opt = bsd_getopt(argc, argv, "EhLlmR:st:VW:")) != -1) {
         switch (opt) {
         case 'E':
-            SET_OPT(TAGGIT_LIST_ALLOW_EMPTY_TAGS);
+            set_opt(TAGGIT_LIST_ALLOW_EMPTY_TAGS);
             break;
         case 'h':
             taggit_usage();
