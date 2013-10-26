@@ -23,19 +23,18 @@ std::vector<std::string> usage = {
 "usage: taggit OPTION(s) FILE(s)",
 "",
 "  informational options:",
-"    -h, --help        display this help text",
-"    -L, --licence     show taggit's licence information",
-"    -v, --version     print version information",
+"    -h,               display this help text",
+"    -L,               show taggit's licence information",
+"    -v,               print version information",
 "    -s                list supported tag names",
 "  configuration options:",
 "    -R <readmap>      configure tag reading order",
 "    -W <writemap>     configure which tag types should be written",
+"    -E                print a tag list even if the file is tag-less",
 "  action options:",
 "    -l                list tags in human readable form",
 "    -m                list tags in machine readable form",
 "    -t <tag>=<value>  set a tag to a value",
-"  execution options:",
-"    -E                print a tag list even if the file is tag-less",
 };
 
 /** licence information */
