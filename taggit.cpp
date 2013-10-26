@@ -12,9 +12,9 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "cmdline.h"
 #include "info.h"
 #include "setup.h"
-#include "tag.h"
 #include "taggit.h"
 
 #include "bsdgetopt.c"

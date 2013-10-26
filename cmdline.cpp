@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <string>
 
-#include "tag.h"
+#include "cmdline.h"
 #include "taggit.h"
 
 static std::map< std::string,
