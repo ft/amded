@@ -6,6 +6,16 @@
 #include "cmdline.h"
 #include "taggit.h"
 
+/**
+ * A mapping of tag-names to internal representation and type.
+ *
+ * Internally, taggit does not process strings each time it has to check which
+ * tag it is working on. Instead an internal identifier of type "enum tag_id"
+ * is used.
+ *
+ * Since tags can contain different values, this also maps to an "enum
+ * tag_type" value, that identifies the type of value a tag normally contains.
+ */
 static std::map< std::string,
                  std::pair< enum tag_id,
                             enum tag_type > >
@@ -57,6 +67,16 @@ tag_arg_to_pair(std::string data)
     return t;
 }
 
+/**
+ * Return a ‘tag_type’ that corresponds to ‘name’.
+ *
+ * This is a look-up via ‘tag_map’. Returns TAG_INVALID if the tag name is not
+ * supported by taggit.
+ *
+ * @param    name        The tag-name to perform the loop-up on.
+ *
+ * @return enum tag_type for ‘name’. TAG_INVALID if ‘name’ is unknown.
+ */
 enum tag_type
 tag_to_type(std::string name)
 {
@@ -66,6 +86,16 @@ tag_to_type(std::string name)
     return p->second.second;
 }
 
+/**
+ * Return a ‘tag_id’ that corresponds to ‘name’.
+ *
+ * This is a look-up via ‘tag_map’. Returns T_UNKNOWN if the tag name is not
+ * supported by taggit.
+ *
+ * @param    name        The tag-name to perform the loop-up on.
+ *
+ * @return enum tag_type for ‘name’. T_UNKNOWN if ‘name’ is unknown.
+ */
 enum tag_id
 tag_to_id(std::string name)
 {
@@ -75,6 +105,21 @@ tag_to_id(std::string name)
     return p->second.first;
 }
 
+/**
+ * Convert ‘value’ to a Value class instance, depending on ‘type’.
+ *
+ * ‘Value’ is a class that can hold different types of data transparently.
+ * Namely integers and strings, which are also possible values for tags in
+ * taggit.
+ *
+ * This takes a string (possibly provided by the user on the command line) and
+ * converts it into a value type hinted at by ‘type’. This function returns
+ * TAG_INVALID if a conversion failed or if ‘type’ is unknown.
+ *
+ * @param    name        The tag-name to perform the loop-up on.
+ *
+ * @return enum tag_type for ‘name’. T_UNKNOWN if ‘name’ is unknown.
+ */
 Value
 tag_value_from_value(enum tag_type type, std::string value)
 {
@@ -108,4 +153,3 @@ error:
     retval.set_invalid();
     return retval;
 }
-
