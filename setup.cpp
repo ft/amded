@@ -141,11 +141,11 @@ static std::map< enum file_type, std::vector< enum tag_impl > > write_map;
  * Check whether an option is set.
  *
  * @code
- *    if (IS_SET(FOO)) {
+ *    if (IS_SET(FOO, datastore)) {
  *        // FOO is set
- *    } else if (IS_SET(FOO | BAR)) {
+ *    } else if (IS_SET(FOO | BAR, datastore)) {
  *        // FOO *and* BAR are set
- *    } else if (IS_SET(FOO) || IS_SET(BAR)) {
+ *    } else if (IS_SET(FOO, datastore) || IS_SET(BAR, datastore)) {
  *        // FOO *or* bar are set
  *    }
  * @endcode
