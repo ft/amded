@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Terms for redistribution and use can be found in doc/LICENCE.
+ */
+
+/**
+ * @file cmdline.cpp
+ * @brief Command line argument processing
+ */
+
 #include <iostream>
 #include <map>
 #include <stdexcept>

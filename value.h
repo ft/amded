@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Terms for redistribution and use can be found in doc/LICENCE.
+ */
+
+/**
+ * @file value.h
+ * @brief API of a container that holds multiple data-types
+ */
+
 #ifndef INC_VALUE_H
 #define INC_VALUE_H
 

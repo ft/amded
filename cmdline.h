@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Terms for redistribution and use can be found in doc/LICENCE.
+ */
+
+/**
+ * @file cmdline.h
+ * @brief API for command line argument processing
+ */
+
 #ifndef INC_TAG_H
 #define INC_TAG_H
 

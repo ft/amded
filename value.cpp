@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Terms for redistribution and use can be found in doc/LICENCE.
+ */
+
+/**
+ * @file value.cpp
+ * @brief Implementation of a container that holds multiple data-types
+ */
+
 #include <string>
 
 #include "taggit.h"
