@@ -8,12 +8,12 @@
  * @brief Implementation of a container that holds multiple data-types
  */
 
-#include <string>
+#include <tstring.h>
 
 #include "taggit.h"
 #include "value.h"
 
-using stdstring = std::string;
+using stdstring = TagLib::String;
 
 enum tag_type
 Value::get_type(void) const
@@ -30,7 +30,7 @@ Value::get_int(void) const
     return i;
 }
 
-std::string
+TagLib::String
 Value::get_str(void) const
 {
     if (type != TAG_STRING)
@@ -58,12 +58,12 @@ Value::set_invalid(void)
 }
 
 void
-Value::set_str(const std::string &new_s)
+Value::set_str(const TagLib::String &new_s)
 {
     if (type == TAG_STRING)
         s = new_s;
     else {
-        new(&s) std::string{new_s};
+        new(&s) TagLib::String{new_s};
         type = TAG_STRING;
     }
 }
@@ -79,10 +79,10 @@ Value::Value(int new_i)
     i = new_i;
 }
 
-Value::Value(std::string new_s)
+Value::Value(TagLib::String new_s)
 {
     type = TAG_STRING;
-    new(&s) std::string{new_s};
+    new(&s) TagLib::String{new_s};
 }
 
 Value::Value(const Value &orig)
@@ -93,7 +93,7 @@ Value::Value(const Value &orig)
         type = TAG_INTEGER;
         break;
     case TAG_STRING:
-        new(&s) std::string{orig.s};
+        new(&s) TagLib::String{orig.s};
         type = TAG_STRING;
         break;
     default:
@@ -109,7 +109,7 @@ Value::Value(Value &&orig)
         type = TAG_INTEGER;
         break;
     case TAG_STRING:
-        new(&s) std::string{std::move(orig.s)};
+        new(&s) TagLib::String{std::move(orig.s)};
         type = TAG_STRING;
         break;
     default:
@@ -137,7 +137,7 @@ Value::operator=(const Value &new_value)
 
     switch (new_value.type) {
     case TAG_STRING:
-        new(&s) std::string{new_value.s};
+        new(&s) TagLib::String{new_value.s};
         break;
     default:
         i = new_value.i;
@@ -160,7 +160,7 @@ Value::operator=(Value &&new_value)
 
     switch (new_value.type) {
     case TAG_STRING:
-        new(&s) std::string{std::move(new_value.s)};
+        new(&s) TagLib::String{std::move(new_value.s)};
         break;
     default:
         i = new_value.i;
@@ -178,7 +178,7 @@ Value::operator=(const int &new_value)
 }
 
 Value &
-Value::operator=(const std::string &new_value)
+Value::operator=(const TagLib::String &new_value)
 {
     this->set_str(new_value);
     return *this;

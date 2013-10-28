@@ -11,7 +11,7 @@
 #ifndef INC_VALUE_H
 #define INC_VALUE_H
 
-#include <string>
+#include <tstring.h>
 
 #include "taggit.h"
 
@@ -20,7 +20,7 @@ private:
     enum tag_type type;
     union {
         int i;
-        std::string s;
+        TagLib::String s;
     };
 
 public:
@@ -36,8 +36,8 @@ public:
     Value& operator=(const int&);
 
     /* Construction from strings */
-    Value(std::string);
-    Value& operator=(const std::string&);
+    Value(TagLib::String);
+    Value& operator=(const TagLib::String&);
 
     /* copy construction and assignment */
     Value(const Value&);
@@ -49,10 +49,10 @@ public:
 
     enum tag_type get_type() const;
     int get_int() const;
-    std::string get_str() const;
+    TagLib::String get_str() const;
 
     void set_int(int);
-    void set_str(const std::string &);
+    void set_str(const TagLib::String &);
     void set_invalid(void);
 };
 

@@ -51,6 +51,8 @@
  */
 #define TAGGIT_LIST_ALLOW_EMPTY_TAGS    (1 << 0)
 
+#define TAGGIT_TAG_MAXLENGTH 13
+
 enum tag_type {
     TAG_INVALID = -1,
     TAG_STRING,

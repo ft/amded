@@ -13,6 +13,7 @@
 
 #include "cmdline.h"
 #include "info.h"
+#include "list-human.h"
 #include "setup.h"
 #include "taggit.h"
 
@@ -232,7 +233,7 @@ main(int argc, char *argv[])
                 std::cout << std::endl;
             else
                 first = false;
-            // taggit_list_human(argv[i]);
+            taggit_list_human(argv[i]);
             break;
         case TAGGIT_LIST_MACHINE:
             if (!first)
