@@ -56,7 +56,8 @@
 enum tag_type {
     TAG_INVALID = -1,
     TAG_STRING,
-    TAG_INTEGER
+    TAG_INTEGER,
+    TAG_BOOLEAN
 };
 
 enum tag_id {

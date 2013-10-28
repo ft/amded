@@ -29,6 +29,8 @@ taggit_list_human(char *file)
                   << " | ";
         if (iter.second.get_type() == TAG_INTEGER)
             std::cout << iter.second.get_int();
+        else if (iter.second.get_type() == TAG_BOOLEAN)
+            std::cout << (iter.second.get_bool() ? "true" : "false");
         else if (iter.second.get_type() == TAG_STRING)
             std::cout << '"'
                       << iter.second.get_str().toCString(true)

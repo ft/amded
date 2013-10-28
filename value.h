@@ -19,6 +19,7 @@ class Value {
 private:
     enum tag_type type;
     union {
+        bool b;
         int i;
         TagLib::String s;
     };
@@ -30,6 +31,10 @@ public:
     /* Default {de,con}struction */
     Value();
     ~Value();
+
+    /* Construction from boolean */
+    Value(bool);
+    Value& operator=(const bool&);
 
     /* Construction from integers */
     Value(int);
@@ -48,9 +53,11 @@ public:
     Value& operator=(Value&&);
 
     enum tag_type get_type() const;
+    int get_bool() const;
     int get_int() const;
     TagLib::String get_str() const;
 
+    void set_bool(bool);
     void set_int(int);
     void set_str(const TagLib::String &);
     void set_invalid(void);

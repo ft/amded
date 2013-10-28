@@ -48,9 +48,9 @@ tagtomap(std::map< std::string, Value > &m,
             m[tagname] = tags.find(propname)->second[0];
     } else if (wantempty) {
         if (isint)
-            m[tagname] = 0;
+            m[tagname] = (int)0;
         else
-            m[tagname] = "";
+            m[tagname] = (std::string)"";
     }
 }
 
@@ -71,9 +71,9 @@ taggit_list_tags(char *file)
     tagtomap(retval, tags, "comment", "COMMENT", wantempty, false);
     tagtomap(retval, tags, "compilation", "ALBUMARTIST", wantempty, false);
     if (tags.contains("ALBUMARTIST"))
-        retval["is-va"] = 1;
+        retval["is-va"] = true;
     else
-        retval["is-va"] = 0;
+        retval["is-va"] = false;
     tagtomap(retval, tags, "composer", "COMPOSER", wantempty, false);
     tagtomap(retval, tags, "conductor", "CONDUCTOR", wantempty, false);
     tagtomap(retval, tags, "genre", "GENRE", wantempty, false);

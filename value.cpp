@@ -30,6 +30,15 @@ Value::get_int(void) const
     return i;
 }
 
+int
+Value::get_bool(void) const
+{
+    if (type != TAG_BOOLEAN)
+        throw bad_accessor {};
+
+    return i;
+}
+
 TagLib::String
 Value::get_str(void) const
 {
@@ -47,6 +56,16 @@ Value::set_int(int new_i)
 
     type = TAG_INTEGER;
     i = new_i;
+}
+
+void
+Value::set_bool(bool new_b)
+{
+    if (type == TAG_STRING)
+        s.~stdstring();
+
+    type = TAG_BOOLEAN;
+    b = new_b;
 }
 
 void
@@ -73,6 +92,12 @@ Value::Value()
     type = TAG_INVALID;
 }
 
+Value::Value(bool new_b)
+{
+    type = TAG_BOOLEAN;
+    b = new_b;
+}
+
 Value::Value(int new_i)
 {
     type = TAG_INTEGER;
@@ -88,6 +113,10 @@ Value::Value(TagLib::String new_s)
 Value::Value(const Value &orig)
 {
     switch (orig.type) {
+    case TAG_BOOLEAN:
+        b = orig.b;
+        type = TAG_BOOLEAN;
+        break;
     case TAG_INTEGER:
         i = orig.i;
         type = TAG_INTEGER;
@@ -104,6 +133,10 @@ Value::Value(const Value &orig)
 Value::Value(Value &&orig)
 {
     switch (orig.type) {
+    case TAG_BOOLEAN:
+        b = orig.b;
+        type = TAG_BOOLEAN;
+        break;
     case TAG_INTEGER:
         i = orig.i;
         type = TAG_INTEGER;
@@ -139,6 +172,9 @@ Value::operator=(const Value &new_value)
     case TAG_STRING:
         new(&s) TagLib::String{new_value.s};
         break;
+    case TAG_BOOLEAN:
+        b = new_value.b;
+        break;
     default:
         i = new_value.i;
     }
@@ -162,6 +198,9 @@ Value::operator=(Value &&new_value)
     case TAG_STRING:
         new(&s) TagLib::String{std::move(new_value.s)};
         break;
+    case TAG_BOOLEAN:
+        b = new_value.b;
+        break;
     default:
         i = new_value.i;
     }
@@ -174,6 +213,13 @@ Value &
 Value::operator=(const int &new_value)
 {
     this->set_int(new_value);
+    return *this;
+}
+
+Value &
+Value::operator=(const bool &new_value)
+{
+    this->set_bool(new_value);
     return *this;
 }
 
