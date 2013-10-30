@@ -13,6 +13,8 @@
 #include <iostream>
 #include <iomanip>
 
+#include <fileref.h>
+
 #include "list.h"
 #include "taggit.h"
 #include "value.h"
@@ -42,11 +44,15 @@ taggit_list_human(char *file)
 {
     std::cout << '<' << file << '>' << std::endl;
 
-    std::map< std::string, Value > data = taggit_list_tags(file);
+    TagLib::FileRef fr(file);
+    if (fr.isNull() || !fr.tag() || !fr.audioProperties())
+        return;
+
+    std::map< std::string, Value > data = taggit_list_tags(fr);
     for (auto &iter : data)
         print_iter(iter);
 
-    data = taggit_list_audioprops(file);
+    data = taggit_list_audioprops(fr);
     for (auto &iter : data)
         print_iter(iter);
 }

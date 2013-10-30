@@ -16,10 +16,12 @@
 #include <map>
 #include <string>
 
+#include <fileref.h>
+
 #include "taggit.h"
 #include "value.h"
 
-std::map< std::string, Value > taggit_list_tags(char *);
-std::map< std::string, Value > taggit_list_audioprops(char *);
+std::map< std::string, Value > taggit_list_tags(TagLib::FileRef &);
+std::map< std::string, Value > taggit_list_audioprops(TagLib::FileRef &);
 
 #endif /* INC_LIST_H */

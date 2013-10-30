@@ -55,15 +55,10 @@ tagtomap(std::map< std::string, Value > &m,
 }
 
 std::map< std::string, Value >
-taggit_list_tags(char *file)
+taggit_list_tags(TagLib::FileRef &fr)
 {
     std::map< std::string, Value > retval;
     bool wantempty = get_opt(TAGGIT_LIST_ALLOW_EMPTY_TAGS);
-
-    TagLib::FileRef fr(file);
-    if (fr.isNull() || !fr.tag())
-        return retval;
-
     TagLib::PropertyMap tags = fr.file()->properties();
     tagtomap(retval, tags, "album", "ALBUM", wantempty, false);
     tagtomap(retval, tags, "artist", "ARTIST", wantempty, false);
@@ -86,13 +81,9 @@ taggit_list_tags(char *file)
 }
 
 std::map< std::string, Value >
-taggit_list_audioprops(char *file)
+taggit_list_audioprops(TagLib::FileRef &fr)
 {
     std::map< std::string, Value > retval;
-    TagLib::FileRef fr(file);
-    if (fr.isNull() || !fr.tag())
-        return retval;
-
     TagLib::AudioProperties *p = fr.audioProperties();
     retval["bitrate"] = p->bitrate();
     retval["channels"] = p->channels();
