@@ -14,6 +14,7 @@
 #include "cmdline.h"
 #include "info.h"
 #include "list-human.h"
+#include "list-machine.h"
 #include "setup.h"
 #include "taggit.h"
 
@@ -240,7 +241,7 @@ main(int argc, char *argv[])
                 std::cout << ASCII_EOT;
             else
                 first = false;
-            // taggit_list_machine(argv[i]);
+            taggit_list_machine(argv[i]);
             break;
         case TAGGIT_TAG:
             // taggit_tag(argv[i]);
