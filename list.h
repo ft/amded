@@ -21,7 +21,7 @@
 #include "taggit.h"
 #include "value.h"
 
-std::map< std::string, Value > taggit_list_tags(TagLib::FileRef &);
-std::map< std::string, Value > taggit_list_audioprops(TagLib::FileRef &);
+std::map< std::string, Value > taggit_list_tags(const TagLib::PropertyMap &);
+std::map< std::string, Value > taggit_list_audioprops(TagLib::AudioProperties*);
 
 #endif /* INC_LIST_H */

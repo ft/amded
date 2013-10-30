@@ -13,6 +13,7 @@
 #include <string>
 
 #include <fileref.h>
+#include <tpropertymap.h>
 
 #include "list.h"
 #include "value.h"
@@ -44,11 +45,12 @@ taggit_list_machine(char *file)
     if (fr.isNull() || !fr.tag() || !fr.audioProperties())
         return;
 
-    std::map< std::string, Value > data = taggit_list_tags(fr);
+    std::map< std::string, Value > data
+        = taggit_list_tags(fr.file()->properties());
     for (auto &iter : data)
         print_iter(iter);
 
-    data = taggit_list_audioprops(fr);
+    data = taggit_list_audioprops(fr.audioProperties());
     for (auto &iter : data)
         print_iter(iter);
 }
