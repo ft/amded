@@ -11,6 +11,8 @@
 #ifndef INC_LIST_HUMAN_H
 #define INC_LIST_HUMAN_H
 
-void taggit_list_human(char *);
+#include "taggit.h"
+
+void taggit_list_human(const struct taggit_file &);
 
 #endif /* INC_LIST_HUMAN_H */

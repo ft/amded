@@ -21,7 +21,7 @@
 #include "value.h"
 
 static void
-print_iter(std::pair< const std::string, Value > &iter)
+print_iter(std::pair< const std::string, Value > &iter, bool symbol=false)
 {
     std::cout << std::setw(TAGGIT_TAG_MAXLENGTH)
               << std::left
@@ -31,26 +31,32 @@ print_iter(std::pair< const std::string, Value > &iter)
         std::cout << iter.second.get_int();
     else if (iter.second.get_type() == TAG_BOOLEAN)
         std::cout << (iter.second.get_bool() ? "true" : "false");
-    else if (iter.second.get_type() == TAG_STRING)
-        std::cout << '"'
-                  << iter.second.get_str().toCString(true)
-                  << '"';
-    else
+    else if (iter.second.get_type() == TAG_STRING) {
+        if (symbol)
+            std::cout << iter.second.get_str().toCString(true);
+        else
+            std::cout << '"'
+                      << iter.second.get_str().toCString(true)
+                      << '"';
+    } else
         std::cout << "<INVALID DATA>";
     std::cout << std::endl;
 }
 
 void
-taggit_list_human(char *file)
+taggit_list_human(const struct taggit_file &file)
 {
-    std::cout << '<' << file << '>' << std::endl;
+    std::cout << '<' << file.name << '>' << std::endl;
 
-    TagLib::FileRef fr(file);
+    TagLib::FileRef fr(file.name);
     if (fr.isNull() || !fr.tag() || !fr.audioProperties())
         return;
 
-    std::map< std::string, Value > data
-        = taggit_list_tags(fr.file()->properties());
+    std::map< std::string, Value > data = taggit_list_taggit(file);
+    for (auto &iter : data)
+        print_iter(iter, true);
+
+    data = taggit_list_tags(fr.file()->properties());
     for (auto &iter : data)
         print_iter(iter);
 

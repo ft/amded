@@ -23,5 +23,6 @@
 
 std::map< std::string, Value > taggit_list_tags(const TagLib::PropertyMap &);
 std::map< std::string, Value > taggit_list_audioprops(TagLib::AudioProperties*);
+std::map< std::string, Value > taggit_list_taggit(const struct taggit_file &);
 
 #endif /* INC_LIST_H */

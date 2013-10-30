@@ -11,6 +11,8 @@
 #ifndef INC_LIST_MACHINE_H
 #define INC_LIST_MACHINE_H
 
-void taggit_list_machine(char *);
+#include "taggit.h"
+
+void taggit_list_machine(const struct taggit_file &);
 
 #endif /* INC_LIST_MACHINE_H */

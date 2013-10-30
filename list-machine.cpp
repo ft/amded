@@ -37,16 +37,19 @@ print_iter(std::pair< const std::string, Value > &iter)
 }
 
 void
-taggit_list_machine(char *file)
+taggit_list_machine(const struct taggit_file &file)
 {
-    std::cout << "filename" << ASCII_STX << file;
+    std::cout << "filename" << ASCII_STX << file.name;
 
-    TagLib::FileRef fr(file);
+    TagLib::FileRef fr(file.name);
     if (fr.isNull() || !fr.tag() || !fr.audioProperties())
         return;
 
-    std::map< std::string, Value > data
-        = taggit_list_tags(fr.file()->properties());
+    std::map< std::string, Value > data = taggit_list_taggit(file);
+    for (auto &iter : data)
+        print_iter(iter);
+
+    data = taggit_list_tags(fr.file()->properties());
     for (auto &iter : data)
         print_iter(iter);
 

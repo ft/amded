@@ -228,23 +228,31 @@ main(int argc, char *argv[])
 
     bool first = true;
     for (int i = optind; i < argc; ++i) {
+        struct taggit_file file;
+        file.name = argv[i];
+        file.type = get_file_type(argv[i]);
+        if (file.type == FILE_T_INVALID) {
+            std::cerr << PROJECT ": Unsupported filetype: `"
+                      << file.name << "'" << std::endl;
+            continue;
+        }
         switch (taggit_mode) {
         case TAGGIT_LIST_HUMAN:
             if (!first)
                 std::cout << std::endl;
             else
                 first = false;
-            taggit_list_human(argv[i]);
+            taggit_list_human(file);
             break;
         case TAGGIT_LIST_MACHINE:
             if (!first)
                 std::cout << ASCII_EOT;
             else
                 first = false;
-            taggit_list_machine(argv[i]);
+            taggit_list_machine(file);
             break;
         case TAGGIT_TAG:
-            // taggit_tag(argv[i]);
+            // taggit_tag(file);
             break;
         default:
             std::cout << "Please use one action option (-m, -l or -t)."

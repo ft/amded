@@ -78,13 +78,21 @@ enum tag_id {
 };
 
 enum file_type {
-    FILE_T_MP3
+    FILE_T_INVALID = -1,
+    FILE_T_MP3,
+    FILE_T_OGG_FLAC,
+    FILE_T_OGG_VORBIS
 };
 
 enum tag_impl {
     TAG_T_APETAG,
     TAG_T_ID3V1,
     TAG_T_ID3V2
+};
+
+struct taggit_file {
+    enum file_type type;
+    char *name;
 };
 
 struct taggit_broken_tag_def {};

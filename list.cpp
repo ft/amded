@@ -29,6 +29,7 @@
 #include <fileref.h>
 #include <tpropertymap.h>
 
+#include "cmdline.h"
 #include "setup.h"
 #include "taggit.h"
 #include "value.h"
@@ -90,5 +91,13 @@ taggit_list_audioprops(TagLib::AudioProperties *p)
     retval["channels"] = p->channels();
     retval["length"] = p->length();
     retval["samplerate"] = p->sampleRate();
+    return retval;
+}
+
+std::map< std::string, Value >
+taggit_list_taggit(const struct taggit_file &file)
+{
+    std::map< std::string, Value > retval;
+    retval["filetype"] = get_file_type_reverse(file.type);
     return retval;
 }
