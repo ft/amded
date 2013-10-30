@@ -34,7 +34,7 @@ for fi in $taggit; do
         # zsh's parameter expansion split flag to gain easy access
         # to the actual data:
         info=( ${(ps:\x02:)ti} )
-        printf '%12s | %s\n' ${info[1]} ${info[2]}
+        printf '%15s | %s\n' ${info[1]} ${info[2]}
     done
 done
 

@@ -39,7 +39,7 @@ foreach my $fi (split /\x04/, $data) {
         # start-of-text (STX) bytes.
         # So, we split again to gain easy access to the actual data:
         my @info = split /\x02/, $ti, 2;
-        printf "%12s | %s\n", $info[0], $info[1];
+        printf "%15s | %s\n", $info[0], $info[1];
     }
 }
 
