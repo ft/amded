@@ -29,7 +29,7 @@
 #include <fileref.h>
 #include <tpropertymap.h>
 
-#include "cmdline.h"
+#include "file-spec.h"
 #include "setup.h"
 #include "taggit.h"
 #include "value.h"

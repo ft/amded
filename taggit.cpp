@@ -12,6 +12,7 @@
 #include <iostream>
 
 #include "cmdline.h"
+#include "file-spec.h"
 #include "info.h"
 #include "list-human.h"
 #include "list-machine.h"

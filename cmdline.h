@@ -19,8 +19,6 @@
 std::pair<std::string, std::string> tag_arg_to_pair(std::string);
 enum tag_id tag_to_id(std::string);
 enum tag_type tag_to_type(std::string);
-enum file_type get_file_type(std::string);
-std::string get_file_type_reverse(enum file_type);
 Value tag_value_from_value(enum tag_type, std::string);
 void list_tags(void);
 
