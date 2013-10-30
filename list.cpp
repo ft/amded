@@ -44,8 +44,11 @@ tagtomap(std::map< std::string, Value > &m,
     if (tags.contains(propname)) {
         if (isint)
             m[tagname] = tags.find(propname)->second[0].toInt();
-        else
-            m[tagname] = tags.find(propname)->second[0];
+        else {
+            TagLib::String v = tags.find(propname)->second[0];
+            if (wantempty || v.length() > 0)
+                m[tagname] = tags.find(propname)->second[0];
+        }
     } else if (wantempty) {
         if (isint)
             m[tagname] = (int)0;
