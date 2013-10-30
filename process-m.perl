@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # This is an example of how to process the data that taggit emits in
 # its list-machine-readable mode (using the -m option).
-# The code is written in perl.
+# The code is written in Perl.
 
 use strict;
 use warnings;
