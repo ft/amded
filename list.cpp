@@ -84,3 +84,19 @@ taggit_list_tags(char *file)
     tagtomap(retval, tags, "year", "DATE", wantempty, true);
     return retval;
 }
+
+std::map< std::string, Value >
+taggit_list_audioprops(char *file)
+{
+    std::map< std::string, Value > retval;
+    TagLib::FileRef fr(file);
+    if (fr.isNull() || !fr.tag())
+        return retval;
+
+    TagLib::AudioProperties *p = fr.audioProperties();
+    retval["bitrate"] = p->bitrate();
+    retval["channels"] = p->channels();
+    retval["length"] = p->length();
+    retval["samplerate"] = p->sampleRate();
+    return retval;
+}

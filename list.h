@@ -20,5 +20,6 @@
 #include "value.h"
 
 std::map< std::string, Value > taggit_list_tags(char *);
+std::map< std::string, Value > taggit_list_audioprops(char *);
 
 #endif /* INC_LIST_H */
