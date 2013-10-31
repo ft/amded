@@ -104,33 +104,17 @@ add_tag(enum tag_id id, Value v)
     newtags[id] = v;
 }
 
-/* Read/Write-Map shared data: */
-
-/**
- * Map of file types that support multiple tag-types.
- *
- * This is used by both the read-map and the write-map. It also defines default
- * values for those:
- *
- * - The read-map defaults to exactly this map.
- *
- * - The write-map defaults to the first entry in the tag-type vector.
- */
-static std::map< enum file_type, std::vector< enum tag_impl > > filetag_map {
-    { FILE_T_MP3, { TAG_T_ID3V2, TAG_T_APETAG, TAG_T_ID3V1 } }
-};
-
 /*
  * Read-map:
  */
 
-static std::map< enum file_type, std::vector< enum tag_impl > > read_map;
+std::map< enum file_type, std::vector< enum tag_impl > > read_map;
 
 /*
  * Write-map:
  */
 
-static std::map< enum file_type, std::vector< enum tag_impl > > write_map;
+std::map< enum file_type, std::vector< enum tag_impl > > write_map;
 
 /*
  * Boolean option implementation:

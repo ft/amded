@@ -231,12 +231,14 @@ main(int argc, char *argv[])
     for (int i = optind; i < argc; ++i) {
         struct taggit_file file;
         file.name = argv[i];
-        file.type = get_file_type(argv[i]);
+        file.type = get_ext_type(argv[i]);
         if (file.type == FILE_T_INVALID) {
             std::cerr << PROJECT ": Unsupported filetype: `"
                       << file.name << "'" << std::endl;
             continue;
         }
+        if (!taggit_open(file))
+            continue;
         switch (taggit_mode) {
         case TAGGIT_LIST_HUMAN:
             if (!first)
@@ -260,6 +262,7 @@ main(int argc, char *argv[])
                       << std::endl;
             return EXIT_FAILURE;
         }
+        delete file.fh;
     }
 
     return EXIT_SUCCESS;

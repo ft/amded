@@ -41,19 +41,15 @@ taggit_list_machine(const struct taggit_file &file)
 {
     std::cout << "filename" << ASCII_STX << file.name;
 
-    TagLib::FileRef fr(file.name);
-    if (fr.isNull() || !fr.tag() || !fr.audioProperties())
-        return;
-
     std::map< std::string, Value > data = taggit_list_taggit(file);
     for (auto &iter : data)
         print_iter(iter);
 
-    data = taggit_list_tags(fr.file()->properties());
+    data = taggit_list_tags(file);
     for (auto &iter : data)
         print_iter(iter);
 
-    data = taggit_list_audioprops(fr.audioProperties());
+    data = taggit_list_audioprops(file.fh->audioProperties());
     for (auto &iter : data)
         print_iter(iter);
 }

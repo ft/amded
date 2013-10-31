@@ -12,10 +12,16 @@
 #define INC_SETUP_H
 
 #include <cstdint>
+#include <map>
+#include <vector>
+
 #include "value.h"
 
 void add_tag(enum tag_id, Value);
 void set_opt(uint32_t);
 bool get_opt(uint32_t);
+
+extern std::map< enum file_type, std::vector< enum tag_impl > > read_map;
+extern std::map< enum file_type, std::vector< enum tag_impl > > write_map;
 
 #endif /* INC_SETUP_H */

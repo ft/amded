@@ -13,6 +13,8 @@
 
 #include <cstdint>
 
+#include "tfile.h"
+
 /** the project's (and executable's) name */
 #define PROJECT "taggit"
 
@@ -51,7 +53,7 @@
  */
 #define TAGGIT_LIST_ALLOW_EMPTY_TAGS    (1 << 0)
 
-#define TAGGIT_TAG_MAXLENGTH 13
+#define TAGGIT_TAG_MAXLENGTH 14
 
 enum tag_type {
     TAG_INVALID = -1,
@@ -85,14 +87,18 @@ enum file_type {
 };
 
 enum tag_impl {
+    TAG_T_NONE = -1,
     TAG_T_APETAG,
     TAG_T_ID3V1,
     TAG_T_ID3V2
 };
 
 struct taggit_file {
-    enum file_type type;
     char *name;
+    enum file_type type;
+    enum tag_impl tagimpl;
+    bool multi_tag;
+    TagLib::File *fh;
 };
 
 struct taggit_broken_tag_def {};

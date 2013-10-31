@@ -59,13 +59,14 @@ tagtomap(std::map< std::string, Value > &m,
 }
 
 std::map< std::string, Value >
-taggit_list_tags(const TagLib::PropertyMap &tags)
+taggit_list_tags(const struct taggit_file &file)
 {
+    const TagLib::PropertyMap &tags = get_tags_for_file(file);
     std::map< std::string, Value > retval;
     bool wantempty = get_opt(TAGGIT_LIST_ALLOW_EMPTY_TAGS);
     tagtomap(retval, tags, "album", "ALBUM", wantempty, false);
     tagtomap(retval, tags, "artist", "ARTIST", wantempty, false);
-    tagtomap(retval, tags, "catalognumber", "CATALOGNUMBER", wantempty, false);
+    tagtomap(retval, tags, "catalog-number", "CATALOGNUMBER", wantempty, false);
     tagtomap(retval, tags, "comment", "COMMENT", wantempty, false);
     tagtomap(retval, tags, "compilation", "ALBUMARTIST", wantempty, false);
     if (tags.contains("ALBUMARTIST"))
@@ -77,8 +78,8 @@ taggit_list_tags(const TagLib::PropertyMap &tags)
     tagtomap(retval, tags, "genre", "GENRE", wantempty, false);
     tagtomap(retval, tags, "label", "LABEL", wantempty, false);
     tagtomap(retval, tags, "performer", "PERFORMER", wantempty, false);
-    tagtomap(retval, tags, "tracknumber", "TRACKNUMBER", wantempty, true);
-    tagtomap(retval, tags, "tracktitle", "TITLE", wantempty, false);
+    tagtomap(retval, tags, "track-number", "TRACKNUMBER", wantempty, true);
+    tagtomap(retval, tags, "track-title", "TITLE", wantempty, false);
     tagtomap(retval, tags, "year", "DATE", wantempty, true);
     return retval;
 }
@@ -87,17 +88,25 @@ std::map< std::string, Value >
 taggit_list_audioprops(TagLib::AudioProperties *p)
 {
     std::map< std::string, Value > retval;
-    retval["bitrate"] = p->bitrate();
+    retval["bit-rate"] = p->bitrate();
     retval["channels"] = p->channels();
     retval["length"] = p->length();
-    retval["samplerate"] = p->sampleRate();
+    retval["sample-rate"] = p->sampleRate();
     return retval;
 }
 
 std::map< std::string, Value >
 taggit_list_taggit(const struct taggit_file &file)
 {
+    bool wantempty = get_opt(TAGGIT_LIST_ALLOW_EMPTY_TAGS);
     std::map< std::string, Value > retval;
-    retval["filetype"] = get_file_type_reverse(file.type);
+    retval["file-type"] = get_file_type_reverse(file.type);
+    if (file.multi_tag) {
+        retval["tag-type"] = tag_impl_to_string(file.tagimpl);
+        retval["tag-types"] = get_tag_types(file);
+    } else if (wantempty) {
+        retval["tag-type"] = (TagLib::String)"";
+        retval["tag-types"] = (TagLib::String)"";
+    }
     return retval;
 }
