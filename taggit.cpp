@@ -17,6 +17,7 @@
 #include "list-human.h"
 #include "list-machine.h"
 #include "setup.h"
+#include "tag.h"
 #include "taggit.h"
 
 #include "bsdgetopt.c"
@@ -250,7 +251,7 @@ main(int argc, char *argv[])
             taggit_list_machine(file);
             break;
         case TAGGIT_TAG:
-            // taggit_tag(file);
+            taggit_tag(file);
             break;
         default:
             std::cout << "Please use one action option (-m, -l or -t)."

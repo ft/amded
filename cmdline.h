@@ -8,8 +8,8 @@
  * @brief API for command line argument processing
  */
 
-#ifndef INC_TAG_H
-#define INC_TAG_H
+#ifndef INC_CMDLINE_H
+#define INC_CMDLINE_H
 
 #include <string>
 
@@ -24,4 +24,4 @@ void list_tags(void);
 void setup_readmap(std::string);
 void setup_writemap(std::string);
 
-#endif /* INC_TAG_H */
+#endif /* INC_CMDLINE_H */
