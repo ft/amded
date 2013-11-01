@@ -218,7 +218,8 @@ main(int argc, char *argv[])
         if (read_map.size() == 0)
             setup_readmap("");
     } else if (taggit_mode == TAGGIT_TAG) {
-        setup_writemap("");
+        if (write_map.size() == 0)
+            setup_writemap("");
     }
 
     bool first = true;
