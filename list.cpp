@@ -100,7 +100,7 @@ taggit_list_taggit(const struct taggit_file &file)
 {
     bool wantempty = get_opt(TAGGIT_LIST_ALLOW_EMPTY_TAGS);
     std::map< std::string, Value > retval;
-    retval["file-type"] = get_file_type_reverse(file.type);
+    retval["file-type"] = file.type.get_label();
     if (file.multi_tag) {
         retval["tag-type"] = tag_impl_to_string(file.tagimpl);
         retval["tag-types"] = get_tag_types(file);

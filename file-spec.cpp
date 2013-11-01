@@ -82,7 +82,7 @@ mp3_has_tag_type(TagLib::MPEG::File *fh, enum tag_impl type)
 static bool
 has_tag_type(const struct taggit_file &file, enum tag_impl type)
 {
-    switch (file.type) {
+    switch (file.type.get_id()) {
     case FILE_T_MP3:
         return
             mp3_has_tag_type(
@@ -111,32 +111,6 @@ file_ext_map = {
     { "oga",  FILE_T_OGG_VORBIS }
 };
 
-static std::map < std::string, enum file_type >
-file_type_map = {
-    { "ogg-flac",     FILE_T_OGG_FLAC },
-    { "ogg-vorbis",   FILE_T_OGG_VORBIS },
-    { "mp3",          FILE_T_MP3 }
-};
-
-std::string
-get_file_type_reverse(enum file_type type)
-{
-    for (auto &iter : file_type_map)
-        if (iter.second == type)
-            return iter.first;
-
-    return "unknown-filetype";
-}
-
-enum file_type
-get_file_type(std::string type)
-{
-    auto rv = file_type_map.find(type);
-    if (rv == file_type_map.end())
-        return FILE_T_INVALID;
-    return rv->second;
-}
-
 enum file_type
 get_ext_type(std::string filename)
 {
@@ -153,7 +127,7 @@ get_ext_type(std::string filename)
 static enum tag_impl
 get_prefered_tag_impl(const struct taggit_file &file)
 {
-    auto types = get_readmap_vector(file.type);
+    auto types = get_readmap_vector(file.type.get_id());
     for (auto &iter : types)
         if (has_tag_type(file, iter))
             return iter;
@@ -163,7 +137,7 @@ get_prefered_tag_impl(const struct taggit_file &file)
 bool
 taggit_open(struct taggit_file &file)
 {
-    switch (file.type) {
+    switch (file.type.get_id()) {
     case FILE_T_MP3:
         file.fh = new TagLib::MPEG::File(file.name);
         break;
@@ -193,7 +167,7 @@ taggit_open(struct taggit_file &file)
         goto error;
     }
 
-    if (is_multitag_type(file.type)) {
+    if (is_multitag_type(file.type.get_id())) {
         file.multi_tag = true;
         file.tagimpl = get_prefered_tag_impl(file);
     } else
@@ -219,7 +193,7 @@ get_tag_types(const struct taggit_file &file)
 {
     std::string rv("");
     bool first = true;
-    auto types = get_multitag_vector(file.type);
+    auto types = get_multitag_vector(file.type.get_id());
     for (auto &iter : types) {
         if (has_tag_type(file, iter)) {
             if (!first)
@@ -237,7 +211,7 @@ get_tags_for_file(const struct taggit_file &file)
 {
     TagLib::MPEG::File *mp3fh;
 
-    switch (file.type) {
+    switch (file.type.get_id()) {
     case FILE_T_MP3:
         mp3fh = reinterpret_cast<TagLib::MPEG::File *>(file.fh);
         switch (file.tagimpl) {

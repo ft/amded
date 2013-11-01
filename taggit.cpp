@@ -238,7 +238,7 @@ main(int argc, char *argv[])
         struct taggit_file file;
         file.name = argv[i];
         file.type = get_ext_type(argv[i]);
-        if (file.type == FILE_T_INVALID) {
+        if (file.type.get_id() == FILE_T_INVALID) {
             std::cerr << PROJECT ": Unsupported filetype: `"
                       << file.name << "'" << std::endl;
             continue;

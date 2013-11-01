@@ -18,8 +18,10 @@ PROJECT = taggit
 HEADERS = taggit.h bsdgetopt.c
 SOURCES = taggit.cpp info.cpp setup.cpp cmdline.cpp value.cpp
 SOURCES += list.cpp list-human.cpp list-machine.cpp file-spec.cpp
+SOURCES += file-type.cpp
 OBJS = taggit.o info.o setup.o cmdline.o value.o
 OBJS += list.o list-human.o list-machine.o file-spec.o
+OBJS += file-type.o
 CXXFLAGS += `pkg-config --cflags taglib`
 CXXFLAGS += -W -Wall -Wextra
 CXXFLAGS += -Wmissing-declarations -std=c++11

@@ -13,7 +13,9 @@
 
 #include <cstdint>
 
-#include "tfile.h"
+#include <tfile.h>
+
+#include "file-type.h"
 
 /** the project's (and executable's) name */
 #define PROJECT "taggit"
@@ -79,13 +81,6 @@ enum tag_id {
     T_YEAR
 };
 
-enum file_type {
-    FILE_T_INVALID = -1,
-    FILE_T_MP3,
-    FILE_T_OGG_FLAC,
-    FILE_T_OGG_VORBIS
-};
-
 enum tag_impl {
     TAG_T_NONE = -1,
     TAG_T_APETAG,
@@ -95,7 +90,7 @@ enum tag_impl {
 
 struct taggit_file {
     char *name;
-    enum file_type type;
+    Taggit::FileType type;
     enum tag_impl tagimpl;
     bool multi_tag;
     TagLib::File *fh;
