@@ -16,6 +16,7 @@
 #include <tfile.h>
 
 #include "file-type.h"
+#include "tag-implementation.h"
 
 /** the project's (and executable's) name */
 #define PROJECT "taggit"
@@ -81,17 +82,10 @@ enum tag_id {
     T_YEAR
 };
 
-enum tag_impl {
-    TAG_T_NONE = -1,
-    TAG_T_APETAG,
-    TAG_T_ID3V1,
-    TAG_T_ID3V2
-};
-
 struct taggit_file {
     char *name;
     Taggit::FileType type;
-    enum tag_impl tagimpl;
+    Taggit::TagImplementation tagimpl;
     bool multi_tag;
     TagLib::File *fh;
 };

@@ -21,15 +21,10 @@
 #include <tpropertymap.h>
 #include <vorbisfile.h>
 
+#include "file-type.h"
+#include "tag-implementation.h"
 #include "setup.h"
 #include "taggit.h"
-
-static std::map< enum tag_impl, std::string > tagimpl_map {
-    { TAG_T_APETAG, "apetag" },
-    { TAG_T_ID3V1,  "id3v1" },
-    { TAG_T_ID3V2,  "id3v2" },
-    { TAG_T_NONE,   "none" },
-};
 
 /**
  * Map of file types that support multiple tag-types.
@@ -180,15 +175,6 @@ error:
 }
 
 std::string
-tag_impl_to_string(enum tag_impl type)
-{
-    auto rv = tagimpl_map.find(type);
-    if (rv == tagimpl_map.end())
-        return "unknown-tag-implementation";
-    return rv->second;
-}
-
-std::string
 get_tag_types(const struct taggit_file &file)
 {
     std::string rv("");
@@ -196,11 +182,12 @@ get_tag_types(const struct taggit_file &file)
     auto types = get_multitag_vector(file.type.get_id());
     for (auto &iter : types) {
         if (has_tag_type(file, iter)) {
+            Taggit::TagImplementation s = iter;
             if (!first)
                 rv += ",";
             else
                 first = false;
-            rv += tag_impl_to_string(iter);
+            rv += s.get_label();
         }
     }
     return first ? "none" : rv;
@@ -214,7 +201,7 @@ get_tags_for_file(const struct taggit_file &file)
     switch (file.type.get_id()) {
     case FILE_T_MP3:
         mp3fh = reinterpret_cast<TagLib::MPEG::File *>(file.fh);
-        switch (file.tagimpl) {
+        switch (file.tagimpl.get_id()) {
         case TAG_T_ID3V2:
             return mp3fh->ID3v2Tag()->properties();
         case TAG_T_APETAG:

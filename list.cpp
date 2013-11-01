@@ -102,7 +102,7 @@ taggit_list_taggit(const struct taggit_file &file)
     std::map< std::string, Value > retval;
     retval["file-type"] = file.type.get_label();
     if (file.multi_tag) {
-        retval["tag-type"] = tag_impl_to_string(file.tagimpl);
+        retval["tag-type"] = file.tagimpl.get_label();
         retval["tag-types"] = get_tag_types(file);
     } else if (wantempty) {
         retval["tag-type"] = (TagLib::String)"";
