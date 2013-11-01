@@ -14,6 +14,8 @@
 #include <string>
 
 #include "cmdline.h"
+#include "file-spec.h"
+#include "setup.h"
 #include "taggit.h"
 
 /**
@@ -167,4 +169,62 @@ tag_value_from_value(enum tag_type type, std::string value)
 error:
     retval.set_invalid();
     return retval;
+}
+
+#if 0
+static std::vector<std::string>
+split(const std::string &str, const std::string &delim)
+{
+    std::vector<std::string> retval;
+    size_t start = 0, end;
+
+    for (;;) {
+        end = str.find(delim, start);
+        retval.push_back(str.substr(start, end - start));
+        if (end == std::string::npos)
+            return retval;
+        start = end + 1;
+    }
+}
+#endif
+
+/**
+ * Set up taggit's read-map
+ *
+ * Some file types may contain information in one or more of several different
+ * tag implementations. For example, mp3 files may contain ID3v1, ID3v2 and
+ * apetag tags. The read-map decides which implementation is prefered. The user
+ * passes in a read-map definition via the command line. Its format looks like
+ * this:
+ *
+ *   FILETYPE0=impl0,impl1,...[:FILETYPE1=impl4,impl5,...]
+ *
+ * The filetag_map from file-spec.cpp defines which tag-implementations are
+ * valid for which file type.
+ *
+ * This function reads this definition and fills the ‘read_map’ parameter.
+ * Undefined file-types get the default value as defined in ’filetag_map’.
+ *
+ * @param  def   read-map definition string
+ *
+ * @return void
+ */
+void
+setup_readmap(std::string def)
+{
+    if (def == "") {
+        /* If there is no definition, use the entire default value. */
+        read_map = filetag_map;
+        return;
+    }
+#if 0
+    std::vector<std::string> defs = split(def, ":");
+    for (auto &di : defs) {
+        std::pair<std::string, std::string> entry = tag_arg_to_pair(di);
+        std::cout << "readmap entry: <" << entry.first << '>' << std::endl;
+        std::vector<std::string> types = split(entry.second, ",");
+        for (auto &ei : types)
+            std::cout << "    " << ei << std::endl;
+    }
+#endif
 }

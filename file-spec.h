@@ -11,6 +11,7 @@
 #ifndef INC_FILE_SPEC_H
 #define INC_FILE_SPEC_H
 
+#include <map>
 #include <string>
 
 #include "taggit.h"
@@ -25,5 +26,7 @@ bool taggit_open(struct taggit_file &);
 std::string get_tag_types(const struct taggit_file &);
 std::string tag_impl_to_string(enum tag_impl);
 TagLib::PropertyMap get_tags_for_file(const struct taggit_file &);
+
+extern std::map< enum file_type, std::vector< enum tag_impl > > filetag_map;
 
 #endif /* INC_FILE_SPEC_H */

@@ -41,7 +41,7 @@ static std::map< enum tag_impl, std::string > tagimpl_map {
  *
  * - The write-map defaults to the first entry in the tag-type vector.
  */
-static std::map< enum file_type, std::vector< enum tag_impl > > filetag_map {
+std::map< enum file_type, std::vector< enum tag_impl > > filetag_map {
     { FILE_T_MP3, { TAG_T_ID3V2, TAG_T_APETAG, TAG_T_ID3V1 } }
 };
 
@@ -58,8 +58,7 @@ get_vector_from_map(enum file_type type,
 static std::vector< enum tag_impl >
 get_readmap_vector(enum file_type type)
 {
-    /* TODO: Use read_map once it's set up. */
-    return get_vector_from_map(type, /*here*/ filetag_map);
+    return get_vector_from_map(type, read_map);
 }
 
 static std::vector< enum tag_impl >

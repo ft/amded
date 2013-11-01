@@ -122,10 +122,7 @@ parse_options(int argc, char *argv[])
             taggit_mode = TAGGIT_LIST_MACHINE;
             break;
         case 'R':
-            //setup_readmap(optarg);
-#ifdef TAGGIT_DEBUG
-            //dump_readmap();
-#endif
+            setup_readmap(optarg);
             break;
         case 's':
             std::cout << "Supported tags:" << std::endl;
@@ -227,6 +224,15 @@ main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
+    if (taggit_mode == TAGGIT_LIST_MACHINE ||
+        taggit_mode == TAGGIT_LIST_HUMAN)
+    {
+        if (read_map.size() == 0)
+            setup_readmap("");
+#ifdef TAGGIT_DEBUG
+        //dump_readmap();
+#endif
+    }
     bool first = true;
     for (int i = optind; i < argc; ++i) {
         struct taggit_file file;

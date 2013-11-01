@@ -21,5 +21,6 @@ enum tag_id tag_to_id(std::string);
 enum tag_type tag_to_type(std::string);
 Value tag_value_from_value(enum tag_type, std::string);
 void list_tags(void);
+void setup_readmap(std::string);
 
 #endif /* INC_TAG_H */
