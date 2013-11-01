@@ -8,6 +8,7 @@
  * @brief Command line argument processing
  */
 
+#include <cstdlib>
 #include <iostream>
 #include <map>
 #include <stdexcept>
@@ -171,7 +172,6 @@ error:
     return retval;
 }
 
-#if 0
 static std::vector<std::string>
 split(const std::string &str, const std::string &delim)
 {
@@ -186,7 +186,6 @@ split(const std::string &str, const std::string &delim)
         start = end + 1;
     }
 }
-#endif
 
 /**
  * Set up taggit's read-map
@@ -212,19 +211,37 @@ split(const std::string &str, const std::string &delim)
 void
 setup_readmap(std::string def)
 {
-    if (def == "") {
-        /* If there is no definition, use the entire default value. */
-        read_map = filetag_map;
-        return;
-    }
-#if 0
+    read_map = filetag_map;
+
     std::vector<std::string> defs = split(def, ":");
     for (auto &di : defs) {
+        std::vector<enum tag_impl> ttypes;
         std::pair<std::string, std::string> entry = tag_arg_to_pair(di);
-        std::cout << "readmap entry: <" << entry.first << '>' << std::endl;
+        Taggit::FileType ft(entry.first);
+
+        if (ft.get_id() == FILE_T_INVALID) {
+            std::cerr << PROJECT << ": Invalid file type: "
+                      << entry.first << std::endl;
+            exit(EXIT_FAILURE);
+        }
+        if (!is_multitag_type(ft.get_id())) {
+            std::cerr << PROJECT << ": File type is not a multi-tag type: "
+                      << entry.first << std::endl;
+            exit(EXIT_FAILURE);
+        }
+
         std::vector<std::string> types = split(entry.second, ",");
-        for (auto &ei : types)
-            std::cout << "    " << ei << std::endl;
+        for (auto &ei : types) {
+            Taggit::TagImplementation ti(ei);
+            if (ti.get_id() == TAG_T_INVALID ||
+                ti.get_id() == TAG_T_NONE)
+            {
+                std::cerr << PROJECT << ": Invalid tag type: "
+                          << ei << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            ttypes.push_back(ti.get_id());
+        }
+        read_map[ft.get_id()] = ttypes;
     }
-#endif
 }
