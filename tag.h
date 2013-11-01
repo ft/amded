@@ -15,4 +15,6 @@
 
 void taggit_tag(struct taggit_file);
 
+extern std::map< std::string, std::pair< enum tag_id, enum tag_type > > tag_map;
+
 #endif /* INC_TAG_H */
