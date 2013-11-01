@@ -188,7 +188,7 @@ split(const std::string &str, const std::string &delim)
 }
 
 /**
- * Set up taggit's read-map
+ * Change one of taggit's file-type to tag-implemenation maps
  *
  * Some file types may contain information in one or more of several different
  * tag implementations. For example, mp3 files may contain ID3v1, ID3v2 and
@@ -198,21 +198,22 @@ split(const std::string &str, const std::string &delim)
  *
  *   FILETYPE0=impl0,impl1,...[:FILETYPE1=impl4,impl5,...]
  *
+ * The write-map is defined exactly like that.
+ *
  * The filetag_map from file-spec.cpp defines which tag-implementations are
  * valid for which file type.
  *
- * This function reads this definition and fills the ‘read_map’ parameter.
- * Undefined file-types get the default value as defined in ’filetag_map’.
+ * This function reads this definition and fills the ‘m’ parameter.
  *
- * @param  def   read-map definition string
+ * @param  m     map parameter to modify
+ * @param  def   mapping definition string
  *
  * @return void
  */
-void
-setup_readmap(std::string def)
+static void
+setup_map(std::map<enum file_type, std::vector< enum tag_impl>> &m,
+          std::string def)
 {
-    read_map = filetag_map;
-
     std::vector<std::string> defs = split(def, ":");
     for (auto &di : defs) {
         std::vector<enum tag_impl> ttypes;
@@ -248,6 +249,14 @@ setup_readmap(std::string def)
             }
             ttypes.push_back(ti.get_id());
         }
-        read_map[ft.get_id()] = ttypes;
+        m[ft.get_id()] = ttypes;
     }
+}
+
+void
+setup_readmap(std::string def)
+{
+    read_map = filetag_map;
+    if (def != "")
+        setup_map(read_map, def);
 }
