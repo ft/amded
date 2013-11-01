@@ -31,6 +31,7 @@
 
 #include "file-spec.h"
 #include "setup.h"
+#include "tag.h"
 #include "taggit.h"
 #include "value.h"
 
@@ -64,6 +65,22 @@ taggit_list_tags(const struct taggit_file &file)
     const TagLib::PropertyMap &tags = get_tags_for_file(file);
     std::map< std::string, Value > retval;
     bool wantempty = get_opt(TAGGIT_LIST_ALLOW_EMPTY_TAGS);
+
+    if (file.tagimpl.get_id() == TAG_T_NONE) {
+        if (wantempty) {
+            for (auto &iter : tag_map) {
+                if (iter.second.second == TAG_STRING) {
+                    retval[iter.first] = (std::string)"";
+                } else {
+                    retval[iter.first] = 0;
+                }
+            }
+            retval["is-va"] = false;
+            return retval;
+        } else
+            return { };
+    }
+
     tagtomap(retval, tags, "album", "ALBUM", wantempty, false);
     tagtomap(retval, tags, "artist", "ARTIST", wantempty, false);
     tagtomap(retval, tags, "catalog-number", "CATALOGNUMBER", wantempty, false);
