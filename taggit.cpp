@@ -181,10 +181,7 @@ parse_options(int argc, char *argv[])
             taggit_version();
             exit(EXIT_SUCCESS);
         case 'W':
-            //setup_writemap(optarg);
-#ifdef TAGGIT_DEBUG
-            //dump_writemap();
-#endif
+            setup_writemap(optarg);
             break;
         default:
             taggit_usage();
@@ -231,6 +228,11 @@ main(int argc, char *argv[])
             setup_readmap("");
 #ifdef TAGGIT_DEBUG
         //dump_readmap();
+#endif
+    } else if (taggit_mode == TAGGIT_TAG) {
+        setup_writemap("");
+#ifdef TAGGIT_DEBUG
+        //dump_writemap();
 #endif
     }
     bool first = true;

@@ -260,3 +260,13 @@ setup_readmap(std::string def)
     if (def != "")
         setup_map(read_map, def);
 }
+
+void
+setup_writemap(std::string def)
+{
+    for (auto &iter : filetag_map)
+        write_map[iter.first] = { iter.second[0] };
+
+    if (def != "")
+        setup_map(read_map, def);
+}
