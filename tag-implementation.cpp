@@ -41,6 +41,7 @@ namespace Taggit {
             if (iter.second == l) {
                 label = l;
                 id = iter.first;
+                return;
             }
         }
         id = TAG_T_INVALID;
@@ -60,6 +61,7 @@ namespace Taggit {
             if (iter.second == l) {
                 label = l;
                 id = iter.first;
+                return *this;
             }
         }
         id = TAG_T_INVALID;
