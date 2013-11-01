@@ -166,15 +166,6 @@ parse_options(int argc, char *argv[])
 
             /* Looks good. Add the tag. */
             add_tag(tag_to_id(tag.first), tagval);
-
-#ifdef TAGGIT_DEBUG
-            std::cerr << '[' << tag.first << ']'
-                      << ' '
-                      << '{' << tag.second << '}'
-                      << ' '
-                      << '<' << type << '>'
-                      << std::endl;
-#endif
             break;
 
         case 'V':
@@ -226,15 +217,10 @@ main(int argc, char *argv[])
     {
         if (read_map.size() == 0)
             setup_readmap("");
-#ifdef TAGGIT_DEBUG
-        //dump_readmap();
-#endif
     } else if (taggit_mode == TAGGIT_TAG) {
         setup_writemap("");
-#ifdef TAGGIT_DEBUG
-        //dump_writemap();
-#endif
     }
+
     bool first = true;
     for (int i = optind; i < argc; ++i) {
         struct taggit_file file;

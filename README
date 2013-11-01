@@ -29,9 +29,6 @@ Building:
     % make all doc
     % make devdoc
 
-    To enable debugging:
-    % make all ADDTO_CFLAGS=-DTAGGIT_DEBUG
-
     For distributors:
     % make all doc "ADDTO_CFLAGS=-DVENDOR_VERSION=\"\\\"debian 0.2-3\\\"\""
 

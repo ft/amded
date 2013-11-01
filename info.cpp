@@ -83,11 +83,6 @@ taggit_version(void)
 #ifdef GIT_SOURCE
     std::cout << "Based on commit: " << GIT_DESCRIPTION << std::endl;
 #endif /* GIT_SOURCE */
-
-#ifdef TAGGIT_DEBUG
-    std::cout << "Debugging output to stderr is *enabled* in this binary."
-              << std::cout;
-#endif /* TAGGIT_DEBUG */
 }
 
 static void
