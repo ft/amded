@@ -240,6 +240,12 @@ setup_readmap(std::string def)
                           << ei << std::endl;
                 exit(EXIT_FAILURE);
             }
+            if (!tag_impl_allowed_for_file_type(ft.get_id(), ti.get_id())) {
+                std::cerr << PROJECT << ": Tag type ("
+                          << ti.get_label() << ") not allowed for file type: "
+                          << ft.get_label() << std::endl;
+                exit(EXIT_FAILURE);
+            }
             ttypes.push_back(ti.get_id());
         }
         read_map[ft.get_id()] = ttypes;

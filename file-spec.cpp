@@ -62,6 +62,16 @@ get_multitag_vector(enum file_type type)
     return get_vector_from_map(type, filetag_map);
 }
 
+bool
+tag_impl_allowed_for_file_type(enum file_type ft, enum tag_impl ti)
+{
+    static std::vector<enum tag_impl> ttypes = get_multitag_vector(ft);
+    for (auto &iter : ttypes)
+        if (iter == ti)
+            return true;
+    return false;
+}
+
 static bool
 mp3_has_tag_type(TagLib::MPEG::File *fh, enum tag_impl type)
 {
