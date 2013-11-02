@@ -1,8 +1,39 @@
 * 0.3 -> 0.4:
 
-    - Remove "-E"
+    - Remove "-E".
 
     - Introduce "-o", which allows the user to pass in one or more parameters
 
-    - Introduce the ‘show-empty’ parameter ("-o show-empty" resembles the
+    - Introduce the ‘show-empty’ parameter (Thus, "-o show-empty" resembles the
       previous "-E" behaviour).
+
+    - Changed tag-names:
+
+      - tracktitle  → track-title
+      - tracknumber → track-number
+      - filetype    → file-type
+      - tagtype     → tag-type
+      - tagtypes    → tag-types
+      - is_va       → is-va
+      - bitrate     → bit-rate
+      - samplerate  → sample-rate
+
+    - Removed tag-names:
+
+      - kbitrate
+      - ksamplerate
+      - mm:ss
+
+    - New tag-names:
+
+      - catalog-number
+      - composer
+      - conductor
+      - label
+      - performer
+
+    - Internally, this release is a complete rewrite of the old C code-base in
+      C++, which allows us to better leverage TagLib's API. Some care has been
+      given to introduce as little incompatibilities as possible. There may be
+      some anyway. If something behaves differently from what the manual
+      describes, than that's a bug: Please report it!
