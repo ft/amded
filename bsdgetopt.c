@@ -119,7 +119,7 @@ bsd_getopt(int nargc, char *nargv[], const char *ostr)
         optopt = *place++;
 
     /* See if option letter is one the caller wanted... */
-    if (optopt == ':' || (oli = strchr(ostr, optopt)) == NULL) {
+    if (optopt == ':' || (oli = strchr((char*)ostr, optopt)) == NULL) {
         if (*place == 0)
             ++optind;
         if (opterr && *ostr != ':')
