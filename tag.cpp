@@ -15,6 +15,7 @@
 #include <fileref.h>
 #include <tpropertymap.h>
 
+#include "file-spec.h"
 #include "list-human.h"
 #include "setup.h"
 #include "tag.h"
@@ -74,19 +75,8 @@ list_tags(void)
 }
 
 void
-taggit_tag(struct taggit_file file)
+taggit_amend_tags(TagLib::PropertyMap &pm)
 {
-    if (file.multi_tag)
-        return;
-
-    if (file.fh->readOnly()) {
-        std::cerr << PROJECT << ": File is read-only: "
-                  << file.name << std::endl;
-        return;
-    }
-
-    /* Change current property map to what the user supplied in the cmdline. */
-    TagLib::PropertyMap pm = file.fh->properties();
     for (auto &iter : newtags) {
         bool rc;
 
@@ -99,12 +89,31 @@ taggit_tag(struct taggit_file file)
 
         if (!rc)
             std::cerr << PROJECT << ": Failed to set tag `"
-                      << taglib_taggit_map[iter.first] << "'"
-                      << "in file: `" << file.name << "'" << std::endl;
+                      << taglib_taggit_map[iter.first] << "'!" << std::endl;
     }
+}
+
+void
+taggit_tag(struct taggit_file file)
+{
+    if (file.fh->readOnly()) {
+        std::cerr << PROJECT << ": File is read-only: "
+                  << file.name << std::endl;
+        return;
+    }
+
+    if (file.multi_tag) {
+        tag_multitag(file);
+        return;
+    }
+
+    /* Change current property map to what the user supplied in the cmdline. */
+    TagLib::PropertyMap pm = file.fh->properties();
+    taggit_amend_tags(pm);
 
     /* Replace current property map with the newly adjusted one. */
     file.fh->setProperties(pm);
+
     /* Save values to file. */
     if (!(file.fh->save()))
         std::cerr << PROJECT << ": Failed to save file `"
