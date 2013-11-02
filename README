@@ -27,8 +27,14 @@ Current File Type Support:
 
 
 Building:
+
     For users:
     % make all doc
+
+    The default compiler in Makefile is ‘clang++’. You can change the default
+    by supplying a CXX parameter for ‘make’:
+
+    % make all doc CXX=g++
 
     For developers:
     % make depend tags
