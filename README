@@ -12,12 +12,18 @@ What it is NOT:
 
 Requirements:
     In order to build taggit, you will need:
-        - its source
-        - a C compiler
+        - a C++11-able C++ compiler
         - taglib installed on the system (including its headers)
         - pkg-config to figure out where taglib lives on the system
         - txt2tags to generate taggit's manual
-        - exuberant ctags if you're plaing to use `make tags'
+        - exuberant ctags if you're planning to use `make tags'
+
+
+Current File Type Support:
+
+    - Ogg Vorbis
+    - Ogg FLAC
+    - MP3 (id3v2, id3v1 and apetag support)
 
 
 Building:
@@ -28,9 +34,6 @@ Building:
     % make depend tags
     % make all doc
     % make devdoc
-
-    For distributors:
-    % make all doc "ADDTO_CFLAGS=-DVENDOR_VERSION=\"\\\"debian 0.2-3\\\"\""
 
 
 Installation:
