@@ -232,5 +232,5 @@ setup_writemap(std::string def)
         write_map[iter.first] = { iter.second[0] };
 
     if (def != "")
-        setup_map(read_map, def);
+        setup_map(write_map, def);
 }
