@@ -1,0 +1,40 @@
+taggit - Basic command line tagging engine for audio files
+
+
+What it is:
+    Taggit is based on KDE's taglib[1]. It is a very basic program,
+    that lists and modifies meta information found in audio files.
+
+What it is NOT:
+    Taggit is *not* an automatic tagging utility. But it can be used
+    as a tagging backend in higher-level applications.
+
+
+Requirements:
+    In order to build taggit, you will need:
+        - its source
+        - a C compiler
+        - taglib installed on the system (including its headers)
+        - pkg-config to figure out where taglib lives on the system
+        - txt2tags to generate taggit's manual
+        - exuberant ctags if you're plaing to use `make tags'
+
+
+Building:
+    For users:
+    % make all doc
+
+    For developers:
+    % make depend tags
+    % make all doc
+    % make devdoc
+
+    For distributors:
+    % make all doc "ADDTO_CFLAGS=-DVENDOR_VERSION=\"\\\"debian 0.2-3\\\"\""
+
+
+Installation:
+    % make install
+
+
+[1] <http://developer.kde.org/~wheeler/taglib.html>

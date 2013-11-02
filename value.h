@@ -1,0 +1,67 @@
+/*
+ * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Terms for redistribution and use can be found in LICENCE.
+ */
+
+/**
+ * @file value.h
+ * @brief API of a container that holds multiple data-types
+ */
+
+#ifndef INC_VALUE_H
+#define INC_VALUE_H
+
+#include <tstring.h>
+
+#include "taggit.h"
+
+class Value {
+private:
+    enum tag_type type;
+    union {
+        bool b;
+        int i;
+        TagLib::String s;
+    };
+
+public:
+    /* exception class */
+    class bad_accessor {};
+
+    /* Default {de,con}struction */
+    Value();
+    ~Value();
+
+    /* Construction from boolean */
+    Value(bool);
+    Value& operator=(const bool&);
+
+    /* Construction from integers */
+    Value(int);
+    Value& operator=(const int&);
+
+    /* Construction from strings */
+    Value(TagLib::String);
+    Value& operator=(const TagLib::String&);
+
+    /* copy construction and assignment */
+    Value(const Value&);
+    Value& operator=(const Value&);
+
+    /* move construction and assignment */
+    Value(Value&&);
+    Value& operator=(Value&&);
+
+    enum tag_type get_type() const;
+    int get_bool() const;
+    int get_int() const;
+    TagLib::String get_str() const;
+
+    void set_bool(bool);
+    void set_int(int);
+    void set_str(const TagLib::String &);
+    void set_invalid(void);
+};
+
+
+#endif /* INC_VALUE_H */
