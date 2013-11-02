@@ -68,7 +68,7 @@ std::vector<std::string> licence = {
 void
 taggit_version(void)
 {
-    std::cout << PROJECT << " ";
+    std::cout << PROJECT << " version ";
 #ifdef GIT_SOURCE
     std::cout << GIT_VERSION;
 #else

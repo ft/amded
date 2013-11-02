@@ -6,7 +6,7 @@ getgit_ () {
     dirty_=""
     git update-index -q --refresh
     [ -z "$(git diff-index --name-only HEAD --)" ] || dirty_="-dirty"
-    printf '%s%s' "${base_}" "${dirty_}"
+    printf '%s%s' "${base_#v}" "${dirty_}"
 }
 getdesc_ () {
     git show -s --pretty="tformat:%h (%s, %ai" | \
