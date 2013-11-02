@@ -36,7 +36,7 @@ std::map< std::string,
 tag_map = {
     { "artist",         { T_ARTIST,         TAG_STRING  } },
     { "album",          { T_ALBUM,          TAG_STRING  } },
-    { "catalognumber",  { T_CATALOGNUMBER,  TAG_STRING  } },
+    { "catalog-number", { T_CATALOGNUMBER,  TAG_STRING  } },
     { "comment",        { T_COMMENT,        TAG_STRING  } },
     { "compilation",    { T_COMPILATION,    TAG_STRING  } },
     { "composer",       { T_COMPOSER,       TAG_STRING  } },
@@ -44,8 +44,8 @@ tag_map = {
     { "genre",          { T_GENRE,          TAG_STRING  } },
     { "label",          { T_LABEL,          TAG_STRING  } },
     { "performer",      { T_PERFORMER,      TAG_STRING  } },
-    { "tracknumber",    { T_TRACKNUMBER,    TAG_INTEGER } },
-    { "tracktitle",     { T_TRACKTITLE,     TAG_STRING  } },
+    { "track-number",   { T_TRACKNUMBER,    TAG_INTEGER } },
+    { "track-title",    { T_TRACKTITLE,     TAG_STRING  } },
     { "year",           { T_YEAR,           TAG_INTEGER } }
 };
 
