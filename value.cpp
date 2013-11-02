@@ -8,6 +8,8 @@
  * @brief Implementation of a container that holds multiple data-types
  */
 
+#include <string>
+
 #include <tstring.h>
 
 #include "taggit.h"
@@ -108,6 +110,12 @@ Value::Value(TagLib::String new_s)
 {
     type = TAG_STRING;
     new(&s) TagLib::String{new_s};
+}
+
+Value::Value(std::string new_s)
+{
+    type = TAG_STRING;
+    new(&s) TagLib::String(new_s, TagLib::String::Type::UTF8);
 }
 
 Value::Value(const Value &orig)
@@ -227,5 +235,13 @@ Value &
 Value::operator=(const TagLib::String &new_value)
 {
     this->set_str(new_value);
+    return *this;
+}
+
+Value &
+Value::operator=(const std::string &new_value)
+{
+    TagLib::String n(new_value, TagLib::String::Type::UTF8);
+    this->set_str(n);
     return *this;
 }

@@ -11,6 +11,8 @@
 #ifndef INC_VALUE_H
 #define INC_VALUE_H
 
+#include <string>
+
 #include <tstring.h>
 
 #include "taggit.h"
@@ -43,6 +45,8 @@ public:
     /* Construction from strings */
     Value(TagLib::String);
     Value& operator=(const TagLib::String&);
+    Value(std::string);
+    Value& operator=(const std::string&);
 
     /* copy construction and assignment */
     Value(const Value&);
