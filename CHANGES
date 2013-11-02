@@ -1,0 +1,8 @@
+* 0.3 -> 0.4:
+
+    - Remove "-E"
+
+    - Introduce "-o", which allows the user to pass in one or more parameters
+
+    - Introduce the ‘show-empty’ parameter ("-o show-empty" resembles the
+      previous "-E" behaviour).

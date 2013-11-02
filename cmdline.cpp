@@ -234,3 +234,18 @@ setup_writemap(std::string def)
     if (def != "")
         setup_map(write_map, def);
 }
+
+void
+taggit_parameters(std::string def)
+{
+    for (auto &iter : split(def, ","))
+        if (iter == "")
+            continue;
+        else if (iter == "show-empty")
+            set_opt(TAGGIT_LIST_ALLOW_EMPTY_TAGS);
+        else {
+            std::cerr << PROJECT << ": Unknown parameter: `"
+                      << iter << "'" << std::endl;
+            exit(EXIT_FAILURE);
+        }
+}

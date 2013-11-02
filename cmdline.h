@@ -23,5 +23,6 @@ Value tag_value_from_value(enum tag_type, std::string);
 void list_tags(void);
 void setup_readmap(std::string);
 void setup_writemap(std::string);
+void taggit_parameters(std::string);
 
 #endif /* INC_CMDLINE_H */

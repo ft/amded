@@ -30,7 +30,7 @@ std::vector<std::string> usage = {
 "  configuration options:",
 "    -R <readmap>      configure tag reading order",
 "    -W <writemap>     configure which tag types should be written",
-"    -E                print a tag list even if the file is tag-less",
+"    -o <param-list>   pass in a comma-separated list of parameters",
 "  action options:",
 "    -l                list tags in human readable form",
 "    -m                list tags in machine readable form",

@@ -103,11 +103,8 @@ parse_options(int argc, char *argv[])
     enum tag_type type;
     Value tagval;
 
-    while ((opt = bsd_getopt(argc, argv, "EhLlmR:st:VW:")) != -1) {
+    while ((opt = bsd_getopt(argc, argv, "hLlmo:R:st:VW:")) != -1) {
         switch (opt) {
-        case 'E':
-            set_opt(TAGGIT_LIST_ALLOW_EMPTY_TAGS);
-            break;
         case 'h':
             taggit_usage();
             exit(EXIT_SUCCESS);
@@ -121,6 +118,9 @@ parse_options(int argc, char *argv[])
         case 'm':
             check_mode(taggit_mode);
             taggit_mode = TAGGIT_LIST_MACHINE;
+            break;
+        case 'o':
+            taggit_parameters(optarg);
             break;
         case 'R':
             setup_readmap(optarg);
