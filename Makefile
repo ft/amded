@@ -10,7 +10,7 @@ POSIX_SHELL ?= /bin/sh
 LDFLAGS = `pkg-config --libs taglib_c`
 
 OPTIM ?= -Os
-DEBUG ?= -ggdb
+DEBUG ?= -ggdb -O0
 
 CXX = clang++
 
@@ -25,7 +25,8 @@ OBJS += file-type.o tag-implementation.o tag.o
 CXXFLAGS += `pkg-config --cflags taglib`
 CXXFLAGS += -W -Wall -Wextra
 CXXFLAGS += -Wmissing-declarations -std=c++11
-CXXFLAGS += -ggdb -O0
+CXXFLAGS += $(OPTIM)
+#CXXFLAGS += $(DEBUG)
 
 all:
 	$(MAKE) _info
