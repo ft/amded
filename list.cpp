@@ -43,15 +43,23 @@ tagtomap(std::map< std::string, Value > &m,
          const bool wantempty,
          const bool isint)
 {
+    bool didnothing = false;
     if (tags.contains(propname)) {
-        if (isint)
-            m[tagname] = tags.find(propname)->second[0].toInt();
-        else {
-            TagLib::String v = tags.find(propname)->second[0];
-            if (wantempty || v.length() > 0)
-                m[tagname] = tags.find(propname)->second[0];
-        }
-    } else if (wantempty) {
+        const TagLib::StringList values = tags.find(propname)->second;
+        size_t size = values.size();
+        if (size > 0) {
+            if (isint)
+                m[tagname] = values[0].toInt();
+            else if (values[0].length() > 0)
+                m[tagname] = values[0];
+            else
+                didnothing = true;
+        } else
+            didnothing = true;
+    } else
+        didnothing = true;
+
+    if (didnothing && wantempty) {
         if (isint)
             m[tagname] = (int)0;
         else

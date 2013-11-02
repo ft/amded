@@ -25,6 +25,7 @@ OBJS += file-type.o tag-implementation.o tag.o
 CXXFLAGS += `pkg-config --cflags taglib`
 CXXFLAGS += -W -Wall -Wextra
 CXXFLAGS += -Wmissing-declarations -std=c++11
+CXXFLAGS += -ggdb -O0
 
 all:
 	$(MAKE) _info
