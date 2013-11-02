@@ -8,9 +8,15 @@
  * @brief Tag-writing routines
  */
 
+#include <iostream>
 #include <map>
 #include <string>
 
+#include <fileref.h>
+#include <tpropertymap.h>
+
+#include "list-human.h"
+#include "setup.h"
 #include "tag.h"
 #include "taggit.h"
 
@@ -43,6 +49,22 @@ tag_map = {
     { "year",           { T_YEAR,           TAG_INTEGER } }
 };
 
+static std::map< enum tag_id, std::string > taglib_taggit_map = {
+    { T_ARTIST,         "ARTIST" },
+    { T_ALBUM,          "ALBUM" },
+    { T_CATALOGNUMBER,  "CATALOGNUMBER" },
+    { T_COMMENT,        "COMMENT" },
+    { T_COMPILATION,    "ALBUMARTIST" },
+    { T_COMPOSER,       "COMPOSER" },
+    { T_CONDUCTOR,      "CONDUCTOR" },
+    { T_GENRE,          "GENRE" },
+    { T_LABEL,          "LABEL" },
+    { T_PERFORMER,      "PERFORMER" },
+    { T_TRACKNUMBER,    "TRACKNUMBER" },
+    { T_TRACKTITLE,     "TITLE" },
+    { T_YEAR,           "DATE" }
+};
+
 /** Print a list of supported tags to ‘stdout‘. */
 void
 list_tags(void)
@@ -54,4 +76,39 @@ list_tags(void)
 void
 taggit_tag(struct taggit_file file)
 {
+    if (file.multi_tag)
+        return;
+
+    if (file.fh->readOnly()) {
+        std::cerr << PROJECT << ": File is read-only: "
+                  << file.name << std::endl;
+        return;
+    }
+
+    /* Change current property map to what the user supplied in the cmdline. */
+    TagLib::PropertyMap pm = file.fh->properties();
+    for (auto &iter : newtags) {
+        bool rc;
+
+        if (iter.second.get_type() == TAG_INTEGER)
+            rc = pm.replace(taglib_taggit_map[iter.first],
+                            { std::to_string(iter.second.get_int()) });
+        else
+            rc = pm.replace(taglib_taggit_map[iter.first],
+                            { iter.second.get_str() });
+
+        if (!rc)
+            std::cerr << PROJECT << ": Failed to set tag `"
+                      << taglib_taggit_map[iter.first] << "'"
+                      << "in file: `" << file.name << "'" << std::endl;
+    }
+
+    /* Replace current property map with the newly adjusted one. */
+    file.fh->setProperties(pm);
+    /* Save values to file. */
+    if (!(file.fh->save()))
+        std::cerr << PROJECT << ": Failed to save file `"
+                  << file.name
+                  << "'"
+                  << std::endl;
 }

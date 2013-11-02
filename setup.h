@@ -23,5 +23,6 @@ bool get_opt(uint32_t);
 
 extern std::map< enum file_type, std::vector< enum tag_impl > > read_map;
 extern std::map< enum file_type, std::vector< enum tag_impl > > write_map;
+extern std::map< enum tag_id, Value > newtags;
 
 #endif /* INC_SETUP_H */

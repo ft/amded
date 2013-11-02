@@ -96,7 +96,7 @@
  * Tag value settings:
  */
 
-static std::map< enum tag_id, Value > newtags;
+std::map< enum tag_id, Value > newtags;
 
 void
 add_tag(enum tag_id id, Value v)
