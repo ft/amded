@@ -20,6 +20,7 @@
 
 void taggit_tag(struct taggit_file);
 void taggit_amend_tags(TagLib::PropertyMap &);
+void list_tags(void);
 
 extern std::map< std::string, std::pair< enum tag_id, enum tag_type > > tag_map;
 

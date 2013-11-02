@@ -30,6 +30,7 @@
 #include <tpropertymap.h>
 
 #include "file-spec.h"
+#include "list.h"
 #include "setup.h"
 #include "tag.h"
 #include "taggit.h"

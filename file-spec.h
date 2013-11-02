@@ -17,7 +17,6 @@
 #include "taggit.h"
 
 enum file_type get_ext_type(std::string);
-std::vector< enum tag_impl > get_multitag_vector(enum file_type);
 bool is_multitag_type(enum file_type);
 bool taggit_open(struct taggit_file &);
 

@@ -17,6 +17,7 @@
 #include <map>
 #include <string>
 
+#include "file-spec.h"
 #include "file-type.h"
 
 using stdstring = std::string;

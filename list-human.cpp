@@ -17,6 +17,7 @@
 #include <tpropertymap.h>
 
 #include "list.h"
+#include "list-human.h"
 #include "taggit.h"
 #include "value.h"
 

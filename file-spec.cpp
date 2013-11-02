@@ -21,6 +21,7 @@
 #include <tpropertymap.h>
 #include <vorbisfile.h>
 
+#include "file-spec.h"
 #include "file-type.h"
 #include "tag-implementation.h"
 #include "setup.h"

@@ -16,6 +16,7 @@
 #include <tpropertymap.h>
 
 #include "list.h"
+#include "list-machine.h"
 #include "value.h"
 
 /** ascii start-of-text character code */
