@@ -78,11 +78,13 @@ void
 taggit_amend_tags(TagLib::PropertyMap &pm)
 {
     for (auto &iter : newtags) {
-        bool rc;
+        bool rc = true;
 
         if (iter.second.get_type() == TAG_INTEGER)
             rc = pm.replace(taglib_taggit_map[iter.first],
                             { std::to_string(iter.second.get_int()) });
+        else if (iter.second.get_type() == TAG_INVALID)
+            pm.erase(taglib_taggit_map[iter.first]);
         else
             rc = pm.replace(taglib_taggit_map[iter.first],
                             { iter.second.get_str() });

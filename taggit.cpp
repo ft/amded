@@ -79,6 +79,16 @@ check_mode_tag(enum t_mode mode)
         check_mode(mode);
 }
 
+static void
+verify_tag_name(enum tag_type type, const std::string &name)
+{
+    if (type == TAG_INVALID) {
+        std::cerr << PROJECT << ": Invalid tag name: " << '"' << name << '"'
+                  << std::endl;
+        exit(EXIT_FAILURE);
+    }
+}
+
 /**
  * Parsing command line options
  *
@@ -103,7 +113,7 @@ parse_options(int argc, char *argv[])
     enum tag_type type;
     Value tagval;
 
-    while ((opt = bsd_getopt(argc, argv, "hLlmo:R:st:VW:")) != -1) {
+    while ((opt = bsd_getopt(argc, argv, "d:hLlmo:R:st:VW:")) != -1) {
         switch (opt) {
         case 'h':
             taggit_usage();
@@ -129,6 +139,15 @@ parse_options(int argc, char *argv[])
             std::cout << "Supported tags:" << std::endl;
             list_tags();
             exit(EXIT_SUCCESS);
+        case 'd':
+            /* ‘-d’ is a special case of the TAGGIT_TAG mode. */
+            check_mode_tag(taggit_mode);
+            taggit_mode = TAGGIT_TAG;
+            type = tag_to_type(optarg);
+            verify_tag_name(type, optarg);
+            tagval.set_invalid();
+            add_tag(tag_to_id(optarg), tagval);
+            break;
         case 't':
             check_mode_tag(taggit_mode);
             taggit_mode = TAGGIT_TAG;
@@ -146,12 +165,7 @@ parse_options(int argc, char *argv[])
 
             /* Make sure ‘foo’ in "foo=bar" is a supported tag name */
             type = tag_to_type(tag.first);
-            if (type == TAG_INVALID) {
-                std::cerr << PROJECT << ": Invalid tag name: "
-                          << '"' << tag.first << '"'
-                          << std::endl;
-                exit(EXIT_FAILURE);
-            }
+            verify_tag_name(type, tag.first);
 
             /* Make sure ‘bar’ in "foo=bar" makes sense as a value for ‘foo’ */
             tagval = tag_value_from_value(type, tag.second);

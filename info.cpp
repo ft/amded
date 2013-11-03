@@ -35,6 +35,7 @@ std::vector<std::string> usage = {
 "    -l                list tags in human readable form",
 "    -m                list tags in machine readable form",
 "    -t <tag>=<value>  set a tag to a value",
+"    -d <tag>          delete a tag from the file",
 };
 
 /** licence information */

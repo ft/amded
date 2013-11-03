@@ -62,6 +62,10 @@ below.
 Sets a **<tag>** to a **<value>**. This option can be used multiple times
 for different tags.
 
+: **-d** //<tag>//
+This is a special form of **-t**: But instead of modifying the tag's value, it
+is removed entirely. This may be used alongside **-t**.
+
 
 = OPTIONAL PARAMETERS =
 The **-o** option allows the following parameters to be passed to //taggit//:
