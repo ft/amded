@@ -24,6 +24,7 @@ std::string get_tag_types(const struct taggit_file &);
 TagLib::PropertyMap get_tags_for_file(const struct taggit_file &);
 bool tag_impl_allowed_for_file_type(enum file_type, enum tag_impl);
 void tag_multitag(const struct taggit_file &);
+void strip_multitag(const struct taggit_file &);
 
 extern std::map< enum file_type, std::vector< enum tag_impl > > filetag_map;
 

@@ -289,6 +289,31 @@ taggit_tag_mp3(TagLib::MPEG::File *fh,
     return true;
 }
 
+static bool
+taggit_strip_mp3(TagLib::MPEG::File *fh,
+                 const std::vector<enum tag_impl> &wm)
+{
+    int save_tags = TagLib::MPEG::File::NoTags;
+    for (auto &iter : wm) {
+        switch (iter) {
+        case TAG_T_APETAG:
+            save_tags |= TagLib::MPEG::File::APE;
+            break;
+        case TAG_T_ID3V1:
+            save_tags |= TagLib::MPEG::File::ID3v1;
+            break;
+        case TAG_T_ID3V2:
+            save_tags |= TagLib::MPEG::File::ID3v2;
+            break;
+        default:
+            break;
+        }
+    }
+    if (save_tags == TagLib::MPEG::File::NoTags)
+        return true;
+    return fh->strip(save_tags);
+}
+
 void
 tag_multitag(const struct taggit_file &file)
 {
@@ -297,6 +322,23 @@ tag_multitag(const struct taggit_file &file)
     case FILE_T_MP3:
         rc = taggit_tag_mp3(reinterpret_cast<TagLib::MPEG::File *>(file.fh),
                             get_writemap_vector(file.type.get_id()));
+        break;
+    default:
+        return;
+    }
+    if (!rc)
+        std::cerr << PROJECT << ": Failed to save file `" << file.name << "'"
+                  << std::endl;
+}
+
+void
+strip_multitag(const struct taggit_file &file)
+{
+    bool rc;
+    switch (file.type.get_id()) {
+    case FILE_T_MP3:
+        rc = taggit_strip_mp3(reinterpret_cast<TagLib::MPEG::File *>(file.fh),
+                              get_writemap_vector(file.type.get_id()));
         break;
     default:
         return;

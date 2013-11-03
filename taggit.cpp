@@ -17,6 +17,7 @@
 #include "list-human.h"
 #include "list-machine.h"
 #include "setup.h"
+#include "strip.h"
 #include "tag.h"
 #include "taggit.h"
 
@@ -37,7 +38,9 @@ enum t_mode {
     /** list file's tags in machine readable form */
     TAGGIT_LIST_MACHINE,
     /** modify meta information in file(s) */
-    TAGGIT_TAG
+    TAGGIT_TAG,
+    /** Remove all tags from a file */
+    TAGGIT_STRIP
 };
 
 /** global variable describing taggit's operation mode */
@@ -55,7 +58,8 @@ static inline void
 check_mode(enum t_mode mode)
 {
     if (mode != TAGGIT_MODE_INVALID) {
-        std::cout << "-m, -l and -t may *not* be used at the same time."
+        std::cout << PROJECT
+                  << ": -m, -l, -t and -t may *not* be used at the same time."
                   << std::endl;
         exit(EXIT_FAILURE);
     }
@@ -113,7 +117,7 @@ parse_options(int argc, char *argv[])
     enum tag_type type;
     Value tagval;
 
-    while ((opt = bsd_getopt(argc, argv, "d:hLlmo:R:st:VW:")) != -1) {
+    while ((opt = bsd_getopt(argc, argv, "d:hLlmo:R:Sst:VW:")) != -1) {
         switch (opt) {
         case 'h':
             taggit_usage();
@@ -182,7 +186,10 @@ parse_options(int argc, char *argv[])
             /* Looks good. Add the tag. */
             add_tag(tag_to_id(tag.first), tagval);
             break;
-
+        case 'S':
+            check_mode(taggit_mode);
+            taggit_mode = TAGGIT_STRIP;
+            break;
         case 'V':
             taggit_version();
             exit(EXIT_SUCCESS);
@@ -267,8 +274,11 @@ main(int argc, char *argv[])
         case TAGGIT_TAG:
             taggit_tag(file);
             break;
+        case TAGGIT_STRIP:
+            taggit_strip(file);
+            break;
         default:
-            std::cout << "Please use one action option (-m, -l or -t)."
+            std::cout << "Please use one action option (-m, -l, -t or -S)."
                       << std::endl;
             return EXIT_FAILURE;
         }
