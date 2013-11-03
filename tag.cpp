@@ -96,7 +96,7 @@ taggit_amend_tags(TagLib::PropertyMap &pm)
 }
 
 void
-taggit_tag(struct taggit_file file)
+taggit_tag(struct taggit_file &file)
 {
     if (file.fh->readOnly()) {
         std::cerr << PROJECT << ": File is read-only: "

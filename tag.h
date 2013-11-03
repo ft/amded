@@ -18,7 +18,7 @@
 
 #include "taggit.h"
 
-void taggit_tag(struct taggit_file);
+void taggit_tag(struct taggit_file &);
 void taggit_amend_tags(TagLib::PropertyMap &);
 void list_tags(void);
 
