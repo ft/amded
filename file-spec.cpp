@@ -245,13 +245,16 @@ taggit_tag_mp3(TagLib::MPEG::File *fh,
     for (auto &iter : wm) {
         switch (iter) {
         case TAG_T_APETAG:
-            want_ape = true;
+            if (fh->hasAPETag() || !only_tag_delete())
+                want_ape = true;
             break;
         case TAG_T_ID3V1:
-            want_v1 = true;
+            if (fh->hasID3v1Tag() || !only_tag_delete())
+                want_v1 = true;
             break;
         case TAG_T_ID3V2:
-            want_v2 = true;
+            if (fh->hasID3v2Tag() || !only_tag_delete())
+                want_v2 = true;
             break;
         default:
             break;

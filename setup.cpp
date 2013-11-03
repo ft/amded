@@ -183,3 +183,22 @@ get_opt(uint32_t optmask)
 {
     return (bool)IS_SET(optmask, taggit_options);
 }
+
+/*
+ * Tell -d and -t apart. We need to change the behaviour a little if only -d
+ * options were given.
+ */
+
+static bool otd = true;
+
+bool
+only_tag_delete(void)
+{
+    return otd;
+}
+
+void
+unset_only_tag_delete(void)
+{
+    otd = false;
+}

@@ -20,6 +20,8 @@
 void add_tag(enum tag_id, Value);
 void set_opt(uint32_t);
 bool get_opt(uint32_t);
+void unset_only_tag_delete(void);
+bool only_tag_delete(void);
 
 extern std::map< enum file_type, std::vector< enum tag_impl > > read_map;
 extern std::map< enum file_type, std::vector< enum tag_impl > > write_map;

@@ -185,6 +185,7 @@ parse_options(int argc, char *argv[])
 
             /* Looks good. Add the tag. */
             add_tag(tag_to_id(tag.first), tagval);
+            unset_only_tag_delete();
             break;
         case 'S':
             check_mode(taggit_mode);
