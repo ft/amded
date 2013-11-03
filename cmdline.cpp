@@ -181,7 +181,16 @@ setup_map(std::map<enum file_type, std::vector< enum tag_impl>> &m,
     std::vector<std::string> defs = split(def, ":");
     for (auto &di : defs) {
         std::vector<enum tag_impl> ttypes;
-        std::pair<std::string, std::string> entry = tag_arg_to_pair(di);
+        std::pair<std::string, std::string> entry;
+        try {
+            entry = tag_arg_to_pair(di);
+        }
+        catch (taggit_broken_tag_def) {
+            std::cerr << PROJECT << ": Broken map-definition: "
+                      << '"' << di << '"'
+                      << std::endl;
+            exit(EXIT_FAILURE);
+        }
         Taggit::FileType ft(entry.first);
 
         if (ft.get_id() == FILE_T_INVALID) {
