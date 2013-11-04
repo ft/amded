@@ -44,7 +44,7 @@
  * taggit version 0.5 (debian 0.5-3)
  * \endcode
  */
-#define VERSION "0.5"
+#define VERSION "0.5+git"
 
 /* Boolean option bits: */
 
