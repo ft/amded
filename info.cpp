@@ -14,6 +14,10 @@
 #include "taggit.h"
 #include "info.h"
 
+#ifdef VENDOR_BUILD
+#include "taggit-vendor.h"
+#endif /* VENDOR_BUILD */
+
 #ifdef GIT_SOURCE
 #include "git-version.h"
 #endif /* GIT_SOURCE */
@@ -77,7 +81,7 @@ taggit_version(void)
     std::cout << VERSION;
 #endif /* GIT_SOURCE */
 
-#ifdef VENDOR_VERSION
+#ifdef VENDOR_BUILD
     std::cout << " (" << VENDOR_VERSION << ")";
 #endif /* VENDOR_VERSION */
     std::cout << std::endl;

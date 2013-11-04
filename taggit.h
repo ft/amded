@@ -30,17 +30,18 @@
  * If this project is to be distributed with an OS, those distributors may want
  * to add a information here, too (like "(debian 0.2-3)" for a debian package).
  *
- * Please do not do that, just call make "appropriately" (brace yourself, the
- * following quoting is rather ugly):
+ * To get that working, change the VENDOR_VERSION macro in "taggit-vendor.h"
+ * and run the build like this:
  *
  * \code
- * % make "ADDTO_CFLAGS=-DVENDOR_VERSION=\"\\\"debian 0.2-3\\\"\""
+ * % make ADDTOCXXFLAGS=-DVENDOR_BUILD
  * \endcode
  *
- * That will result in a version message such as this:
+ * If VENDOR_VERSION is set to "debian 0.5-3", that will result in a version
+ * message such as this:
  *
  * \code
- * taggit v0.2+git (debian 0.2-3)
+ * taggit version 0.5 (debian 0.5-3)
  * \endcode
  */
 #define VERSION "0.4+git"

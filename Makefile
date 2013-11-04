@@ -25,6 +25,7 @@ OBJS += file-type.o tag-implementation.o tag.o strip.o
 CXXFLAGS += `pkg-config --cflags taglib`
 CXXFLAGS += -W -Wall -Wextra
 CXXFLAGS += -Wmissing-declarations -std=c++11
+CXXFLAGS += $(ADDTOCXXFLAGS)
 CXXFLAGS += $(OPTIM)
 #CXXFLAGS += $(DEBUG)
 
