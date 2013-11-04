@@ -40,7 +40,7 @@ print_iter(std::pair< const std::string, Value > &iter)
 void
 taggit_list_machine(const struct taggit_file &file)
 {
-    std::cout << "filename" << ASCII_STX << file.name;
+    std::cout << "file-name" << ASCII_STX << file.name;
 
     std::map< std::string, Value > data = taggit_list_taggit(file);
     for (auto &iter : data)
