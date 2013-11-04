@@ -1,4 +1,15 @@
-* 0.3 -> 0.4 (released 2013-11-02):
+* 0.4 → 0.5:
+
+    - Add support for deleting tags (like ‘album’) via ‘-d’.
+
+    - Add support for stripping all tags from a file via ‘-S’.
+
+      ‘-S’ also supports stripping a certain tag block out of files, that
+      support multiple tag implementations to be present at the same time. For
+      example, to strip a id3v1 tag block out of an mp3 file, the following
+      command gets it done: taggit -W mp3=id3v1 -S foo-bar.mp3
+
+* 0.3 → 0.4 (released 2013-11-02):
 
     - Remove "-E".
 
