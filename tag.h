@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Copyright (c) 2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -16,10 +16,10 @@
 
 #include <tpropertymap.h>
 
-#include "taggit.h"
+#include "amded.h"
 
-void taggit_tag(struct taggit_file &);
-void taggit_amend_tags(TagLib::PropertyMap &);
+void amded_tag(struct amded_file &);
+void amded_amend_tags(TagLib::PropertyMap &);
 void list_tags(void);
 
 extern std::map< std::string, std::pair< enum tag_id, enum tag_type > > tag_map;

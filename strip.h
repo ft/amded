@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Copyright (c) 2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -11,6 +11,6 @@
 #ifndef INC_STRIP_H
 #define INC_STRIP_H
 
-void taggit_strip(struct taggit_file &);
+void amded_strip(struct amded_file &);
 
 #endif /* INC_STRIP_H */

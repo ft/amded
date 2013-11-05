@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Copyright (c) 2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -21,7 +21,7 @@ enum tag_impl {
     TAG_T_NONE
 };
 
-namespace Taggit {
+namespace Amded {
 
     class TagImplementation {
     private:

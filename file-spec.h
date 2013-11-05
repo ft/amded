@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Copyright (c) 2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -14,17 +14,17 @@
 #include <map>
 #include <string>
 
-#include "taggit.h"
+#include "amded.h"
 
 enum file_type get_ext_type(std::string);
 bool is_multitag_type(enum file_type);
-bool taggit_open(struct taggit_file &);
+bool amded_open(struct amded_file &);
 
-std::string get_tag_types(const struct taggit_file &);
-TagLib::PropertyMap get_tags_for_file(const struct taggit_file &);
+std::string get_tag_types(const struct amded_file &);
+TagLib::PropertyMap get_tags_for_file(const struct amded_file &);
 bool tag_impl_allowed_for_file_type(enum file_type, enum tag_impl);
-void tag_multitag(const struct taggit_file &);
-void strip_multitag(const struct taggit_file &);
+void tag_multitag(const struct amded_file &);
+void strip_multitag(const struct amded_file &);
 
 extern std::map< enum file_type, std::vector< enum tag_impl > > filetag_map;
 

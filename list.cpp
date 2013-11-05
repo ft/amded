@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Copyright (c) 2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -10,7 +10,7 @@
  * Frontends are in ‘list-human.cpp‘ and ‘list-machine.cpp‘.
  *
  * There are three categories of data, that the listing backend needs to return
- * seperately. First there is taggit-specific information about the currently
+ * seperately. First there is amded-specific information about the currently
  * processed file: For example which file-type are we dealing with? And which
  * tag-types are we looking at?
  *
@@ -33,7 +33,7 @@
 #include "list.h"
 #include "setup.h"
 #include "tag.h"
-#include "taggit.h"
+#include "amded.h"
 #include "value.h"
 
 static void
@@ -69,11 +69,11 @@ tagtomap(std::map< std::string, Value > &m,
 }
 
 std::map< std::string, Value >
-taggit_list_tags(const struct taggit_file &file)
+amded_list_tags(const struct amded_file &file)
 {
     const TagLib::PropertyMap &tags = get_tags_for_file(file);
     std::map< std::string, Value > retval;
-    bool wantempty = get_opt(TAGGIT_LIST_ALLOW_EMPTY_TAGS);
+    bool wantempty = get_opt(AMDED_LIST_ALLOW_EMPTY_TAGS);
 
     if (file.tagimpl.get_id() == TAG_T_NONE) {
         if (wantempty) {
@@ -111,7 +111,7 @@ taggit_list_tags(const struct taggit_file &file)
 }
 
 std::map< std::string, Value >
-taggit_list_audioprops(TagLib::AudioProperties *p)
+amded_list_audioprops(TagLib::AudioProperties *p)
 {
     std::map< std::string, Value > retval;
     retval["bit-rate"] = p->bitrate();
@@ -122,9 +122,9 @@ taggit_list_audioprops(TagLib::AudioProperties *p)
 }
 
 std::map< std::string, Value >
-taggit_list_taggit(const struct taggit_file &file)
+amded_list_amded(const struct amded_file &file)
 {
-    bool wantempty = get_opt(TAGGIT_LIST_ALLOW_EMPTY_TAGS);
+    bool wantempty = get_opt(AMDED_LIST_ALLOW_EMPTY_TAGS);
     std::map< std::string, Value > retval;
     retval["file-type"] = file.type.get_label();
     if (file.multi_tag) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Copyright (c) 2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -13,7 +13,7 @@
 
 #include <string>
 
-#include "taggit.h"
+#include "amded.h"
 #include "value.h"
 
 std::pair<std::string, std::string> tag_arg_to_pair(std::string);
@@ -23,6 +23,6 @@ Value tag_value_from_value(enum tag_type, std::string);
 void list_tags(void);
 void setup_readmap(std::string);
 void setup_writemap(std::string);
-void taggit_parameters(std::string);
+void amded_parameters(std::string);
 
 #endif /* INC_CMDLINE_H */

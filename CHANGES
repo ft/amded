@@ -2,6 +2,16 @@
 
     - Rename "filename" to "file-name" in machine-readable output.
 
+    - Rename project from "taggit" to "amded".
+
+      As it turns out, there is another project named taggit
+      (http://taggit.sourceforge.net), which was started in 2006.
+
+      "amded" is an acronym for "Audio Meta-Data EDitor". The name was chosen
+      because every other half-way decent name was taken by at least one
+      project (many of which are just sitting around with just a project page
+      on the net and nothing else. thankyouverymuch.)
+
 * 0.4 → 0.5 (released 2013-11-04):
 
     - Add support for deleting tags (like ‘album’) via ‘-d’.

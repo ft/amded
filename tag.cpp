@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Copyright (c) 2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -19,12 +19,12 @@
 #include "list-human.h"
 #include "setup.h"
 #include "tag.h"
-#include "taggit.h"
+#include "amded.h"
 
 /**
  * A mapping of tag-names to internal representation and type.
  *
- * Internally, taggit does not process strings each time it has to check which
+ * Internally, amded does not process strings each time it has to check which
  * tag it is working on. Instead an internal identifier of type "enum tag_id"
  * is used.
  *
@@ -50,7 +50,7 @@ tag_map = {
     { "year",           { T_YEAR,           TAG_INTEGER } }
 };
 
-static std::map< enum tag_id, std::string > taglib_taggit_map = {
+static std::map< enum tag_id, std::string > taglib_amded_map = {
     { T_ARTIST,         "ARTIST" },
     { T_ALBUM,          "ALBUM" },
     { T_CATALOGNUMBER,  "CATALOGNUMBER" },
@@ -75,28 +75,28 @@ list_tags(void)
 }
 
 void
-taggit_amend_tags(TagLib::PropertyMap &pm)
+amded_amend_tags(TagLib::PropertyMap &pm)
 {
     for (auto &iter : newtags) {
         bool rc = true;
 
         if (iter.second.get_type() == TAG_INTEGER)
-            rc = pm.replace(taglib_taggit_map[iter.first],
+            rc = pm.replace(taglib_amded_map[iter.first],
                             { std::to_string(iter.second.get_int()) });
         else if (iter.second.get_type() == TAG_INVALID)
-            pm.erase(taglib_taggit_map[iter.first]);
+            pm.erase(taglib_amded_map[iter.first]);
         else
-            rc = pm.replace(taglib_taggit_map[iter.first],
+            rc = pm.replace(taglib_amded_map[iter.first],
                             { iter.second.get_str() });
 
         if (!rc)
             std::cerr << PROJECT << ": Failed to set tag `"
-                      << taglib_taggit_map[iter.first] << "'!" << std::endl;
+                      << taglib_amded_map[iter.first] << "'!" << std::endl;
     }
 }
 
 void
-taggit_tag(struct taggit_file &file)
+amded_tag(struct amded_file &file)
 {
     if (file.fh->readOnly()) {
         std::cerr << PROJECT << ": File is read-only: "
@@ -111,7 +111,7 @@ taggit_tag(struct taggit_file &file)
 
     /* Change current property map to what the user supplied in the cmdline. */
     TagLib::PropertyMap pm = file.fh->properties();
-    taggit_amend_tags(pm);
+    amded_amend_tags(pm);
 
     /* Replace current property map with the newly adjusted one. */
     file.fh->setProperties(pm);

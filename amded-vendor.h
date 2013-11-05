@@ -1,10 +1,10 @@
 /*
- * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Copyright (c) 2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
 /**
- * @file taggit-vendor.h
+ * @file amded-vendor.h
  * @brief Vendor specific information
  *
  * This file is *only* included, if the VENDOR_BUILD macro is set in the build
@@ -22,19 +22,19 @@
  * @endcode
  */
 
-#ifndef INC_TAGGIT_VENDOR_H
-#define INC_TAGGIT_VENDOR_H
+#ifndef INC_AMDED_VENDOR_H
+#define INC_AMDED_VENDOR_H
 
 /**
  * Vendor-specific version information.
  *
- * If set to "foo-bar", taggit's version information output will look like
+ * If set to "foo-bar", amded's version information output will look like
  * this:
  *
  * @code
- * taggit version 0.5 (foo-bar)
+ * amded version 0.5 (foo-bar)
  * @endcode
  */
 #define VENDOR_VERSION "foo-OS package version 0.5-9"
 
-#endif /* INC_TAGGIT_VENDOR_H */
+#endif /* INC_AMDED_VENDOR_H */

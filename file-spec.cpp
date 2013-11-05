@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Copyright (c) 2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -26,7 +26,7 @@
 #include "tag-implementation.h"
 #include "setup.h"
 #include "tag.h"
-#include "taggit.h"
+#include "amded.h"
 
 /**
  * Map of file types that support multiple tag-types.
@@ -93,7 +93,7 @@ mp3_has_tag_type(TagLib::MPEG::File *fh, enum tag_impl type)
 }
 
 static bool
-has_tag_type(const struct taggit_file &file, enum tag_impl type)
+has_tag_type(const struct amded_file &file, enum tag_impl type)
 {
     switch (file.type.get_id()) {
     case FILE_T_MP3:
@@ -138,7 +138,7 @@ get_ext_type(std::string filename)
 
 
 static enum tag_impl
-get_prefered_tag_impl(const struct taggit_file &file)
+get_prefered_tag_impl(const struct amded_file &file)
 {
     auto types = get_readmap_vector(file.type.get_id());
     for (auto &iter : types)
@@ -148,7 +148,7 @@ get_prefered_tag_impl(const struct taggit_file &file)
 }
 
 bool
-taggit_open(struct taggit_file &file)
+amded_open(struct amded_file &file)
 {
     switch (file.type.get_id()) {
     case FILE_T_MP3:
@@ -193,14 +193,14 @@ error:
 }
 
 std::string
-get_tag_types(const struct taggit_file &file)
+get_tag_types(const struct amded_file &file)
 {
     std::string rv("");
     bool first = true;
     auto types = get_multitag_vector(file.type.get_id());
     for (auto &iter : types) {
         if (has_tag_type(file, iter)) {
-            Taggit::TagImplementation s = iter;
+            Amded::TagImplementation s = iter;
             if (!first)
                 rv += ",";
             else
@@ -212,7 +212,7 @@ get_tag_types(const struct taggit_file &file)
 }
 
 TagLib::PropertyMap
-get_tags_for_file(const struct taggit_file &file)
+get_tags_for_file(const struct amded_file &file)
 {
     TagLib::MPEG::File *mp3fh;
 
@@ -236,7 +236,7 @@ get_tags_for_file(const struct taggit_file &file)
 }
 
 static bool
-taggit_tag_mp3(TagLib::MPEG::File *fh,
+amded_tag_mp3(TagLib::MPEG::File *fh,
                const std::vector<enum tag_impl> &wm)
 {
     bool want_ape, want_v1, want_v2;
@@ -269,21 +269,21 @@ taggit_tag_mp3(TagLib::MPEG::File *fh,
         save_tags |= TagLib::MPEG::File::APE;
         TagLib::APE::Tag *tag = fh->APETag(true);
         TagLib::PropertyMap pm = tag->properties();
-        taggit_amend_tags(pm);
+        amded_amend_tags(pm);
         tag->setProperties(pm);
     }
     if (want_v2) {
         save_tags |= TagLib::MPEG::File::ID3v2;
         TagLib::ID3v2::Tag *tag = fh->ID3v2Tag(true);
         TagLib::PropertyMap pm = tag->properties();
-        taggit_amend_tags(pm);
+        amded_amend_tags(pm);
         tag->setProperties(pm);
     }
     if (want_v1) {
         save_tags |= TagLib::MPEG::File::ID3v1;
         TagLib::ID3v1::Tag *tag = fh->ID3v1Tag(true);
         TagLib::PropertyMap pm = tag->properties();
-        taggit_amend_tags(pm);
+        amded_amend_tags(pm);
         tag->setProperties(pm);
     }
 
@@ -293,7 +293,7 @@ taggit_tag_mp3(TagLib::MPEG::File *fh,
 }
 
 static bool
-taggit_strip_mp3(TagLib::MPEG::File *fh,
+amded_strip_mp3(TagLib::MPEG::File *fh,
                  const std::vector<enum tag_impl> &wm)
 {
     int save_tags = TagLib::MPEG::File::NoTags;
@@ -318,12 +318,12 @@ taggit_strip_mp3(TagLib::MPEG::File *fh,
 }
 
 void
-tag_multitag(const struct taggit_file &file)
+tag_multitag(const struct amded_file &file)
 {
     bool rc;
     switch (file.type.get_id()) {
     case FILE_T_MP3:
-        rc = taggit_tag_mp3(reinterpret_cast<TagLib::MPEG::File *>(file.fh),
+        rc = amded_tag_mp3(reinterpret_cast<TagLib::MPEG::File *>(file.fh),
                             get_writemap_vector(file.type.get_id()));
         break;
     default:
@@ -335,12 +335,12 @@ tag_multitag(const struct taggit_file &file)
 }
 
 void
-strip_multitag(const struct taggit_file &file)
+strip_multitag(const struct amded_file &file)
 {
     bool rc;
     switch (file.type.get_id()) {
     case FILE_T_MP3:
-        rc = taggit_strip_mp3(reinterpret_cast<TagLib::MPEG::File *>(file.fh),
+        rc = amded_strip_mp3(reinterpret_cast<TagLib::MPEG::File *>(file.fh),
                               get_writemap_vector(file.type.get_id()));
         break;
     default:

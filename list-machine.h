@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Copyright (c) 2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -11,8 +11,8 @@
 #ifndef INC_LIST_MACHINE_H
 #define INC_LIST_MACHINE_H
 
-#include "taggit.h"
+#include "amded.h"
 
-void taggit_list_machine(const struct taggit_file &);
+void amded_list_machine(const struct amded_file &);
 
 #endif /* INC_LIST_MACHINE_H */

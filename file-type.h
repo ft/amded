@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Copyright (c) 2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -20,7 +20,7 @@ enum file_type {
     FILE_T_OGG_VORBIS
 };
 
-namespace Taggit {
+namespace Amded {
 
     class FileType {
     private:

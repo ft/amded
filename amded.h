@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2009,2010 taggit workers, All rights reserved.
+ * Copyright (c) 2009,2010 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
 /**
- * @file  taggit.h
- * @brief main API for taggits source
+ * @file  amded.h
+ * @brief main API for amdeds source
  */
 
-#ifndef INC_TAGGIT_H
-#define INC_TAGGIT_H
+#ifndef INC_AMDED_H
+#define INC_AMDED_H
 
 #include <cstdint>
 
@@ -19,7 +19,7 @@
 #include "tag-implementation.h"
 
 /** the project's (and executable's) name */
-#define PROJECT "taggit"
+#define PROJECT "amded"
 
 /**
  * Version information
@@ -30,7 +30,7 @@
  * If this project is to be distributed with an OS, those distributors may want
  * to add a information here, too (like "(debian 0.2-3)" for a debian package).
  *
- * To get that working, change the VENDOR_VERSION macro in "taggit-vendor.h"
+ * To get that working, change the VENDOR_VERSION macro in "amded-vendor.h"
  * and run the build like this:
  *
  * \code
@@ -41,7 +41,7 @@
  * message such as this:
  *
  * \code
- * taggit version 0.5 (debian 0.5-3)
+ * amded version 0.5 (debian 0.5-3)
  * \endcode
  */
 #define VERSION "0.5+git"
@@ -51,13 +51,13 @@
 /**
  * Print an empty value list when a file does not contain meta information.
  *
- * Normally, taggit would error our in such situations. But some frontends
+ * Normally, amded would error our in such situations. But some frontends
  * may want to get an empty list to reduce the number of codepaths in their
  * code.
  */
-#define TAGGIT_LIST_ALLOW_EMPTY_TAGS    (1 << 0)
+#define AMDED_LIST_ALLOW_EMPTY_TAGS    (1 << 0)
 
-#define TAGGIT_TAG_MAXLENGTH 14
+#define AMDED_TAG_MAXLENGTH 14
 
 enum tag_type {
     TAG_INVALID = -1,
@@ -83,14 +83,14 @@ enum tag_id {
     T_YEAR
 };
 
-struct taggit_file {
+struct amded_file {
     char *name;
-    Taggit::FileType type;
-    Taggit::TagImplementation tagimpl;
+    Amded::FileType type;
+    Amded::TagImplementation tagimpl;
     bool multi_tag;
     TagLib::File *fh;
 };
 
-struct taggit_broken_tag_def {};
+struct amded_broken_tag_def {};
 
-#endif /* INC_TAGGIT_H */
+#endif /* INC_AMDED_H */

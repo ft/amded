@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Copyright (c) 2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -18,13 +18,13 @@
 
 #include "list.h"
 #include "list-human.h"
-#include "taggit.h"
+#include "amded.h"
 #include "value.h"
 
 static void
 print_iter(std::pair< const std::string, Value > &iter, bool symbol=false)
 {
-    std::cout << std::setw(TAGGIT_TAG_MAXLENGTH)
+    std::cout << std::setw(AMDED_TAG_MAXLENGTH)
               << std::left
               << iter.first
               << " | ";
@@ -45,19 +45,19 @@ print_iter(std::pair< const std::string, Value > &iter, bool symbol=false)
 }
 
 void
-taggit_list_human(const struct taggit_file &file)
+amded_list_human(const struct amded_file &file)
 {
     std::cout << '<' << file.name << '>' << std::endl;
 
-    std::map< std::string, Value > data = taggit_list_taggit(file);
+    std::map< std::string, Value > data = amded_list_amded(file);
     for (auto &iter : data)
         print_iter(iter, true);
 
-    data = taggit_list_tags(file);
+    data = amded_list_tags(file);
     for (auto &iter : data)
         print_iter(iter);
 
-    data = taggit_list_audioprops(file.fh->audioProperties());
+    data = amded_list_audioprops(file.fh->audioProperties());
     for (auto &iter : data)
         print_iter(iter);
 }

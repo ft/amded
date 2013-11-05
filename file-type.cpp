@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Copyright (c) 2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -30,7 +30,7 @@ file_type_map = {
     { FILE_T_INVALID,    "invalid" }
 };
 
-namespace Taggit {
+namespace Amded {
 
     FileType::FileType()
     {

@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2009 taggit workers, All rights reserved.
+ * Copyright (c) 2009 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
 /**
  * @file setup.h
- * @brief API for taggit's configurable setup
+ * @brief API for amded's configurable setup
  */
 
 #ifndef INC_SETUP_H

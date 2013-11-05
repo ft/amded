@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Copyright (c) 2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -23,7 +23,7 @@ static std::map< enum tag_impl, std::string > tagimpl_map {
     { TAG_T_INVALID, "invalid" },
 };
 
-namespace Taggit {
+namespace Amded {
 
     TagImplementation::TagImplementation()
     {

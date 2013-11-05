@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Copyright (c) 2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -18,11 +18,11 @@
 
 #include <fileref.h>
 
-#include "taggit.h"
+#include "amded.h"
 #include "value.h"
 
-std::map< std::string, Value > taggit_list_tags(const struct taggit_file &);
-std::map< std::string, Value > taggit_list_audioprops(TagLib::AudioProperties*);
-std::map< std::string, Value > taggit_list_taggit(const struct taggit_file &);
+std::map< std::string, Value > amded_list_tags(const struct amded_file &);
+std::map< std::string, Value > amded_list_audioprops(TagLib::AudioProperties*);
+std::map< std::string, Value > amded_list_amded(const struct amded_file &);
 
 #endif /* INC_LIST_H */

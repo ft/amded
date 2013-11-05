@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Copyright (c) 2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -18,7 +18,7 @@
 #include "file-spec.h"
 #include "setup.h"
 #include "tag.h"
-#include "taggit.h"
+#include "amded.h"
 
 /**
  * Split a tag definition into key and value
@@ -29,7 +29,7 @@
  * an arbitrary string; including the empty one.
  *
  * If there is no equal sign in ‘data’, or the string before the equal sign is
- * empty, throw ‘taggit_broken_tag_def’.
+ * empty, throw ‘amded_broken_tag_def’.
  *
  * @param   data      the tag definition to process
  *
@@ -43,7 +43,7 @@ tag_arg_to_pair(std::string data)
 
     eqidx = data.find("=");
     if (eqidx == 0 || eqidx == data.npos)
-        throw taggit_broken_tag_def{};
+        throw amded_broken_tag_def{};
     t.first = data.substr(0, eqidx);
     t.second = data.substr(eqidx + 1);
     return t;
@@ -53,7 +53,7 @@ tag_arg_to_pair(std::string data)
  * Return a ‘tag_type’ that corresponds to ‘name’.
  *
  * This is a look-up via ‘tag_map’. Returns TAG_INVALID if the tag name is not
- * supported by taggit.
+ * supported by amded.
  *
  * @param    name        The tag-name to perform the loop-up on.
  *
@@ -72,7 +72,7 @@ tag_to_type(std::string name)
  * Return a ‘tag_id’ that corresponds to ‘name’.
  *
  * This is a look-up via ‘tag_map’. Returns T_UNKNOWN if the tag name is not
- * supported by taggit.
+ * supported by amded.
  *
  * @param    name        The tag-name to perform the loop-up on.
  *
@@ -92,7 +92,7 @@ tag_to_id(std::string name)
  *
  * ‘Value’ is a class that can hold different types of data transparently.
  * Namely integers and strings, which are also possible values for tags in
- * taggit.
+ * amded.
  *
  * This takes a string (possibly provided by the user on the command line) and
  * converts it into a value type hinted at by ‘type’. This function returns
@@ -152,7 +152,7 @@ split(const std::string &str, const std::string &delim)
 }
 
 /**
- * Change one of taggit's file-type to tag-implemenation maps
+ * Change one of amded's file-type to tag-implemenation maps
  *
  * Some file types may contain information in one or more of several different
  * tag implementations. For example, mp3 files may contain ID3v1, ID3v2 and
@@ -185,13 +185,13 @@ setup_map(std::map<enum file_type, std::vector< enum tag_impl>> &m,
         try {
             entry = tag_arg_to_pair(di);
         }
-        catch (taggit_broken_tag_def) {
+        catch (amded_broken_tag_def) {
             std::cerr << PROJECT << ": Broken map-definition: "
                       << '"' << di << '"'
                       << std::endl;
             exit(EXIT_FAILURE);
         }
-        Taggit::FileType ft(entry.first);
+        Amded::FileType ft(entry.first);
 
         if (ft.get_id() == FILE_T_INVALID) {
             std::cerr << PROJECT << ": Invalid file type: "
@@ -206,7 +206,7 @@ setup_map(std::map<enum file_type, std::vector< enum tag_impl>> &m,
 
         std::vector<std::string> types = split(entry.second, ",");
         for (auto &ei : types) {
-            Taggit::TagImplementation ti(ei);
+            Amded::TagImplementation ti(ei);
             if (ti.get_id() == TAG_T_INVALID ||
                 ti.get_id() == TAG_T_NONE)
             {
@@ -245,13 +245,13 @@ setup_writemap(std::string def)
 }
 
 void
-taggit_parameters(std::string def)
+amded_parameters(std::string def)
 {
     for (auto &iter : split(def, ","))
         if (iter == "")
             continue;
         else if (iter == "show-empty")
-            set_opt(TAGGIT_LIST_ALLOW_EMPTY_TAGS);
+            set_opt(AMDED_LIST_ALLOW_EMPTY_TAGS);
         else {
             std::cerr << PROJECT << ": Unknown parameter: `"
                       << iter << "'" << std::endl;

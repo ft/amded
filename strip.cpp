@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Copyright (c) 2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -15,10 +15,10 @@
 
 #include "file-spec.h"
 #include "strip.h"
-#include "taggit.h"
+#include "amded.h"
 
 void
-taggit_strip(struct taggit_file &file)
+amded_strip(struct amded_file &file)
 {
     if (file.fh->readOnly()) {
         std::cerr << PROJECT << ": File is read-only: "

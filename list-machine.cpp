@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Copyright (c) 2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -38,19 +38,19 @@ print_iter(std::pair< const std::string, Value > &iter)
 }
 
 void
-taggit_list_machine(const struct taggit_file &file)
+amded_list_machine(const struct amded_file &file)
 {
     std::cout << "file-name" << ASCII_STX << file.name;
 
-    std::map< std::string, Value > data = taggit_list_taggit(file);
+    std::map< std::string, Value > data = amded_list_amded(file);
     for (auto &iter : data)
         print_iter(iter);
 
-    data = taggit_list_tags(file);
+    data = amded_list_tags(file);
     for (auto &iter : data)
         print_iter(iter);
 
-    data = taggit_list_audioprops(file.fh->audioProperties());
+    data = amded_list_audioprops(file.fh->audioProperties());
     for (auto &iter : data)
         print_iter(iter);
 }

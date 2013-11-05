@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2013 taggit workers, All rights reserved.
+ * Copyright (c) 2009-2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -11,11 +11,11 @@
 #include <iostream>
 #include <vector>
 
-#include "taggit.h"
+#include "amded.h"
 #include "info.h"
 
 #ifdef VENDOR_BUILD
-#include "taggit-vendor.h"
+#include "amded-vendor.h"
 #endif /* VENDOR_BUILD */
 
 #ifdef GIT_SOURCE
@@ -24,11 +24,11 @@
 
 /** usage information */
 std::vector<std::string> usage = {
-"usage: taggit OPTION(s) FILE(s)",
+"usage: amded OPTION(s) FILE(s)",
 "",
 "  informational options:",
 "    -h,               display this help text",
-"    -L,               show taggit's licence information",
+"    -L,               show amded's licence information",
 "    -v,               print version information",
 "    -s                list supported tag names",
 "  configuration options:",
@@ -45,7 +45,7 @@ std::vector<std::string> usage = {
 
 /** licence information */
 std::vector<std::string> licence = {
-" Copyright 2009-2013 taggit workers, All rights reserved.",
+" Copyright 2009-2013 amded workers, All rights reserved.",
 "",
 " Redistribution and use in source and binary forms, with or without",
 " modification, are permitted provided that the following conditions",
@@ -70,9 +70,9 @@ std::vector<std::string> licence = {
 " POSSIBILITY OF SUCH DAMAGE.",
 };
 
-/** Print version information about taggit */
+/** Print version information about amded */
 void
-taggit_version(void)
+amded_version(void)
 {
     std::cout << PROJECT << " version ";
 #ifdef GIT_SOURCE
@@ -100,14 +100,14 @@ print_vector(std::vector<std::string> v)
 
 /** Print out usage information (contained in the usage vector above) */
 void
-taggit_usage(void)
+amded_usage(void)
 {
     print_vector(usage);
 }
 
 /** Print out licencing information (contained in the licence vector above) */
 void
-taggit_licence(void)
+amded_licence(void)
 {
     print_vector(licence);
 }

@@ -1,4 +1,4 @@
-TAGGIT
+AMDED
 
 Nov, 2013
 
@@ -6,21 +6,21 @@ Nov, 2013
 
 
 = NAME =
-taggit - Basic command line tagging engine for audio files
+amded - Basic command line tagging engine for audio files
 
 
 = SYNOPSIS =
-//taggit// **OPTION(s)**... **FILE(s)**...
+//amded// **OPTION(s)**... **FILE(s)**...
 
 
 = DESCRIPTION =
-//Taggit// is based on KDE's taglib. It is a very basic program, that
+//Amded// is based on KDE's taglib. It is a very basic program, that
 lists and modifies meta information found in audio files.
 
-//Taggit// is **not** an automatic tagging utility. But it can be used
+//Amded// is **not** an automatic tagging utility. But it can be used
 as a tagging backend in higher-level applications.
 
-//Taggit// currently supports the following file types:
+//Amded// currently supports the following file types:
 
 - Ogg Vorbis
 - Ogg FLAC
@@ -35,7 +35,7 @@ Display a short usage message.
 Display version information.
 
 : **-L**
-Display taggit's licencing information.
+Display amded's licencing information.
 
 : **-l**
 List the tags in the given files in a human readable form.
@@ -46,13 +46,13 @@ List the tags in the given files in a machine readable form.
 : **-S**
 Strip all tags from a file. With files, that support multiple tag
 implementations to be present (like mp3 files) the write-map is used. For
-example, the strip id3v1 tags from a file: "taggit -W mp3=id3v1 -S foo.mp3"
+example, the strip id3v1 tags from a file: "amded -W mp3=id3v1 -S foo.mp3"
 
 : **-s**
 Show a list of supported tags.
 
 : **-o** //<optional-parameter(s)>//
-Pass a comma-separated list of optional parameters into //taggit//. See
+Pass a comma-separated list of optional parameters into //amded//. See
 //OPTIONAL PARAMETERS// below for details.
 
 : **-R** //<readmap(s)>//
@@ -73,17 +73,17 @@ is removed entirely. This may be used alongside **-t**.
 
 
 = OPTIONAL PARAMETERS =
-The **-o** option allows the following parameters to be passed to //taggit//:
+The **-o** option allows the following parameters to be passed to //amded//:
 
 - //show-empty//: Print supported tags with empty values.
 
 
 = LISTING ACTIONS =
-//Taggit// supports two ways of listing meta information from audio
+//Amded// supports two ways of listing meta information from audio
 files: **human** readable and **machine** readable.
 
 Note that the listing output will include more information than the ones
-//taggit// will let you modify. For example it will include information
+//amded// will let you modify. For example it will include information
 like the **samplerate** in use in the file or the **length** in seconds.
 
 
@@ -148,14 +148,14 @@ An example output could look like this:
   file-name**<STX>**One.mp3**<ETX>**artist**<STX>**Someone**<EOT>**file-name**<STX>**Two.mp3**<ETX>**artist**<STX>**SomeoneElse
 
 This form of output is requested by the **-m** command line option. And
-example parsers for this output method are included in the //taggit//
+example parsers for this output method are included in the //amded//
 distribution (the process-m.* files, to be precise).
 
 
 = FILE TYPE SPECIFIC BEHAVIOUR =
 
 == mp3 ==
-In listing modes, //taggit// includes a pseudo tag called **tag-types**, of
+In listing modes, //amded// includes a pseudo tag called **tag-types**, of
 which the value is a comma seperated list of tag types found in the file. Valid
 tag types are: **id3v1**, **id3v2** and **apetag**.
 
@@ -167,7 +167,7 @@ for the **tag-types** pseudo tag.
 = MAPPING =
 
 For some file types (currently only //mp3//) more than one type of tag
-is allowed at the same time. This fact requires //taggit// to have a way
+is allowed at the same time. This fact requires //amded// to have a way
 of determining which tag types to **write** for a given file type and
 from which type to **read**. Setting this up is what we call //mapping//
 tagtypes to file types.
@@ -209,5 +209,5 @@ Taglib: <http://developer.kde.org/~wheeler/taglib.html>
 
 
 = COPYRIGHT =
-Copyright (c) 2009,2010 taggit workers, All rights reserved.
+Copyright (c) 2009-2013 amded workers, All rights reserved.
 Terms for redistribution and use can be found in the LICENCE file.

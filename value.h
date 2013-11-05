@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 taggit workers, All rights reserved.
+ * Copyright (c) 2013 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -15,7 +15,7 @@
 
 #include <tstring.h>
 
-#include "taggit.h"
+#include "amded.h"
 
 class Value {
 private:

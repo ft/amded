@@ -1,23 +1,23 @@
 #!/bin/zsh
-# This is an example of how to process the data that taggit emits in
+# This is an example of how to process the data that amded emits in
 # its list-machine-readable mode (using the -m option).
 # The code is written in zsh <http://zsh.sourceforge.net>.
 
 emulate zsh
-typeset -a taggit tags info
+typeset -a amded tags info
 
-# Taggit uses ASCII end-of-transmission (EOT) bytes to seperate information
+# Amded uses ASCII end-of-transmission (EOT) bytes to seperate information
 # from different files. So First, break up the input at EOT bytes.
 # That would be hex 0x04 - and zsh makes that fairly simple (this assumes
-# taggit to be located in the processes $PATH and it will process files from
+# amded to be located in the processes $PATH and it will process files from
 # the current working directory matching the pattern '*.mp3'):
-taggit=( ${(ps:\x04:)"$(taggit -m *.mp3)"} )
+amded=( ${(ps:\x04:)"$(amded -m *.mp3)"} )
 
 # Now iterate over the records for each file:
-for fi in $taggit; do
+for fi in $amded; do
 
-    # Just to show that $taggit is an array that contains records for
-    # each file processed by taggit, let's put in a marker line:
+    # Just to show that $amded is an array that contains records for
+    # each file processed by amded, let's put in a marker line:
     print -- -------------------------------------------------------------------
 
     # Now each file contains a number of tags and each tag=value pair

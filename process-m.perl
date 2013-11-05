@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# This is an example of how to process the data that taggit emits in
+# This is an example of how to process the data that amded emits in
 # its list-machine-readable mode (using the -m option).
 # The code is written in Perl.
 
@@ -10,24 +10,24 @@ use English '-no_match_vars';
 # a container for the read data.
 my $data;
 # handle for the forking open call.
-my $taggit;
+my $amded;
 
-# Read taggit output. All of it. At once.
-open $taggit, '-|', 'taggit -m *.mp3' or die "Couldn't for off taggit: $!\n";
+# Read amded output. All of it. At once.
+open $amded, '-|', 'amded -m *.mp3' or die "Couldn't for off amded: $!\n";
 # locally turn on slurp mode.
 local $INPUT_RECORD_SEPARATOR = undef;
-$data = <$taggit>;
+$data = <$amded>;
 # and turn it off again.
 local $INPUT_RECORD_SEPARATOR = "\n";
-close $taggit;
+close $amded;
 
-# Taggit uses ASCII end-of-transmission (EOT) bytes to seperate information
+# Amded uses ASCII end-of-transmission (EOT) bytes to seperate information
 # from different files. So First, break up the input at EOT bytes (hex 0x04)
 # So let's split at those:
 foreach my $fi (split /\x04/, $data) {
 
-    # Just to show that $taggit is an array that contains records for
-    # each file processed by taggit, let's put in a marker line:
+    # Just to show that $amded is an array that contains records for
+    # each file processed by amded, let's put in a marker line:
     print "-------------------------------------------------------------------\n";
 
     # Now each file contains a number of tags and each tag=value pair
