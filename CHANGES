@@ -1,4 +1,4 @@
-* 0.5 → 0.6:
+* 0.5 → 0.6 (released 2013-11-05):
 
     - Rename "filename" to "file-name" in machine-readable output.
 
@@ -11,6 +11,8 @@
       because every other half-way decent name was taken by at least one
       project (many of which are just sitting around with just a project page
       on the net and nothing else. thankyouverymuch.)
+
+      Hammering out another release because of this.
 
 * 0.4 → 0.5 (released 2013-11-04):
 
