@@ -211,7 +211,7 @@ parse_options(int argc, char *argv[])
  *         information in audio files
  *
  * Interfacing KDE's taglib:
- *   <http://developer.kde.org/~wheeler/taglib.html>
+ *   <http://taglib.github.io>
  *
  * @param   argc    number of entries in *argv[]
  * @param   argv[]  list of arguments at startup.
