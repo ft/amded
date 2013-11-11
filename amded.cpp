@@ -240,7 +240,8 @@ main(int argc, char *argv[])
     {
         if (read_map.size() == 0)
             setup_readmap("");
-    } else if (amded_mode == AMDED_TAG) {
+    } else if (amded_mode == AMDED_TAG ||
+               amded_mode == AMDED_STRIP) {
         if (write_map.size() == 0)
             setup_writemap("");
     }
