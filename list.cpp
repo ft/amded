@@ -101,6 +101,7 @@ amded_list_tags(const struct amded_file &file)
         retval["is-va"] = false;
     tagtomap(retval, tags, "composer", "COMPOSER", wantempty, false);
     tagtomap(retval, tags, "conductor", "CONDUCTOR", wantempty, false);
+    tagtomap(retval, tags, "description", "DESCRIPTION", wantempty, false);
     tagtomap(retval, tags, "genre", "GENRE", wantempty, false);
     tagtomap(retval, tags, "label", "LABEL", wantempty, false);
     tagtomap(retval, tags, "performer", "PERFORMER", wantempty, false);
