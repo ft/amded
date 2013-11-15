@@ -104,6 +104,7 @@ amded_list_tags(const struct amded_file &file)
     tagtomap(retval, tags, "genre", "GENRE", wantempty, false);
     tagtomap(retval, tags, "label", "LABEL", wantempty, false);
     tagtomap(retval, tags, "performer", "PERFORMER", wantempty, false);
+    tagtomap(retval, tags, "publisher", "PUBLISHER", wantempty, false);
     tagtomap(retval, tags, "track-number", "TRACKNUMBER", wantempty, true);
     tagtomap(retval, tags, "track-title", "TITLE", wantempty, false);
     tagtomap(retval, tags, "year", "DATE", wantempty, true);
