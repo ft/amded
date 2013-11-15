@@ -82,6 +82,7 @@ enum tag_id {
     T_PUBLISHER,
     T_TRACKTITLE,
     T_TRACKNUMBER,
+    T_URL,
     T_YEAR
 };
 

@@ -49,6 +49,7 @@ tag_map = {
     { "publisher",      { T_PUBLISHER,      TAG_STRING  } },
     { "track-number",   { T_TRACKNUMBER,    TAG_INTEGER } },
     { "track-title",    { T_TRACKTITLE,     TAG_STRING  } },
+    { "url",            { T_URL,            TAG_STRING  } },
     { "year",           { T_YEAR,           TAG_INTEGER } }
 };
 
