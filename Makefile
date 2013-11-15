@@ -7,7 +7,7 @@ INSTALLMAN = install -m 644
 
 POSIX_SHELL ?= /bin/sh
 
-LDFLAGS = `pkg-config --libs taglib_c`
+LDFLAGS = `pkg-config --libs taglib`
 
 OPTIM ?= -Os
 DEBUG ?= -ggdb -O0
