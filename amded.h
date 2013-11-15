@@ -75,9 +75,11 @@ enum tag_id {
     T_COMPILATION,
     T_COMPOSER,
     T_CONDUCTOR,
+    T_DESCRIPTION,
     T_GENRE,
     T_LABEL,
     T_PERFORMER,
+    T_PUBLISHER,
     T_TRACKTITLE,
     T_TRACKNUMBER,
     T_YEAR

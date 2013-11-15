@@ -42,9 +42,11 @@ tag_map = {
     { "compilation",    { T_COMPILATION,    TAG_STRING  } },
     { "composer",       { T_COMPOSER,       TAG_STRING  } },
     { "conductor",      { T_CONDUCTOR,      TAG_STRING  } },
+    { "description",    { T_DESCRIPTION,    TAG_STRING  } },
     { "genre",          { T_GENRE,          TAG_STRING  } },
     { "label",          { T_LABEL,          TAG_STRING  } },
     { "performer",      { T_PERFORMER,      TAG_STRING  } },
+    { "publisher",      { T_PUBLISHER,      TAG_STRING  } },
     { "track-number",   { T_TRACKNUMBER,    TAG_INTEGER } },
     { "track-title",    { T_TRACKTITLE,     TAG_STRING  } },
     { "year",           { T_YEAR,           TAG_INTEGER } }
