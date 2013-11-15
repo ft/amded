@@ -61,11 +61,14 @@ static std::map< enum tag_id, std::string > taglib_amded_map = {
     { T_COMPILATION,    "ALBUMARTIST" },
     { T_COMPOSER,       "COMPOSER" },
     { T_CONDUCTOR,      "CONDUCTOR" },
+    { T_DESCRIPTION,    "DESCRIPTION" },
     { T_GENRE,          "GENRE" },
     { T_LABEL,          "LABEL" },
     { T_PERFORMER,      "PERFORMER" },
+    { T_PUBLISHER,      "PUBLISHER" },
     { T_TRACKNUMBER,    "TRACKNUMBER" },
     { T_TRACKTITLE,     "TITLE" },
+    { T_URL,            "URL" },
     { T_YEAR,           "DATE" }
 };
 
