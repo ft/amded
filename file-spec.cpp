@@ -15,6 +15,7 @@
 #include <apetag.h>
 #include <id3v1tag.h>
 #include <id3v2tag.h>
+#include <mp4file.h>
 #include <mpegfile.h>
 #include <oggflacfile.h>
 #include <tfile.h>
@@ -120,6 +121,8 @@ file_ext_map = {
     { "flac", FILE_T_OGG_FLAC },
     { "flc",  FILE_T_OGG_FLAC },
     { "mp3",  FILE_T_MP3 },
+    { "mp4",  FILE_T_M4A },
+    { "m4a",  FILE_T_M4A },
     { "ogg",  FILE_T_OGG_VORBIS },
     { "oga",  FILE_T_OGG_VORBIS }
 };
@@ -159,6 +162,9 @@ amded_open(struct amded_file &file)
         break;
     case FILE_T_OGG_VORBIS:
         file.fh = new TagLib::Ogg::Vorbis::File(file.name);
+        break;
+    case FILE_T_M4A:
+        file.fh = new TagLib::MP4::File(file.name);
         break;
     default:
         return false;
