@@ -1,3 +1,7 @@
+* 0.6 → 0.7:
+
+    - Support M4A files (that is mp4 audio)
+
 * 0.5 → 0.6 (released 2013-11-05):
 
     - Rename "filename" to "file-name" in machine-readable output.
