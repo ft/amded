@@ -2,6 +2,12 @@
 
     - Support M4A files (that is mp4 audio)
 
+    - New tag support:
+
+      - DESCRIPTION
+      - PUBLISHER
+      - URL
+
 * 0.5 → 0.6 (released 2013-11-05):
 
     - Rename "filename" to "file-name" in machine-readable output.
