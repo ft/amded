@@ -127,6 +127,13 @@ file_ext_map = {
     { "oga",  FILE_T_OGG_VORBIS }
 };
 
+void
+list_extensions(void)
+{
+    for (auto &iter : file_ext_map)
+        std::cout << iter.first << std::endl;
+}
+
 enum file_type
 get_ext_type(std::string filename)
 {

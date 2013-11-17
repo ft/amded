@@ -9,6 +9,7 @@
  */
 
 #include <cstdlib>
+#include <cstring>
 #include <iostream>
 
 #include "cmdline.h"
@@ -117,7 +118,7 @@ parse_options(int argc, char *argv[])
     enum tag_type type;
     Value tagval;
 
-    while ((opt = bsd_getopt(argc, argv, "d:hLlmo:R:Sst:VW:")) != -1) {
+    while ((opt = bsd_getopt(argc, argv, "d:hLlmo:R:Ss:t:VW:")) != -1) {
         switch (opt) {
         case 'h':
             amded_usage();
@@ -140,8 +141,13 @@ parse_options(int argc, char *argv[])
             setup_readmap(optarg);
             break;
         case 's':
-            std::cout << "Supported tags:" << std::endl;
-            list_tags();
+            if (!strcmp(optarg, "tags"))
+                list_tags();
+            else if (!strcmp(optarg, "file-extensions"))
+                list_extensions();
+            else
+                std::cerr << PROJECT << ": Unknown aspect `"
+                          << optarg << "'." << std::endl;
             exit(EXIT_SUCCESS);
         case 'd':
             /* ‘-d’ is a special case of the AMDED_TAG mode. */

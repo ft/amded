@@ -8,6 +8,10 @@
       - PUBLISHER
       - URL
 
+    - The ‘-s’ option now expects one mandatory argument, namely the aspect of
+      the operation that you want a "supported-listing" of. Currently, you are
+      able to query a list of supported file-extensions and tags.
+
 * 0.5 → 0.6 (released 2013-11-05):
 
     - Rename "filename" to "file-name" in machine-readable output.

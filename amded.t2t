@@ -49,8 +49,9 @@ Strip all tags from a file. With files, that support multiple tag
 implementations to be present (like mp3 files) the write-map is used. For
 example, the strip id3v1 tags from a file: "amded -W mp3=id3v1 -S foo.mp3"
 
-: **-s**
-Show a list of supported tags.
+: **-s** //<aspect>//
+Produce a list of supported aspects. Valid aspects are: **tags**,
+**file-extensions**
 
 : **-o** //<optional-parameter(s)>//
 Pass a comma-separated list of optional parameters into //amded//. See

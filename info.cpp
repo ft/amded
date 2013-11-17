@@ -30,7 +30,7 @@ std::vector<std::string> usage = {
 "    -h,               display this help text",
 "    -L,               show amded's licence information",
 "    -v,               print version information",
-"    -s                list supported tag names",
+"    -s <aspect>       produce list of supported aspects",
 "  configuration options:",
 "    -R <readmap>      configure tag reading order",
 "    -W <writemap>     configure which tag types should be written",

@@ -25,6 +25,7 @@ TagLib::PropertyMap get_tags_for_file(const struct amded_file &);
 bool tag_impl_allowed_for_file_type(enum file_type, enum tag_impl);
 void tag_multitag(const struct amded_file &);
 void strip_multitag(const struct amded_file &);
+void list_extensions(void);
 
 extern std::map< enum file_type, std::vector< enum tag_impl > > filetag_map;
 
