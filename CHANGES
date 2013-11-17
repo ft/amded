@@ -12,6 +12,10 @@
       the operation that you want a "supported-listing" of. Currently, you are
       able to query a list of supported file-extensions and tags.
 
+    - Support removing tags unknown to TagLib's PropertyMap. This is the
+      default behaviour when stripping tags. To actually keep these tags, the
+      ‘-o’ option recognises the ‘keep-unsupported’ parameter.
+
 * 0.5 → 0.6 (released 2013-11-05):
 
     - Rename "filename" to "file-name" in machine-readable output.

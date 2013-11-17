@@ -56,6 +56,7 @@
  * code.
  */
 #define AMDED_LIST_ALLOW_EMPTY_TAGS    (1 << 0)
+#define AMDED_KEEP_UNSUPPORTED_TAGS    (1 << 1)
 
 #define AMDED_TAG_MAXLENGTH 14
 

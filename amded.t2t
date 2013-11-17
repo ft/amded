@@ -77,6 +77,8 @@ is removed entirely. This may be used alongside **-t**.
 = OPTIONAL PARAMETERS =
 The **-o** option allows the following parameters to be passed to //amded//:
 
+- //keep-unsupported//: When stripping tags, also remove tags, that are
+  unsupported by TagLib's "PropertyMap" abstraction.
 - //show-empty//: Print supported tags with empty values.
 
 

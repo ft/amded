@@ -252,6 +252,8 @@ amded_parameters(std::string def)
             continue;
         else if (iter == "show-empty")
             set_opt(AMDED_LIST_ALLOW_EMPTY_TAGS);
+        else if (iter == "keep-unsupported")
+            set_opt(AMDED_KEEP_UNSUPPORTED_TAGS);
         else {
             std::cerr << PROJECT << ": Unknown parameter: `"
                       << iter << "'" << std::endl;
