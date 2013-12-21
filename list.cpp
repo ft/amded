@@ -117,7 +117,8 @@ std::map< std::string, Value >
 amded_list_audioprops(TagLib::AudioProperties *p)
 {
     std::map< std::string, Value > retval;
-    retval["bit-rate"] = p->bitrate();
+    /* bitrate() actually returns kilo-bitrate */
+    retval["bit-rate"] = p->bitrate() * 1000;
     retval["channels"] = p->channels();
     retval["length"] = p->length();
     retval["sample-rate"] = p->sampleRate();
