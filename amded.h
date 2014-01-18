@@ -84,7 +84,10 @@ enum tag_id {
     T_TRACKTITLE,
     T_TRACKNUMBER,
     T_URL,
-    T_YEAR
+    T_YEAR,
+    T_MB_ALBUM_ID,
+    T_MB_ARTIST_ID,
+    T_MB_TRACK_ID
 };
 
 struct amded_file {

@@ -50,7 +50,10 @@ tag_map = {
     { "track-number",   { T_TRACKNUMBER,    TAG_INTEGER } },
     { "track-title",    { T_TRACKTITLE,     TAG_STRING  } },
     { "url",            { T_URL,            TAG_STRING  } },
-    { "year",           { T_YEAR,           TAG_INTEGER } }
+    { "year",           { T_YEAR,           TAG_INTEGER } },
+    { "mb-album-id",    { T_MB_ALBUM_ID,    TAG_STRING  } },
+    { "mb-artist-id",   { T_MB_ARTIST_ID,   TAG_STRING  } },
+    { "mb-track-id",    { T_MB_TRACK_ID,    TAG_STRING  } }
 };
 
 static std::map< enum tag_id, std::string > taglib_amded_map = {
@@ -69,7 +72,10 @@ static std::map< enum tag_id, std::string > taglib_amded_map = {
     { T_TRACKNUMBER,    "TRACKNUMBER" },
     { T_TRACKTITLE,     "TITLE" },
     { T_URL,            "URL" },
-    { T_YEAR,           "DATE" }
+    { T_YEAR,           "DATE" },
+    { T_MB_ARTIST_ID,   "MUSICBRAINZ_ARTISTID" },
+    { T_MB_ALBUM_ID,    "MUSICBRAINZ_ALBUMID" },
+    { T_MB_TRACK_ID,    "MUSICBRAINZ_TRACKID" }
 };
 
 /** Print a list of supported tags to ‘stdout‘. */

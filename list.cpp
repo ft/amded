@@ -110,6 +110,9 @@ amded_list_tags(const struct amded_file &file)
     tagtomap(retval, tags, "track-title", "TITLE", wantempty, false);
     tagtomap(retval, tags, "url", "URL", wantempty, false);
     tagtomap(retval, tags, "year", "DATE", wantempty, true);
+    tagtomap(retval, tags, "mb-album-id", "MUSICBRAINZ_ALBUMID", wantempty, false);
+    tagtomap(retval, tags, "mb-artist-id", "MUSICBRAINZ_ARTISTID", wantempty, false);
+    tagtomap(retval, tags, "mb-track-id", "MUSICBRAINZ_TRACKID", wantempty, false);
     return retval;
 }
 
