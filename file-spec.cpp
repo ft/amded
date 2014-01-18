@@ -15,6 +15,7 @@
 #include <apetag.h>
 #include <id3v1tag.h>
 #include <id3v2tag.h>
+#include <flacfile.h>
 #include <mp4file.h>
 #include <mpegfile.h>
 #include <oggflacfile.h>
@@ -118,8 +119,8 @@ is_multitag_type(enum file_type type)
 
 static std::map < std::string, enum file_type >
 file_ext_map = {
-    { "flac", FILE_T_OGG_FLAC },
-    { "flc",  FILE_T_OGG_FLAC },
+    { "flac", FILE_T_FLAC },
+    { "flc",  FILE_T_FLAC },
     { "mp3",  FILE_T_MP3 },
     { "mp4",  FILE_T_M4A },
     { "m4a",  FILE_T_M4A },
@@ -164,8 +165,8 @@ amded_open(struct amded_file &file)
     case FILE_T_MP3:
         file.fh = new TagLib::MPEG::File(file.name);
         break;
-    case FILE_T_OGG_FLAC:
-        file.fh = new TagLib::Ogg::FLAC::File(file.name);
+    case FILE_T_FLAC:
+        file.fh = new TagLib::FLAC::File(file.name);
         break;
     case FILE_T_OGG_VORBIS:
         file.fh = new TagLib::Ogg::Vorbis::File(file.name);

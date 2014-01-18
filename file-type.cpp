@@ -24,7 +24,7 @@ using stdstring = std::string;
 
 static std::map < enum file_type, std::string >
 file_type_map = {
-    { FILE_T_OGG_FLAC,   "ogg-flac" },
+    { FILE_T_FLAC,       "flac" },
     { FILE_T_OGG_VORBIS, "ogg-vorbis" },
     { FILE_T_MP3,        "mp3" },
     { FILE_T_M4A,        "m4a" },

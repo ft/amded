@@ -17,7 +17,7 @@ enum file_type {
     FILE_T_INVALID = -1,
     FILE_T_M4A,
     FILE_T_MP3,
-    FILE_T_OGG_FLAC,
+    FILE_T_FLAC,
     FILE_T_OGG_VORBIS
 };
 
