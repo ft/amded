@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009,2010 amded workers, All rights reserved.
+ * Copyright (c) 2009-2014 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
