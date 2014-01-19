@@ -12,7 +12,7 @@ LDFLAGS = `pkg-config --libs taglib`
 OPTIM ?= -Os
 DEBUG ?= -ggdb -O0
 
-CXX = clang++
+CXX = g++
 
 PROJECT = amded
 HEADERS = amded.h bsdgetopt.c
