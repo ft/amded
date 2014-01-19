@@ -2,11 +2,22 @@
 
     - Support M4A files (that is mp4 audio)
 
+    - .flac and .flc files are not flac-files in ogg containers, usually.
+      ‘amded’ did assume that before. This version will assume files with
+      those extensions to be plain flac files (as implemented by
+      ‘TagLib::FLAC::File‘ as opposed to ‘TagLib::Ogg::FLAC::File’).
+
     - New tag support:
 
       - DESCRIPTION
       - PUBLISHER
       - URL
+
+    - Support for a few musicbrainz specific tags:
+
+      - MUSICBRAINZ_ALBUMID
+      - MUSICBRAINZ_ARTISTID
+      - MUSICBRAINZ_TRACKID
 
     - The ‘-s’ option now expects one mandatory argument, namely the aspect of
       the operation that you want a "supported-listing" of. Currently, you are
