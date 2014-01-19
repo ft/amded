@@ -44,7 +44,7 @@
  * amded version 0.5 (debian 0.5-3)
  * \endcode
  */
-#define VERSION "0.7"
+#define VERSION "0.7+git"
 
 /* Boolean option bits: */
 
