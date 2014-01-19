@@ -48,8 +48,8 @@ _depend: $(SOURCES)
 install:
 	$(INSTALLDIR) $(DESTDIR)$(PREFIX)/bin
 	$(INSTALLBIN) amded $(DESTDIR)$(PREFIX)/bin/
-	$(INSTALLDIR) $(DESTDIR)$(PREFIX)/$(MANDIR)1
-	$(INSTALLMAN) amded.1 $(DESTDIR)$(PREFIX)/$(MANDIR)1/
+	[ -f amded.1 ] && $(INSTALLDIR) $(DESTDIR)$(PREFIX)/$(MANDIR)1 || true
+	[ -f amded.1 ] && $(INSTALLMAN) amded.1 $(DESTDIR)$(PREFIX)/$(MANDIR)1/ || true
 
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/amded
