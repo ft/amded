@@ -15,6 +15,8 @@ DEBUG ?= -ggdb -O0
 CXX = g++
 
 PROJECT = amded
+DISTHEAD = master
+
 HEADERS = amded.h bsdgetopt.c
 SOURCES = amded.cpp info.cpp setup.cpp cmdline.cpp value.cpp
 SOURCES += list.cpp list-human.cpp list-machine.cpp file-spec.cpp
@@ -68,6 +70,9 @@ distclean: clean
 	rm -f tags TAGS
 	rm -Rf devdoc
 
+dist:
+	git archive --format=tar.gz --prefix="$(PROJECT)-$(DISTHEAD)/" "$(DISTHEAD)" > "$(PROJECT)-$(DISTHEAD).tar.gz"
+
 doc: $(PROJECT).1
 
 tag: tags
@@ -87,4 +92,4 @@ $(PROJECT).1: $(PROJECT).t2t
 
 -include .depend
 
-.PHONY: all depend doc clean install uninstall tags tag devdoc distclean _depend _info lint
+.PHONY: all depend dist doc clean install uninstall tags tag devdoc distclean _depend _info lint
