@@ -94,7 +94,7 @@ amded_version(void)
 static void
 print_vector(std::vector<std::string> v)
 {
-    for (std::vector<std::string>::iterator it = v.begin(); it != v.end(); ++it)
+    for (auto it = v.begin(); it != v.end(); ++it)
         std::cout << *it << std::endl;
 }
 
