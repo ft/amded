@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2014 amded workers, All rights reserved.
+ * Copyright (c) 2009-2015 amded workers, All rights reserved.
  * Terms for redistribution and use can be found in LICENCE.
  */
 
@@ -45,7 +45,7 @@ std::vector<std::string> usage = {
 
 /** licence information */
 std::vector<std::string> licence = {
-" Copyright 2009-2014 amded workers, All rights reserved.",
+" Copyright 2009-2015 amded workers, All rights reserved.",
 "",
 " Redistribution and use in source and binary forms, with or without",
 " modification, are permitted provided that the following conditions",
