@@ -61,7 +61,7 @@ uninstall:
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 $(PROJECT): $(OBJS) $(HEADERS)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(LDFLAGS)
 
 clean:
 	rm -f *.o amded *.1 .depend git-version.h version-magic.make
