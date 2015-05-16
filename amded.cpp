@@ -16,6 +16,7 @@
 #include "file-spec.h"
 #include "info.h"
 #include "list-human.h"
+#include "list-json.h"
 #include "list-machine.h"
 #include "setup.h"
 #include "strip.h"
@@ -38,6 +39,8 @@ enum t_mode {
     AMDED_LIST_HUMAN,
     /** list file's tags in machine readable form */
     AMDED_LIST_MACHINE,
+    /** list file's tags in machine readable form - JSON flavour */
+    AMDED_LIST_JSON,
     /** modify meta information in file(s) */
     AMDED_TAG,
     /** Remove all tags from a file */
@@ -60,7 +63,7 @@ check_mode(enum t_mode mode)
 {
     if (mode != AMDED_MODE_INVALID) {
         std::cout << PROJECT
-                  << ": -m, -l, -t and -t may *not* be used at the same time."
+                  << ": -m, -j, -l, -t and -t may *not* be used at the same time."
                   << std::endl;
         exit(EXIT_FAILURE);
     }
@@ -118,11 +121,15 @@ parse_options(int argc, char *argv[])
     enum tag_type type;
     Value tagval;
 
-    while ((opt = bsd_getopt(argc, argv, "d:hLlmo:R:Ss:t:VW:")) != -1) {
+    while ((opt = bsd_getopt(argc, argv, "d:hjLlmo:R:Ss:t:VW:")) != -1) {
         switch (opt) {
         case 'h':
             amded_usage();
             exit(EXIT_SUCCESS);
+        case 'j':
+            check_mode(amded_mode);
+            amded_mode = AMDED_LIST_JSON;
+            break;
         case 'L':
             amded_licence();
             exit(EXIT_SUCCESS);
@@ -242,7 +249,8 @@ main(int argc, char *argv[])
     }
 
     if (amded_mode == AMDED_LIST_MACHINE ||
-        amded_mode == AMDED_LIST_HUMAN)
+        amded_mode == AMDED_LIST_HUMAN ||
+        amded_mode == AMDED_LIST_JSON)
     {
         if (read_map.size() == 0)
             setup_readmap("");
@@ -272,6 +280,11 @@ main(int argc, char *argv[])
                 first = false;
             amded_list_human(file);
             break;
+        case AMDED_LIST_JSON:
+            if (first)
+                first = false;
+            amded_push_json(file);
+            break;
         case AMDED_LIST_MACHINE:
             if (!first)
                 std::cout << ASCII_EOT;
@@ -292,6 +305,9 @@ main(int argc, char *argv[])
         }
         delete file.fh;
     }
+
+    if (amded_mode == AMDED_LIST_JSON)
+        amded_list_json();
 
     return EXIT_SUCCESS;
 }

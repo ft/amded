@@ -8,6 +8,7 @@ INSTALLMAN = install -m 644
 POSIX_SHELL ?= /bin/sh
 
 LDFLAGS = `pkg-config --libs taglib`
+LDFLAGS += `pkg-config --libs jsoncpp`
 
 OPTIM ?= -Os
 DEBUG ?= -ggdb -O0
@@ -19,12 +20,13 @@ DISTHEAD = master
 
 HEADERS = amded.h bsdgetopt.c
 SOURCES = amded.cpp info.cpp setup.cpp cmdline.cpp value.cpp
-SOURCES += list.cpp list-human.cpp list-machine.cpp file-spec.cpp
+SOURCES += list.cpp list-human.cpp list-machine.cpp list-json.cpp file-spec.cpp
 SOURCES += file-type.cpp tag-implementation.cpp tag.cpp strip.cpp
 OBJS = amded.o info.o setup.o cmdline.o value.o
-OBJS += list.o list-human.o list-machine.o file-spec.o
+OBJS += list.o list-human.o list-machine.o list-json.o file-spec.o
 OBJS += file-type.o tag-implementation.o tag.o strip.o
 CXXFLAGS += `pkg-config --cflags taglib`
+CXXFLAGS += `pkg-config --cflags jsoncpp`
 CXXFLAGS += -W -Wall -Wextra
 CXXFLAGS += -Wmissing-declarations -std=c++11
 CXXFLAGS += $(ADDTOCXXFLAGS)
