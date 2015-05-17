@@ -32,13 +32,13 @@ Value::get_int(void) const
     return i;
 }
 
-int
+bool
 Value::get_bool(void) const
 {
     if (type != TAG_BOOLEAN)
         throw bad_accessor {};
 
-    return i;
+    return b;
 }
 
 TagLib::String

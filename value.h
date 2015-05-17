@@ -57,7 +57,7 @@ public:
     Value& operator=(Value&&);
 
     enum tag_type get_type() const;
-    int get_bool() const;
+    bool get_bool() const;
     int get_int() const;
     TagLib::String get_str() const;
 
