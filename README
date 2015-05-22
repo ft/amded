@@ -14,6 +14,8 @@ Requirements:
     In order to build amded, you will need:
         - a C++11-able C++ compiler
         - taglib installed on the system (including its headers)
+        - jsoncpp for JSON formatted output
+        - libb64 for base64 encoded string payload in JSON output
         - pkg-config to figure out where taglib lives on the system
         - txt2tags to generate amded's manual
         - exuberant ctags if you're planning to use `make tags'
