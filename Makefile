@@ -9,6 +9,7 @@ POSIX_SHELL ?= /bin/sh
 
 LDFLAGS = `pkg-config --libs taglib`
 LDFLAGS += `pkg-config --libs jsoncpp`
+LDFLAGS += -lb64
 
 OPTIM ?= -Os
 DEBUG ?= -ggdb -O0

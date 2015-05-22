@@ -9,13 +9,17 @@
  */
 
 #include <iostream>
+#include <sstream>
 #include <memory>
 #include <json/json.h>
 #include <json/writer.h>
 #include <stdlib.h>
 
+#include <b64/encode.h>
+
 #include "list.h"
 #include "list-json.h"
+#include "setup.h"
 
 static Json::Value data;
 
@@ -30,7 +34,16 @@ push_item(std::string file, std::pair<const std::string, Value> &value)
         data[file][value.first] = value.second.get_bool();
         break;
     case TAG_STRING:
-        data[file][value.first] = value.second.get_str().toCString(true);
+        if (get_opt(AMDED_JSON_DONT_USE_BASE64))
+            data[file][value.first] =
+                value.second.get_str().toCString(true);
+        else {
+            base64::encoder enc;
+            std::istringstream in {value.second.get_str().to8Bit(true)};
+            std::ostringstream out;
+            enc.encode(in, out);
+            data[file][value.first] = out.str();
+        }
         break;
     default:
         std::cout << "Invalid type in: " << value.first << std::endl;
