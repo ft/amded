@@ -29,7 +29,7 @@ std::vector<std::string> usage = {
 "  informational options:",
 "    -h,               display this help text",
 "    -L,               show amded's licence information",
-"    -v,               print version information",
+"    -V,               print version information",
 "    -s <aspect>       produce list of supported aspects",
 "  configuration options:",
 "    -R <readmap>      configure tag reading order",
