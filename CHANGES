@@ -92,4 +92,4 @@
       C++, which allows us to better leverage TagLib's API. Some care has been
       given to introduce as little incompatibilities as possible. There may be
       some anyway. If something behaves differently from what the manual
-      describes, than that's a bug: Please report it!
+      describes, then that's a bug: Please report it!
