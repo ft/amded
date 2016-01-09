@@ -1,6 +1,6 @@
 AMDED
 
-Jan, 2014
+Jan, 2016
 
 %!target: man
 
@@ -214,5 +214,5 @@ Taglib: <http://taglib.github.io>
 
 
 = COPYRIGHT =
-Copyright (c) 2009-2015 amded workers, All rights reserved.
+Copyright (c) 2009-2016 amded workers, All rights reserved.
 Terms for redistribution and use can be found in the LICENCE file.
