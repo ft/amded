@@ -20,8 +20,6 @@
 #include "file-spec.h"
 #include "file-type.h"
 
-using stdstring = std::string;
-
 static std::map < enum file_type, std::string >
 file_type_map = {
     { FILE_T_FLAC,       "flac" },
