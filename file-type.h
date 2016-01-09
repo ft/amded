@@ -18,7 +18,8 @@ enum file_type {
     FILE_T_M4A,
     FILE_T_MP3,
     FILE_T_FLAC,
-    FILE_T_OGG_VORBIS
+    FILE_T_OGG_VORBIS,
+    FILE_T_OPUS
 };
 
 namespace Amded {

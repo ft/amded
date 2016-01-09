@@ -28,6 +28,7 @@ file_type_map = {
     { FILE_T_OGG_VORBIS, "ogg-vorbis" },
     { FILE_T_MP3,        "mp3" },
     { FILE_T_M4A,        "m4a" },
+    { FILE_T_OPUS,       "opus" },
     { FILE_T_INVALID,    "invalid" }
 };
 

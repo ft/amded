@@ -19,6 +19,7 @@
 #include <mp4file.h>
 #include <mpegfile.h>
 #include <oggflacfile.h>
+#include <opusfile.h>
 #include <tfile.h>
 #include <tpropertymap.h>
 #include <vorbisfile.h>
@@ -125,7 +126,8 @@ file_ext_map = {
     { "mp4",  FILE_T_M4A },
     { "m4a",  FILE_T_M4A },
     { "ogg",  FILE_T_OGG_VORBIS },
-    { "oga",  FILE_T_OGG_VORBIS }
+    { "oga",  FILE_T_OGG_VORBIS },
+    { "opus", FILE_T_OPUS }
 };
 
 void
@@ -173,6 +175,9 @@ amded_open(struct amded_file &file)
         break;
     case FILE_T_M4A:
         file.fh = new TagLib::MP4::File(file.name);
+        break;
+    case FILE_T_OPUS:
+        file.fh = new TagLib::Ogg::Opus::File(file.name);
         break;
     default:
         std::cerr << "BUG: Missing implementation for file type: "

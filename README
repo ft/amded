@@ -25,6 +25,7 @@ Current File Type Support:
     - FLAC
     - MP3 (id3v2, id3v1 and apetag support)
     - MP4
+    - OPUS
 
 
 Building:

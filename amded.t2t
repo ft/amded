@@ -26,6 +26,7 @@ as a tagging backend in higher-level applications.
 - FLAC
 - mp3 (id3v2, id3v1 and apetag support)
 - mp4
+- opus
 
 
 = OPTIONS =
