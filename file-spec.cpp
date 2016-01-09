@@ -175,6 +175,10 @@ amded_open(struct amded_file &file)
         file.fh = new TagLib::MP4::File(file.name);
         break;
     default:
+        std::cerr << "BUG: Missing implementation for file type: "
+                  << file.type.get_id() << std::endl
+                  << "     This should not happen. Please report!"
+                  << std::endl;
         return false;
     }
 
