@@ -1,10 +1,10 @@
-* 0.7 → 0.8:
+* 0.7 → 0.8 (released 2016-01-27):
 
     - Bug fixes
 
     - Support for OPUS files
 
-    - Add support for JSON output
+    - Support for JSON-encoded machine-readable output
 
 * 0.6 → 0.7 (released 2014-01-19):
 
