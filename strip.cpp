@@ -33,10 +33,13 @@ amded_strip(struct amded_file &file)
     }
 
     TagLib::PropertyMap pm = file.fh->properties();
+    const unsigned int unsupported = pm.unsupportedData().size();
     pm.clear();
     file.fh->setProperties(pm);
-    if (!get_opt(AMDED_KEEP_UNSUPPORTED_TAGS))
+
+    if (!get_opt(AMDED_KEEP_UNSUPPORTED_TAGS) && unsupported > 0)
         file.fh->removeUnsupportedProperties(pm.unsupportedData());
+
     if (!(file.fh->save()))
         std::cerr << PROJECT << ": Failed to save file `"
                   << file.name
