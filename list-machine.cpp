@@ -9,14 +9,18 @@
  */
 
 #include <iostream>
+#include <sstream>
 #include <map>
 #include <string>
+
+#include <b64/encode.h>
 
 #include <fileref.h>
 #include <tpropertymap.h>
 
 #include "list.h"
 #include "list-machine.h"
+#include "setup.h"
 #include "value.h"
 
 /** ascii start-of-text character code */
@@ -33,8 +37,17 @@ print_iter(std::pair< const std::string, Value > &iter)
         std::cout << iter.second.get_int();
     else if (iter.second.get_type() == TAG_BOOLEAN)
         std::cout << (iter.second.get_bool() ? "true" : "false");
-    else if (iter.second.get_type() == TAG_STRING)
-        std::cout << iter.second.get_str().toCString(true);
+    else if (iter.second.get_type() == TAG_STRING) {
+        if (get_opt(AMDED_MACHINE_DONT_USE_BASE64))
+            std::cout << iter.second.get_str().toCString(true);
+        else {
+            base64::encoder enc;
+            std::istringstream in {iter.second.get_str().to8Bit(true)};
+            std::ostringstream out;
+            enc.encode(in, out);
+            std::cout << out.str();
+        }
+    }
 }
 
 void
