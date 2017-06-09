@@ -11,7 +11,7 @@ typeset -a amded tags info
 # That would be hex 0x04 - and zsh makes that fairly simple (this assumes
 # amded to be located in the processes $PATH and it will process files from
 # the current working directory matching the pattern '*.mp3'):
-amded=( ${(ps:\x04:)"$(amded -m *.mp3)"} )
+amded=( ${(ps:\x04:)"$(./amded -m *.mp3)"} )
 
 # Now iterate over the records for each file:
 for fi in $amded; do
@@ -34,6 +34,10 @@ for fi in $amded; do
         # zsh's parameter expansion split flag to gain easy access
         # to the actual data:
         info=( ${(ps:\x02:)ti} )
+        if [[ ${info[2]} == *$'\n' ]]; then
+            # Base64 payload...
+            info[2]=$(base64 -d <<< ${info[2]})
+        fi
         printf '%15s | %s\n' ${info[1]} ${info[2]}
     done
 done
