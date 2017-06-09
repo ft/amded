@@ -43,7 +43,7 @@ Building:
     For developers:
     % make depend tags
     % make all doc
-    % make devdoc
+    % make apidoc
 
 
 Installation:
