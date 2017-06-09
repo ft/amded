@@ -11,7 +11,7 @@ typeset -a amded tags info
 # That would be hex 0x04 - and zsh makes that fairly simple (this assumes
 # amded to be located in the processes $PATH and it will process files from
 # the current working directory matching the pattern '*.mp3'):
-amded=( ${(ps:\x04:)"$(./amded -m *.mp3)"} )
+amded=( ${(ps:\x04:)"$(amded -m *.mp3)"} )
 
 # Now iterate over the records for each file:
 for fi in $amded; do
