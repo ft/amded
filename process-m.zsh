@@ -14,7 +14,7 @@ typeset -a amded tags info
 amded=( ${(ps:\x04:)"$(amded -m *.mp3)"} )
 
 # Now iterate over the records for each file:
-for fi in $amded; do
+for file in $amded; do
 
     # Just to show that $amded is an array that contains records for
     # each file processed by amded, let's put in a marker line:
@@ -23,7 +23,7 @@ for fi in $amded; do
     # Now each file contains a number of tags and each tag=value pair
     # is seperated from each other by ASCII end-of-text (ETX) bytes.
     # Again we use the same technique as above to split that up:
-    tags=( ${(ps:\x03:)fi} )
+    tags=( ${(ps:\x03:)file} )
 
     # And again, we start iterating over what we've just gathered:
     for ti in $tags; do
