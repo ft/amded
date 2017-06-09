@@ -46,7 +46,7 @@ std::vector<std::string> usage = {
 
 /** licence information */
 std::vector<std::string> licence = {
-" Copyright 2009-2016 amded workers, All rights reserved.",
+" Copyright 2009-2017 amded workers, All rights reserved.",
 "",
 " Redistribution and use in source and binary forms, with or without",
 " modification, are permitted provided that the following conditions",
