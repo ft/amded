@@ -18,7 +18,8 @@ amded.1
 *.mp3
 *.ogg
 *.flac
-devdoc/*
+api/
+api.html
 git-version.h
 version-magic.make
 GPATH

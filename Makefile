@@ -71,7 +71,7 @@ clean:
 
 distclean: clean
 	rm -f tags TAGS
-	rm -Rf devdoc
+	rm -Rf api api.html
 
 dist:
 	git archive --format=tar.gz --prefix="$(PROJECT)-$(DISTHEAD)/" "$(DISTHEAD)" > "$(PROJECT)-$(DISTHEAD).tar.gz"
@@ -84,8 +84,9 @@ tags:
 	ctags . *.c *.cpp *.h
 	ctags -e . *.c *.cpp *.h
 
-devdoc:
+apidoc:
 	doxygen doxygen.amded
+	ln -sf api/index.html api.html
 
 lint:
 	-splint -preproc -linelen 128 -standard -warnposix -booltype boolean +charintliteral -nullassign $(SOURCES)
@@ -95,4 +96,4 @@ $(PROJECT).1: $(PROJECT).t2t
 
 -include .depend
 
-.PHONY: all depend dist doc clean install uninstall tags tag devdoc distclean _depend _info lint
+.PHONY: all depend dist doc clean install uninstall tags tag apidoc distclean _depend _info lint
