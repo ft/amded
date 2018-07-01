@@ -39,8 +39,8 @@ namespace Amded {
         FileType& operator=(enum file_type);
 
         /* ...via string */
-        FileType(std::string);
-        FileType& operator=(std::string);
+        FileType(const std::string&);
+        FileType& operator=(const std::string&);
 
         std::string get_label() const;
         enum file_type get_id() const;

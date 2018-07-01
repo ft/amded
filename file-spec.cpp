@@ -13,9 +13,9 @@
 #include <string>
 
 #include <apetag.h>
+#include <flacfile.h>
 #include <id3v1tag.h>
 #include <id3v2tag.h>
-#include <flacfile.h>
 #include <mp4file.h>
 #include <mpegfile.h>
 #include <oggflacfile.h>
@@ -24,12 +24,12 @@
 #include <tpropertymap.h>
 #include <vorbisfile.h>
 
+#include "amded.h"
 #include "file-spec.h"
 #include "file-type.h"
-#include "tag-implementation.h"
 #include "setup.h"
+#include "tag-implementation.h"
 #include "tag.h"
-#include "amded.h"
 
 /**
  * Map of file types that support multiple tag-types.
@@ -50,8 +50,9 @@ get_vector_from_map(enum file_type type,
                     std::map< enum file_type, std::vector< enum tag_impl > > m)
 {
     auto rv = m.find(type);
-    if (rv == m.end())
+    if (rv == m.end()) {
         return {};
+    }
     return rv->second;
 }
 
@@ -77,21 +78,26 @@ bool
 tag_impl_allowed_for_file_type(enum file_type ft, enum tag_impl ti)
 {
     static std::vector<enum tag_impl> ttypes = get_multitag_vector(ft);
-    for (auto &iter : ttypes)
-        if (iter == ti)
+    for (auto &iter : ttypes) {
+        if (iter == ti) {
             return true;
+        }
+    }
     return false;
 }
 
 static bool
 mp3_has_tag_type(TagLib::MPEG::File *fh, enum tag_impl type)
 {
-    if (type == TAG_T_APETAG && fh->hasAPETag())
+    if (type == TAG_T_APETAG && fh->hasAPETag()) {
         return true;
-    if (type == TAG_T_ID3V2 && fh->hasID3v2Tag())
+    }
+    if (type == TAG_T_ID3V2 && fh->hasID3v2Tag()) {
         return true;
-    if (type == TAG_T_ID3V1 && fh->hasID3v1Tag())
+    }
+    if (type == TAG_T_ID3V1 && fh->hasID3v1Tag()) {
         return true;
+    }
     return false;
 }
 
@@ -113,9 +119,7 @@ has_tag_type(const struct amded_file &file, enum tag_impl type)
 bool
 is_multitag_type(enum file_type type)
 {
-    if (filetag_map.find(type) == filetag_map.end())
-        return false;
-    return true;
+    return (filetag_map.find(type) != filetag_map.end());
 }
 
 static std::map < std::string, enum file_type >
@@ -133,19 +137,21 @@ file_ext_map = {
 void
 list_extensions(void)
 {
-    for (auto &iter : file_ext_map)
+    for (auto &iter : file_ext_map) {
         std::cout << iter.first << std::endl;
+    }
 }
 
 enum file_type
-get_ext_type(std::string filename)
+get_ext_type(const std::string &filename)
 {
-    int dotidx = filename.rfind(".");
+    int dotidx = filename.rfind('.');
     std::string ext = filename.substr(dotidx + 1);
     std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
     auto rv = file_ext_map.find(ext);
-    if (rv == file_ext_map.end())
+    if (rv == file_ext_map.end()) {
         return FILE_T_INVALID;
+    }
     return rv->second;
 }
 
@@ -154,9 +160,11 @@ static enum tag_impl
 get_prefered_tag_impl(const struct amded_file &file)
 {
     auto types = get_readmap_vector(file.type.get_id());
-    for (auto &iter : types)
-        if (has_tag_type(file, iter))
+    for (auto &iter : types) {
+        if (has_tag_type(file, iter)) {
             return iter;
+        }
+    }
     return TAG_T_NONE;
 }
 
@@ -192,12 +200,12 @@ amded_open(struct amded_file &file)
                   << file.name << "'" << std::endl;
         goto error;
     }
-    if (!file.fh->tag()) {
+    if (file.fh->tag() == nullptr) {
         std::cerr << PROJECT ": No tags in file: `"
                   << file.name << "'" << std::endl;
         goto error;
     }
-    if (!file.fh->tag()) {
+    if (file.fh->tag() == nullptr) {
         std::cerr << PROJECT ": Could not get audio properties for file: `"
                   << file.name << "'" << std::endl;
         goto error;
@@ -206,8 +214,9 @@ amded_open(struct amded_file &file)
     if (is_multitag_type(file.type.get_id())) {
         file.multi_tag = true;
         file.tagimpl = get_prefered_tag_impl(file);
-    } else
+    } else {
         file.multi_tag = false;
+    }
 
     return true;
 error:
@@ -218,16 +227,17 @@ error:
 std::string
 get_tag_types(const struct amded_file &file)
 {
-    std::string rv("");
+    std::string rv {};
     bool first = true;
     auto types = get_multitag_vector(file.type.get_id());
     for (auto &iter : types) {
         if (has_tag_type(file, iter)) {
             Amded::TagImplementation s = iter;
-            if (!first)
+            if (!first) {
                 rv += ",";
-            else
+            } else {
                 first = false;
+            }
             rv += s.get_label();
         }
     }
@@ -268,24 +278,28 @@ amded_tag_mp3(TagLib::MPEG::File *fh,
     for (auto &iter : wm) {
         switch (iter) {
         case TAG_T_APETAG:
-            if (fh->hasAPETag() || !only_tag_delete())
+            if (fh->hasAPETag() || !only_tag_delete()) {
                 want_ape = true;
+            }
             break;
         case TAG_T_ID3V1:
-            if (fh->hasID3v1Tag() || !only_tag_delete())
+            if (fh->hasID3v1Tag() || !only_tag_delete()) {
                 want_v1 = true;
+            }
             break;
         case TAG_T_ID3V2:
-            if (fh->hasID3v2Tag() || !only_tag_delete())
+            if (fh->hasID3v2Tag() || !only_tag_delete()) {
                 want_v2 = true;
+            }
             break;
         default:
             break;
         }
     }
 
-    if (!(want_ape || want_v1 || want_v2))
+    if (!(want_ape || want_v1 || want_v2)) {
         return true;
+    }
 
     int save_tags = TagLib::MPEG::File::NoTags;
     if (want_ape) {
@@ -310,9 +324,7 @@ amded_tag_mp3(TagLib::MPEG::File *fh,
         tag->setProperties(pm);
     }
 
-    if (!(fh->save(save_tags, false, 4, false)))
-        return false;
-    return true;
+    return fh->save(save_tags, false, 4, false);
 }
 
 static bool
@@ -335,8 +347,9 @@ amded_strip_mp3(TagLib::MPEG::File *fh,
             break;
         }
     }
-    if (save_tags == TagLib::MPEG::File::NoTags)
+    if (save_tags == TagLib::MPEG::File::NoTags) {
         return true;
+    }
     return fh->strip(save_tags);
 }
 
@@ -352,9 +365,10 @@ tag_multitag(const struct amded_file &file)
     default:
         return;
     }
-    if (!rc)
+    if (!rc) {
         std::cerr << PROJECT << ": Failed to save file `" << file.name << "'"
                   << std::endl;
+    }
 }
 
 void
@@ -369,7 +383,8 @@ strip_multitag(const struct amded_file &file)
     default:
         return;
     }
-    if (!rc)
+    if (!rc) {
         std::cerr << PROJECT << ": Failed to save file `" << file.name << "'"
                   << std::endl;
+    }
 }

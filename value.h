@@ -43,9 +43,9 @@ public:
     Value& operator=(const int&);
 
     /* Construction from strings */
-    Value(TagLib::String);
+    Value(const TagLib::String&);
     Value& operator=(const TagLib::String&);
-    Value(std::string);
+    Value(const std::string&);
     Value& operator=(const std::string&);
 
     /* copy construction and assignment */
@@ -53,8 +53,8 @@ public:
     Value& operator=(const Value&);
 
     /* move construction and assignment */
-    Value(Value&&);
-    Value& operator=(Value&&);
+    Value(Value&&) noexcept;
+    Value& operator=(Value&&) noexcept;
 
     enum tag_type get_type() const;
     bool get_bool() const;

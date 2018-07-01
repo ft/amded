@@ -8,23 +8,24 @@
  * @brief Tag reader frontend for machines via JSON.
  */
 
+#include <cstdlib>
 #include <iostream>
-#include <sstream>
 #include <memory>
+#include <sstream>
+
 #include <json/json.h>
 #include <json/writer.h>
-#include <stdlib.h>
 
 #include <b64/encode.h>
 
-#include "list.h"
 #include "list-json.h"
+#include "list.h"
 #include "setup.h"
 
 static Json::Value data;
 
 static void
-push_item(std::string file, std::pair<const std::string, Value> &value)
+push_item(const std::string &file, std::pair<const std::string, Value> &value)
 {
     switch (value.second.get_type()) {
     case TAG_INTEGER:
@@ -34,10 +35,10 @@ push_item(std::string file, std::pair<const std::string, Value> &value)
         data[file][value.first] = value.second.get_bool();
         break;
     case TAG_STRING:
-        if (get_opt(AMDED_JSON_DONT_USE_BASE64))
+        if (get_opt(AMDED_JSON_DONT_USE_BASE64)) {
             data[file][value.first] =
                 value.second.get_str().toCString(true);
-        else {
+        } else {
             base64::encoder enc;
             std::istringstream in {value.second.get_str().to8Bit(true)};
             std::ostringstream out;
@@ -63,12 +64,15 @@ amded_push_json(const struct amded_file &file)
     tags = amded_list_tags(file);
     props = amded_list_audioprops(file.fh->audioProperties());
 
-    for (auto &iter : basics)
+    for (auto &iter : basics) {
         push_item(file.name, iter);
-    for (auto &iter : tags)
+    }
+    for (auto &iter : tags) {
         push_item(file.name, iter);
-    for (auto &iter : props)
+    }
+    for (auto &iter : props) {
         push_item(file.name, iter);
+    }
 }
 
 void

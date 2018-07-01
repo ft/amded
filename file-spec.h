@@ -16,7 +16,7 @@
 
 #include "amded.h"
 
-enum file_type get_ext_type(std::string);
+enum file_type get_ext_type(const std::string&);
 bool is_multitag_type(enum file_type);
 bool amded_open(struct amded_file &);
 

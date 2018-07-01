@@ -13,10 +13,10 @@
 #include <fileref.h>
 #include <tpropertymap.h>
 
+#include "amded.h"
 #include "file-spec.h"
 #include "setup.h"
 #include "strip.h"
-#include "amded.h"
 
 void
 amded_strip(struct amded_file &file)
@@ -37,12 +37,14 @@ amded_strip(struct amded_file &file)
     pm.clear();
     file.fh->setProperties(pm);
 
-    if (!get_opt(AMDED_KEEP_UNSUPPORTED_TAGS) && unsupported > 0)
+    if (!get_opt(AMDED_KEEP_UNSUPPORTED_TAGS) && unsupported > 0) {
         file.fh->removeUnsupportedProperties(pm.unsupportedData());
+    }
 
-    if (!(file.fh->save()))
+    if (!(file.fh->save())) {
         std::cerr << PROJECT << ": Failed to save file `"
                   << file.name
                   << "'"
                   << std::endl;
+    }
 }

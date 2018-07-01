@@ -35,7 +35,7 @@ namespace Amded {
     {
     }
 
-    TagImplementation::TagImplementation(std::string l)
+    TagImplementation::TagImplementation(const std::string &l)
     {
         for (auto &iter : tagimpl_map) {
             if (iter.second == l) {
@@ -55,7 +55,7 @@ namespace Amded {
     }
 
     TagImplementation&
-    TagImplementation::operator=(std::string l)
+    TagImplementation::operator=(const std::string &l)
     {
         for (auto &iter : tagimpl_map) {
             if (iter.second == l) {
@@ -89,4 +89,4 @@ namespace Amded {
         return id;
     }
 
-}
+} /* namespace Amded */

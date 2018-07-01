@@ -29,11 +29,11 @@
 #include <fileref.h>
 #include <tpropertymap.h>
 
+#include "amded.h"
 #include "file-spec.h"
 #include "list.h"
 #include "setup.h"
 #include "tag.h"
-#include "amded.h"
 #include "value.h"
 
 static void
@@ -49,22 +49,26 @@ tagtomap(std::map< std::string, Value > &m,
         const TagLib::StringList values = tags.find(propname)->second;
         size_t size = values.size();
         if (size > 0) {
-            if (isint)
+            if (isint) {
                 m[tagname] = values[0].toInt();
-            else if (values[0].length() > 0)
+            } else if (values[0].length() > 0) {
                 m[tagname] = values[0];
-            else
+            } else {
                 didnothing = true;
-        } else
+            }
+        } else {
             didnothing = true;
-    } else
+        }
+    } else {
         didnothing = true;
+    }
 
     if (didnothing && wantempty) {
-        if (isint)
-            m[tagname] = (int)0;
-        else
-            m[tagname] = (std::string)"";
+        if (isint) {
+            m[tagname] = 0;
+        } else {
+            m[tagname] = std::string("");
+        }
     }
 }
 
@@ -79,15 +83,15 @@ amded_list_tags(const struct amded_file &file)
         if (wantempty) {
             for (auto &iter : tag_map) {
                 if (iter.second.second == TAG_STRING) {
-                    retval[iter.first] = (std::string)"";
+                    retval[iter.first] = std::string("");
                 } else {
                     retval[iter.first] = 0;
                 }
             }
             retval["is-va"] = false;
             return retval;
-        } else
-            return { };
+        }
+        return { };
     }
 
     tagtomap(retval, tags, "album", "ALBUM", wantempty, false);
@@ -95,10 +99,11 @@ amded_list_tags(const struct amded_file &file)
     tagtomap(retval, tags, "catalog-number", "CATALOGNUMBER", wantempty, false);
     tagtomap(retval, tags, "comment", "COMMENT", wantempty, false);
     tagtomap(retval, tags, "compilation", "ALBUMARTIST", wantempty, false);
-    if (tags.contains("ALBUMARTIST"))
+    if (tags.contains("ALBUMARTIST")) {
         retval["is-va"] = true;
-    else
+    } else {
         retval["is-va"] = false;
+    }
     tagtomap(retval, tags, "composer", "COMPOSER", wantempty, false);
     tagtomap(retval, tags, "conductor", "CONDUCTOR", wantempty, false);
     tagtomap(retval, tags, "description", "DESCRIPTION", wantempty, false);
@@ -138,8 +143,8 @@ amded_list_amded(const struct amded_file &file)
         retval["tag-type"] = file.tagimpl.get_label();
         retval["tag-types"] = get_tag_types(file);
     } else if (wantempty) {
-        retval["tag-type"] = (TagLib::String)"";
-        retval["tag-types"] = (TagLib::String)"";
+        retval["tag-type"] = TagLib::String("");
+        retval["tag-types"] = TagLib::String("");
     }
     return retval;
 }

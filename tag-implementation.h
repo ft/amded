@@ -38,8 +38,8 @@ namespace Amded {
         TagImplementation& operator=(enum tag_impl);
 
         /* ...via string */
-        TagImplementation(std::string);
-        TagImplementation& operator=(std::string);
+        TagImplementation(const std::string&);
+        TagImplementation& operator=(const std::string&);
 
         std::string get_label() const;
         enum tag_impl get_id() const;

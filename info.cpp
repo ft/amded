@@ -95,8 +95,9 @@ amded_version(void)
 static void
 print_vector(std::vector<std::string> v)
 {
-    for (auto it = v.begin(); it != v.end(); ++it)
-        std::cout << *it << std::endl;
+    for (auto &it : v) {
+        std::cout << it << std::endl;
+    }
 }
 
 /** Print out usage information (contained in the usage vector above) */

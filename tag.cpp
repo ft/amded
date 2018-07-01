@@ -15,11 +15,11 @@
 #include <fileref.h>
 #include <tpropertymap.h>
 
+#include "amded.h"
 #include "file-spec.h"
 #include "list-human.h"
 #include "setup.h"
 #include "tag.h"
-#include "amded.h"
 
 /**
  * A mapping of tag-names to internal representation and type.
@@ -82,8 +82,9 @@ static std::map< enum tag_id, std::string > taglib_amded_map = {
 void
 list_tags(void)
 {
-    for (auto &iter : tag_map)
+    for (auto &iter : tag_map) {
         std::cout << iter.first << std::endl;
+    }
 }
 
 void
@@ -92,18 +93,20 @@ amded_amend_tags(TagLib::PropertyMap &pm)
     for (auto &iter : newtags) {
         bool rc = true;
 
-        if (iter.second.get_type() == TAG_INTEGER)
+        if (iter.second.get_type() == TAG_INTEGER) {
             rc = pm.replace(taglib_amded_map[iter.first],
                             { std::to_string(iter.second.get_int()) });
-        else if (iter.second.get_type() == TAG_INVALID)
+        } else if (iter.second.get_type() == TAG_INVALID) {
             pm.erase(taglib_amded_map[iter.first]);
-        else
+        } else {
             rc = pm.replace(taglib_amded_map[iter.first],
                             { iter.second.get_str() });
+        }
 
-        if (!rc)
+        if (!rc) {
             std::cerr << PROJECT << ": Failed to set tag `"
                       << taglib_amded_map[iter.first] << "'!" << std::endl;
+        }
     }
 }
 
@@ -129,9 +132,10 @@ amded_tag(struct amded_file &file)
     file.fh->setProperties(pm);
 
     /* Save values to file. */
-    if (!(file.fh->save()))
+    if (!(file.fh->save())) {
         std::cerr << PROJECT << ": Failed to save file `"
                   << file.name
                   << "'"
                   << std::endl;
+    }
 }

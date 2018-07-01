@@ -17,7 +17,7 @@
 
 #include "value.h"
 
-void add_tag(enum tag_id, Value);
+void add_tag(enum tag_id, const Value&);
 void set_opt(uint32_t);
 bool get_opt(uint32_t);
 void unset_only_tag_delete(void);

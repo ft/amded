@@ -12,6 +12,7 @@
 #include <cstring>
 #include <iostream>
 
+#include "amded.h"
 #include "cmdline.h"
 #include "file-spec.h"
 #include "info.h"
@@ -21,7 +22,6 @@
 #include "setup.h"
 #include "strip.h"
 #include "tag.h"
-#include "amded.h"
 
 #include "bsdgetopt.c"
 
@@ -83,8 +83,9 @@ check_mode(enum t_mode mode)
 static inline void
 check_mode_tag(enum t_mode mode)
 {
-    if (mode != AMDED_MODE_INVALID && mode != AMDED_TAG)
+    if (mode != AMDED_MODE_INVALID && mode != AMDED_TAG) {
         check_mode(mode);
+    }
 }
 
 static void
@@ -148,13 +149,14 @@ parse_options(int argc, char *argv[])
             setup_readmap(optarg);
             break;
         case 's':
-            if (!strcmp(optarg, "tags"))
+            if (strcmp(optarg, "tags") == 0) {
                 list_tags();
-            else if (!strcmp(optarg, "file-extensions"))
+            } else if (strcmp(optarg, "file-extensions") == 0) {
                 list_extensions();
-            else
+            } else {
                 std::cerr << PROJECT << ": Unknown aspect `"
                           << optarg << "'." << std::endl;
+            }
             exit(EXIT_SUCCESS);
         case 'd':
             /* ‘-d’ is a special case of the AMDED_TAG mode. */
@@ -215,8 +217,6 @@ parse_options(int argc, char *argv[])
             exit(EXIT_FAILURE);
         }
     }
-
-    return;
 }
 
 /**
@@ -252,12 +252,14 @@ main(int argc, char *argv[])
         amded_mode == AMDED_LIST_HUMAN ||
         amded_mode == AMDED_LIST_JSON)
     {
-        if (read_map.size() == 0)
+        if (read_map.empty()) {
             setup_readmap("");
+        }
     } else if (amded_mode == AMDED_TAG ||
                amded_mode == AMDED_STRIP) {
-        if (write_map.size() == 0)
+        if (write_map.empty()) {
             setup_writemap("");
+        }
     }
 
     bool first = true;
@@ -270,26 +272,30 @@ main(int argc, char *argv[])
                       << file.name << "'" << std::endl;
             continue;
         }
-        if (!amded_open(file))
+        if (!amded_open(file)) {
             continue;
+        }
         switch (amded_mode) {
         case AMDED_LIST_HUMAN:
-            if (!first)
+            if (!first) {
                 std::cout << std::endl;
-            else
+            } else {
                 first = false;
+            }
             amded_list_human(file);
             break;
         case AMDED_LIST_JSON:
-            if (first)
+            if (first) {
                 first = false;
+            }
             amded_push_json(file);
             break;
         case AMDED_LIST_MACHINE:
-            if (!first)
+            if (!first) {
                 std::cout << ASCII_EOT;
-            else
+            } else {
                 first = false;
+            }
             amded_list_machine(file);
             break;
         case AMDED_TAG:
@@ -306,8 +312,9 @@ main(int argc, char *argv[])
         delete file.fh;
     }
 
-    if (amded_mode == AMDED_LIST_JSON)
+    if (amded_mode == AMDED_LIST_JSON) {
         amded_list_json();
+    }
 
     return EXIT_SUCCESS;
 }

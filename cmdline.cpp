@@ -14,11 +14,11 @@
 #include <stdexcept>
 #include <string>
 
+#include "amded.h"
 #include "cmdline.h"
 #include "file-spec.h"
 #include "setup.h"
 #include "tag.h"
-#include "amded.h"
 
 /**
  * Split a tag definition into key and value
@@ -41,9 +41,10 @@ tag_arg_to_pair(std::string data)
     std::pair< std::string, std::string > t;
     unsigned long eqidx;
 
-    eqidx = data.find("=");
-    if (eqidx == 0 || eqidx == data.npos)
+    eqidx = data.find('=');
+    if (eqidx == 0 || eqidx == data.npos) {
         throw amded_broken_tag_def{};
+    }
     t.first = data.substr(0, eqidx);
     t.second = data.substr(eqidx + 1);
     return t;
@@ -60,11 +61,12 @@ tag_arg_to_pair(std::string data)
  * @return enum tag_type for ‘name’. TAG_INVALID if ‘name’ is unknown.
  */
 enum tag_type
-tag_to_type(std::string name)
+tag_to_type(const std::string &name)
 {
     auto p = tag_map.find(name);
-    if (p == tag_map.end())
+    if (p == tag_map.end()) {
         return TAG_INVALID;
+    }
     return p->second.second;
 }
 
@@ -79,11 +81,12 @@ tag_to_type(std::string name)
  * @return enum tag_type for ‘name’. T_UNKNOWN if ‘name’ is unknown.
  */
 enum tag_id
-tag_to_id(std::string name)
+tag_to_id(const std::string &name)
 {
     auto p = tag_map.find(name);
-    if (p == tag_map.end())
+    if (p == tag_map.end()) {
         return T_UNKNOWN;
+    }
     return p->second.first;
 }
 
@@ -103,23 +106,23 @@ tag_to_id(std::string name)
  * @return enum tag_type for ‘name’. T_UNKNOWN if ‘name’ is unknown.
  */
 Value
-tag_value_from_value(enum tag_type type, std::string value)
+tag_value_from_value(enum tag_type type, const std::string &value)
 {
     Value retval;
 
-    if (type == TAG_STRING)
+    if (type == TAG_STRING) {
         retval = value;
-    else if (type == TAG_INTEGER) {
+    } else if (type == TAG_INTEGER) {
         try {
             retval = std::stoi(value);
         }
-        catch (std::invalid_argument) {
+        catch (const std::invalid_argument &e) {
             std::cerr << "Invalid integer value: "
                       << value
                       << std::endl;
             goto error;
         }
-        catch (std::out_of_range) {
+        catch (const std::out_of_range &e) {
             std::cerr << "Integer string out of range: "
                       << value
                       << std::endl;
@@ -145,8 +148,9 @@ split(const std::string &str, const std::string &delim)
     for (;;) {
         end = str.find(delim, start);
         retval.push_back(str.substr(start, end - start));
-        if (end == std::string::npos)
+        if (end == std::string::npos) {
             return retval;
+        }
         start = end + 1;
     }
 }
@@ -176,7 +180,7 @@ split(const std::string &str, const std::string &delim)
  */
 static void
 setup_map(std::map<enum file_type, std::vector< enum tag_impl>> &m,
-          std::string def)
+          const std::string &def)
 {
     std::vector<std::string> defs = split(def, ":");
     for (auto &di : defs) {
@@ -227,40 +231,46 @@ setup_map(std::map<enum file_type, std::vector< enum tag_impl>> &m,
 }
 
 void
-setup_readmap(std::string def)
+setup_readmap(const std::string &def)
 {
     read_map = filetag_map;
-    if (def != "")
+    if (!def.empty()) {
         setup_map(read_map, def);
+    }
 }
 
 void
-setup_writemap(std::string def)
+setup_writemap(const std::string &def)
 {
-    for (auto &iter : filetag_map)
+    for (auto &iter : filetag_map) {
         write_map[iter.first] = { iter.second[0] };
+    }
 
-    if (def != "")
+    if (!def.empty()) {
         setup_map(write_map, def);
+    }
 }
 
 void
-amded_parameters(std::string def)
+amded_parameters(const std::string &def)
 {
-    for (auto &iter : split(def, ","))
-        if (iter == "")
+    for (auto &iter : split(def, ",")) {
+        if (iter.empty()) {
             continue;
-        else if (iter == "show-empty")
+        }
+
+        if (iter == "show-empty") {
             set_opt(AMDED_LIST_ALLOW_EMPTY_TAGS);
-        else if (iter == "keep-unsupported")
+        } else if (iter == "keep-unsupported") {
             set_opt(AMDED_KEEP_UNSUPPORTED_TAGS);
-        else if (iter == "json-dont-use-base64")
+        } else if (iter == "json-dont-use-base64") {
             set_opt(AMDED_JSON_DONT_USE_BASE64);
-        else if (iter == "machine-dont-use-base64")
+        } else if (iter == "machine-dont-use-base64") {
             set_opt(AMDED_MACHINE_DONT_USE_BASE64);
-        else {
+        } else {
             std::cerr << PROJECT << ": Unknown parameter: `"
                       << iter << "'" << std::endl;
             exit(EXIT_FAILURE);
         }
+    }
 }

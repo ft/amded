@@ -42,7 +42,7 @@ namespace Amded {
     {
     }
 
-    FileType::FileType(std::string l)
+    FileType::FileType(const std::string &l)
     {
         for (auto &iter : file_type_map) {
             if (iter.second == l) {
@@ -62,7 +62,7 @@ namespace Amded {
     }
 
     FileType&
-    FileType::operator=(std::string l)
+    FileType::operator=(const std::string &l)
     {
         for (auto &iter : file_type_map) {
             if (iter.second == l) {
@@ -96,4 +96,4 @@ namespace Amded {
         return id;
     }
 
-}
+} /* namespace Amded */

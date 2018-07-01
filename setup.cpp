@@ -88,8 +88,8 @@
 #include <map>
 #include <vector>
 
-#include "setup.h"
 #include "amded.h"
+#include "setup.h"
 #include "value.h"
 
 /*
@@ -99,7 +99,7 @@
 std::map< enum tag_id, Value > newtags;
 
 void
-add_tag(enum tag_id id, Value v)
+add_tag(enum tag_id id, const Value &v)
 {
     newtags[id] = v;
 }
@@ -138,7 +138,7 @@ std::map< enum file_type, std::vector< enum tag_impl > > write_map;
  *
  * @return (macro)
  */
-#define IS_SET(OPT, STORE) ((STORE & (OPT)) == OPT)
+#define IS_SET(OPT, STORE) (((STORE) & (OPT)) == (OPT))
 
 /**
  * Set an option bit in `STORE'.
@@ -148,7 +148,7 @@ std::map< enum file_type, std::vector< enum tag_impl > > write_map;
  *
  * @return (macro)
  */
-#define SET_OPT(OPT, STORE) (STORE |= OPT)
+#define SET_OPT(OPT, STORE) ((STORE) |= (OPT))
 
 /**
  * Unset an option bit in `STORE'.
@@ -158,7 +158,7 @@ std::map< enum file_type, std::vector< enum tag_impl > > write_map;
  *
  * @return (macro)
  */
-#define UNSET_OPT(OPT, STORE) (STORE &= ~(OPT))
+#define UNSET_OPT(OPT, STORE) ((STORE) &= ~(OPT))
 
 /**
  * Toggle an option bit in `STORE'.
@@ -168,7 +168,7 @@ std::map< enum file_type, std::vector< enum tag_impl > > write_map;
  *
  * @return (macro)
  */
-#define TOGGLE_OPT(OPT, STORE) (STORE ^= (OPT))
+#define TOGGLE_OPT(OPT, STORE) ((STORE) ^= (OPT))
 
 static uint32_t amded_options;
 
@@ -181,7 +181,7 @@ set_opt(uint32_t optmask)
 bool
 get_opt(uint32_t optmask)
 {
-    return (bool)IS_SET(optmask, amded_options);
+    return IS_SET(optmask, amded_options);
 }
 
 /*

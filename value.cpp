@@ -26,36 +26,36 @@ Value::get_type(void) const
 int
 Value::get_int(void) const
 {
-    if (type != TAG_INTEGER)
+    if (type != TAG_INTEGER) {
         throw bad_accessor {};
-
+    }
     return i;
 }
 
 bool
 Value::get_bool(void) const
 {
-    if (type != TAG_BOOLEAN)
+    if (type != TAG_BOOLEAN) {
         throw bad_accessor {};
-
+    }
     return b;
 }
 
 TagLib::String
 Value::get_str(void) const
 {
-    if (type != TAG_STRING)
+    if (type != TAG_STRING) {
         throw bad_accessor {};
-
+    }
     return s;
 }
 
 void
 Value::set_int(int new_i)
 {
-    if (type == TAG_STRING)
+    if (type == TAG_STRING) {
         s.~stdstring();
-
+    }
     type = TAG_INTEGER;
     i = new_i;
 }
@@ -63,9 +63,9 @@ Value::set_int(int new_i)
 void
 Value::set_bool(bool new_b)
 {
-    if (type == TAG_STRING)
+    if (type == TAG_STRING) {
         s.~stdstring();
-
+    }
     type = TAG_BOOLEAN;
     b = new_b;
 }
@@ -73,17 +73,18 @@ Value::set_bool(bool new_b)
 void
 Value::set_invalid(void)
 {
-    if (type == TAG_STRING)
+    if (type == TAG_STRING) {
         s.~stdstring();
+    }
     type = TAG_INVALID;
 }
 
 void
 Value::set_str(const TagLib::String &new_s)
 {
-    if (type == TAG_STRING)
+    if (type == TAG_STRING) {
         s = new_s;
-    else {
+    } else {
         new(&s) TagLib::String{new_s};
         type = TAG_STRING;
     }
@@ -106,13 +107,13 @@ Value::Value(int new_i)
     i = new_i;
 }
 
-Value::Value(TagLib::String new_s)
+Value::Value(const TagLib::String &new_s)
 {
     type = TAG_STRING;
     new(&s) TagLib::String{new_s};
 }
 
-Value::Value(std::string new_s)
+Value::Value(const std::string &new_s)
 {
     type = TAG_STRING;
     new(&s) TagLib::String(new_s, TagLib::String::Type::UTF8);
@@ -138,7 +139,7 @@ Value::Value(const Value &orig)
     }
 }
 
-Value::Value(Value &&orig)
+Value::Value (Value &&orig) noexcept
 {
     switch (orig.type) {
     case TAG_BOOLEAN:
@@ -150,7 +151,7 @@ Value::Value(Value &&orig)
         type = TAG_INTEGER;
         break;
     case TAG_STRING:
-        new(&s) TagLib::String{std::move(orig.s)};
+        new(&s) TagLib::String{orig.s};
         type = TAG_STRING;
         break;
     default:
@@ -161,8 +162,9 @@ Value::Value(Value &&orig)
 
 Value::~Value()
 {
-    if (type == TAG_STRING)
+    if (type == TAG_STRING) {
         s.~stdstring();
+    }
 }
 
 Value &
@@ -173,8 +175,9 @@ Value::operator=(const Value &new_value)
         return *this;
     }
 
-    if (type == TAG_STRING)
+    if (type == TAG_STRING) {
         s.~stdstring();
+    }
 
     switch (new_value.type) {
     case TAG_STRING:
@@ -192,19 +195,20 @@ Value::operator=(const Value &new_value)
 }
 
 Value &
-Value::operator=(Value &&new_value)
+Value::operator=(Value &&new_value) noexcept
 {
     if (type == TAG_STRING && new_value.type == TAG_STRING) {
-        s = std::move(new_value.s);
+        s = new_value.s;
         return *this;
     }
 
-    if (type == TAG_STRING)
+    if (type == TAG_STRING) {
         s.~stdstring();
+    }
 
     switch (new_value.type) {
     case TAG_STRING:
-        new(&s) TagLib::String{std::move(new_value.s)};
+        new(&s) TagLib::String{new_value.s};
         break;
     case TAG_BOOLEAN:
         b = new_value.b;
