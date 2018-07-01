@@ -11,7 +11,7 @@ LDFLAGS = `pkg-config --libs taglib`
 LDFLAGS += `pkg-config --libs jsoncpp`
 LDFLAGS += -lb64
 
-OPTIM ?= -Os
+OPTIM ?= -O3 -flto
 DEBUG ?= -ggdb -O0
 
 CXX = g++
@@ -28,7 +28,7 @@ OBJS += list.o list-human.o list-machine.o list-json.o file-spec.o
 OBJS += file-type.o tag-implementation.o tag.o strip.o
 CXXFLAGS += `pkg-config --cflags taglib`
 CXXFLAGS += `pkg-config --cflags jsoncpp`
-CXXFLAGS += -W -Wall -Wextra
+CXXFLAGS += -Werror -Wall -Wextra
 CXXFLAGS += -Wmissing-declarations -std=c++11
 CXXFLAGS += $(ADDTOCXXFLAGS)
 CXXFLAGS += $(OPTIM)
