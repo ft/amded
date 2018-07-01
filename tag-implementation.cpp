@@ -31,9 +31,7 @@ namespace Amded {
         id = TAG_T_INVALID;
     }
 
-    TagImplementation::~TagImplementation()
-    {
-    }
+    TagImplementation::~TagImplementation() = default;
 
     TagImplementation::TagImplementation(const std::string &l)
     {

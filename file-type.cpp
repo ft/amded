@@ -38,9 +38,7 @@ namespace Amded {
         id = FILE_T_INVALID;
     }
 
-    FileType::~FileType()
-    {
-    }
+    FileType::~FileType() = default;
 
     FileType::FileType(const std::string &l)
     {
