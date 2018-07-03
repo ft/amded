@@ -19,6 +19,7 @@
 #include "list-human.h"
 #include "list-json.h"
 #include "list-machine.h"
+#include "mode.h"
 #include "setup.h"
 #include "strip.h"
 #include "tag.h"
@@ -31,60 +32,45 @@
  */
 #define ASCII_EOT ((char)0x04)
 
-/** possible operation modes */
-enum t_mode {
-    /** no mode defined, yet; or broken operation mode */
-    AMDED_MODE_INVALID = 0,
-    /** list file's tags in human readable form */
-    AMDED_LIST_HUMAN,
-    /** list file's tags in machine readable form */
-    AMDED_LIST_MACHINE,
-    /** list file's tags in machine readable form - JSON flavour */
-    AMDED_LIST_JSON,
-    /** modify meta information in file(s) */
-    AMDED_TAG,
-    /** Remove all tags from a file */
-    AMDED_STRIP
-};
+/* Short-hand to address items from enum class OperationMode */
+using AmdedMode = Amded::OperationMode;
 
 /** global variable describing amded's operation mode */
-static enum t_mode amded_mode = AMDED_MODE_INVALID;
+static Amded::Mode amded_mode{};
+
+static void
+amded_failure(void)
+{
+    std::cout << PROJECT
+              << ": -m, -j, -l and -t/-d may *not* be used at the same time.\n";
+    exit(EXIT_FAILURE);
+}
 
 /**
  * Check that -m, -l and -t are not used with one another
- *
- * @param   mode    the enum t_mode value to check
  *
  * @return      void
  * @sideeffects Exists with EXIT_FAILURE on failure.
  */
 static inline void
-check_mode(enum t_mode mode)
+check_singlemode_ok(void)
 {
-    if (mode != AMDED_MODE_INVALID) {
-        std::cout << PROJECT
-                  << ": -m, -j, -l, -t and -t may *not* be used at the same time."
-                  << std::endl;
-        exit(EXIT_FAILURE);
+    if (!amded_mode.singlemode_ok()) {
+        amded_failure();
     }
 }
 
 /**
  * Mode sanity check for tagging mode
  *
- * -t may be used multiple times, so run check_mode() only if not in
- * AMDED_TAG mode already.
- *
- * @param   mode    the enum t_mode value to check
- *
  * @return      void
- * @sideeffects see check_mode()
+ * @sideeffects see check_singlemode_ok()
  */
 static inline void
-check_mode_tag(enum t_mode mode)
+check_multimode_ok(void)
 {
-    if (mode != AMDED_MODE_INVALID && mode != AMDED_TAG) {
-        check_mode(mode);
+    if (!amded_mode.multimode_ok()) {
+        amded_failure();
     }
 }
 
@@ -92,8 +78,7 @@ static void
 verify_tag_name(enum tag_type type, const std::string &name)
 {
     if (type == TAG_INVALID) {
-        std::cerr << PROJECT << ": Invalid tag name: " << '"' << name << '"'
-                  << std::endl;
+        std::cerr << PROJECT << ": Invalid tag name: " << '"' << name << "\"\n";
         exit(EXIT_FAILURE);
     }
 }
@@ -128,19 +113,19 @@ parse_options(int argc, char *argv[])
             amded_usage();
             exit(EXIT_SUCCESS);
         case 'j':
-            check_mode(amded_mode);
-            amded_mode = AMDED_LIST_JSON;
+            check_singlemode_ok();
+            amded_mode.set(AmdedMode::LIST_JSON);
             break;
         case 'L':
             amded_licence();
             exit(EXIT_SUCCESS);
         case 'l':
-            check_mode(amded_mode);
-            amded_mode = AMDED_LIST_HUMAN;
+            check_singlemode_ok();
+            amded_mode.set(AmdedMode::LIST_HUMAN);
             break;
         case 'm':
-            check_mode(amded_mode);
-            amded_mode = AMDED_LIST_MACHINE;
+            check_singlemode_ok();
+            amded_mode.set(AmdedMode::LIST_MACHINE);
             break;
         case 'o':
             amded_parameters(optarg);
@@ -159,17 +144,17 @@ parse_options(int argc, char *argv[])
             }
             exit(EXIT_SUCCESS);
         case 'd':
-            /* ‘-d’ is a special case of the AMDED_TAG mode. */
-            check_mode_tag(amded_mode);
-            amded_mode = AMDED_TAG;
+            /* ‘-d’ is a special case of the TAG mode. */
+            check_multimode_ok();
+            amded_mode.set(AmdedMode::TAG);
             type = tag_to_type(optarg);
             verify_tag_name(type, optarg);
             tagval.set_invalid();
             add_tag(tag_to_id(optarg), tagval);
             break;
         case 't':
-            check_mode_tag(amded_mode);
-            amded_mode = AMDED_TAG;
+            check_multimode_ok();
+            amded_mode.set(AmdedMode::TAG);
 
             /* First check if the definition looks like "foo=bar" */
             try {
@@ -203,8 +188,8 @@ parse_options(int argc, char *argv[])
             unset_only_tag_delete();
             break;
         case 'S':
-            check_mode(amded_mode);
-            amded_mode = AMDED_STRIP;
+            check_singlemode_ok();
+            amded_mode.set(AmdedMode::STRIP);
             break;
         case 'V':
             amded_version();
@@ -248,15 +233,11 @@ main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    if (amded_mode == AMDED_LIST_MACHINE ||
-        amded_mode == AMDED_LIST_HUMAN ||
-        amded_mode == AMDED_LIST_JSON)
-    {
+    if (amded_mode.is_list_mode()) {
         if (read_map.empty()) {
             setup_readmap("");
         }
-    } else if (amded_mode == AMDED_TAG ||
-               amded_mode == AMDED_STRIP) {
+    } else if (amded_mode.is_write_mode()) {
         if (write_map.empty()) {
             setup_writemap("");
         }
@@ -275,8 +256,8 @@ main(int argc, char *argv[])
         if (!amded_open(file)) {
             continue;
         }
-        switch (amded_mode) {
-        case AMDED_LIST_HUMAN:
+        switch (amded_mode.get()) {
+        case AmdedMode::LIST_HUMAN:
             if (!first) {
                 std::cout << std::endl;
             } else {
@@ -284,13 +265,13 @@ main(int argc, char *argv[])
             }
             amded_list_human(file);
             break;
-        case AMDED_LIST_JSON:
+        case AmdedMode::LIST_JSON:
             if (first) {
                 first = false;
             }
             amded_push_json(file);
             break;
-        case AMDED_LIST_MACHINE:
+        case AmdedMode::LIST_MACHINE:
             if (!first) {
                 std::cout << ASCII_EOT;
             } else {
@@ -298,10 +279,10 @@ main(int argc, char *argv[])
             }
             amded_list_machine(file);
             break;
-        case AMDED_TAG:
+        case AmdedMode::TAG:
             amded_tag(file);
             break;
-        case AMDED_STRIP:
+        case AmdedMode::STRIP:
             amded_strip(file);
             break;
         default:
@@ -312,7 +293,7 @@ main(int argc, char *argv[])
         delete file.fh;
     }
 
-    if (amded_mode == AMDED_LIST_JSON) {
+    if (amded_mode.get() == AmdedMode::LIST_JSON) {
         amded_list_json();
     }
 
