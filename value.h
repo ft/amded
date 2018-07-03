@@ -30,8 +30,8 @@ public:
     /* exception class */
     class bad_accessor {};
 
-    /* Default {de,con}struction */
-    Value();
+    /* (de)construction */
+    Value() : type(TAG_INVALID) {};
     ~Value();
 
     /* Construction from boolean */

@@ -90,11 +90,6 @@ Value::set_str(const TagLib::String &new_s)
     }
 }
 
-Value::Value()
-{
-    type = TAG_INVALID;
-}
-
 Value::Value(bool new_b)
 {
     type = TAG_BOOLEAN;
