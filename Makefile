@@ -67,7 +67,7 @@ $(PROJECT): $(OBJS) $(HEADERS)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(LDFLAGS)
 
 clean:
-	rm -f *.o amded *.1 .depend git-version.h version-magic.make
+	rm -f *.o amded *.1 .depend git-version.h version-magic.make compile_flags.txt
 
 distclean: clean
 	rm -f tags TAGS
