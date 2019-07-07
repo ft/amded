@@ -12,7 +12,7 @@ LDFLAGS += `pkg-config --libs jsoncpp`
 LDFLAGS += -lb64
 
 OPTIM ?= -O3 -flto
-DEBUG ?= -ggdb -O0
+#OPTIM ?= -ggdb -O0
 
 CXX = g++
 
@@ -26,17 +26,17 @@ SOURCES += file-type.cpp tag-implementation.cpp tag.cpp strip.cpp
 OBJS = amded.o info.o setup.o cmdline.o value.o
 OBJS += list.o list-human.o list-machine.o list-json.o file-spec.o
 OBJS += file-type.o tag-implementation.o tag.o strip.o
-CXXFLAGS += `pkg-config --cflags taglib`
-CXXFLAGS += `pkg-config --cflags jsoncpp`
-CXXFLAGS += -Werror -Wall -Wextra
-CXXFLAGS += -Wmissing-declarations -std=c++11
-CXXFLAGS += $(ADDTOCXXFLAGS)
-CXXFLAGS += $(OPTIM)
-#CXXFLAGS += $(DEBUG)
+DEPFLAGS = `pkg-config --cflags taglib` `pkg-config --cflags jsoncpp`
+WARFLAGS = -Wall -Wextra -Wmissing-declarations
+CXXFLAGS += $(DEPFLAGS) -Werror $(WARFLAGS) -std=c++17 $(ADDTOCXXFLAGS) $(OPTIM)
 
 all:
 	$(MAKE) _info
 	$(MAKE) $(PROJECT)
+	$(MAKE) compile_flags.txt
+
+compile_flags.txt: Makefile
+	printf '%s\n' $(DEPFLAGS) $(WARFLAGS) -std=c++17 > $@
 
 _info: version-magic.sh
 	$(POSIX_SHELL) ./version-magic.sh
