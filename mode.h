@@ -46,9 +46,9 @@ public:
                 mode == OperationMode::STRIP);
     };
     bool multimode_ok(void) const {
-        return ((!is_invalid()) || mode != OperationMode::TAG);
+        return (is_invalid() || mode == OperationMode::TAG);
     };
-    bool singlemode_ok(void) const { return (!is_invalid()); };
+    bool singlemode_ok(void) const { return is_invalid(); };
 
 private:
     OperationMode mode;
