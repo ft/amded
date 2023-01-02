@@ -28,7 +28,7 @@ OBJS += list.o list-human.o list-machine.o list-json.o file-spec.o
 OBJS += file-type.o tag-implementation.o tag.o strip.o
 DEPFLAGS = `pkg-config --cflags taglib` `pkg-config --cflags jsoncpp`
 WARFLAGS = -Wall -Wextra -Wmissing-declarations
-CXXFLAGS += $(DEPFLAGS) -Werror $(WARFLAGS) -std=c++17 $(ADDTOCXXFLAGS) $(OPTIM)
+CXXFLAGS += $(DEPFLAGS) $(WARFLAGS) -std=c++17 $(ADDTOCXXFLAGS) $(OPTIM)
 
 all:
 	$(MAKE) _info
