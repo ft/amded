@@ -1,5 +1,6 @@
 .*
 !.gitignore
+!.dir-locals.el
 *~
 *.tmp
 *.orig
