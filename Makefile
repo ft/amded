@@ -69,10 +69,14 @@ uninstall:
 $(PROJECT): $(OBJS) $(HEADERS)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(LDFLAGS)
 
-clean:
-	rm -f *.o amded *.1 .depend git-version.h version-magic.make compile_flags.txt
+oclean:
+	rm -f *.o amded
+
+clean: oclean
+	rm -f .depend git-version.h version-magic.make
 
 distclean: clean
+	rm -f compile_flags.txt compile_commands.json
 	rm -f tags TAGS
 	rm -Rf api api.html
 
@@ -99,4 +103,4 @@ $(PROJECT).1: $(PROJECT).t2t
 
 -include .depend
 
-.PHONY: all depend dist doc clean install uninstall tags tag apidoc distclean _depend _info lint
+.PHONY: all depend dist doc clean oclean install uninstall tags tag apidoc distclean _depend _info lint
