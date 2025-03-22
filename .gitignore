@@ -24,6 +24,7 @@ api.html
 git-version.h
 version-magic.make
 compile_flags.txt
+compile_commands.json
 GPATH
 GRTAGS
 GSYMS

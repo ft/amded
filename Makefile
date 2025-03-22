@@ -38,6 +38,9 @@ all:
 compile_flags.txt: Makefile
 	printf '%s\n' $(DEPFLAGS) $(WARFLAGS) -std=c++17 > $@
 
+compile_commands.json: clean
+	bear -- make -k
+
 _info: version-magic.sh
 	$(POSIX_SHELL) ./version-magic.sh
 
