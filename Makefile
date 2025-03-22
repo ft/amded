@@ -11,7 +11,7 @@ LDFLAGS = `pkg-config --libs taglib`
 LDFLAGS += `pkg-config --libs jsoncpp`
 LDFLAGS += -lb64
 
-OPTIM ?= -O3 -flto
+OPTIM ?= -O3 -flto=auto
 #OPTIM ?= -ggdb -O0
 
 CXX = g++
