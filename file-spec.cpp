@@ -325,7 +325,9 @@ amded_tag_mp3(TagLib::MPEG::File *fh,
         tag->setProperties(pm);
     }
 
-    return fh->save(save_tags, false, 4, false);
+    return fh->save(save_tags, TagLib::File::StripNone,
+                    TagLib::ID3v2::Version::v4,
+                    TagLib::File::DoNotDuplicate);
 }
 
 static bool
