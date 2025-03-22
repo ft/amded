@@ -128,7 +128,7 @@ amded_list_audioprops(TagLib::AudioProperties *p)
     /* bitrate() actually returns kilo-bitrate */
     retval["bit-rate"] = p->bitrate() * 1000;
     retval["channels"] = p->channels();
-    retval["length"] = p->length();
+    retval["length"] = p->lengthInSeconds();
     retval["sample-rate"] = p->sampleRate();
     return retval;
 }
